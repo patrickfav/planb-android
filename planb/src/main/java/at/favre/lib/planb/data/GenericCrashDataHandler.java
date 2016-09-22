@@ -1,6 +1,7 @@
 package at.favre.lib.planb.data;
 
 import android.os.Bundle;
+import android.os.Parcel;
 
 import java.util.Date;
 import java.util.Map;
@@ -9,11 +10,16 @@ import at.favre.lib.planb.util.CrashUtil;
 
 public class GenericCrashDataHandler {
 
-    public final static String ARG_STACKTRACE = "ARG_STACKTRACE";
-    public final static String ARG_MESSAGE = "ARG_MESSAGE";
+    public final static String ARG_CRASHDATA = "ARG_CRASHDATA";
+
+    public String serialize(CrashData crashData) {
+        return null;
+    }
 
     public Bundle createCrashDataBundle(Thread thread, Throwable throwable, Map<String, String> customData) {
-
+        Bundle b = new Bundle();
+        b.putParcelable(ARG_CRASHDATA,null);
+        return b;
     }
 
     public static CrashData createFromCrash(Thread thread, Throwable throwable, Map<String, String> customData) {
@@ -32,7 +38,7 @@ public class GenericCrashDataHandler {
                 element.getFileName(),
                 element.getLineNumber(),
                 CrashUtil.printStacktrace(throwable),
-                , customData
+                customData
         );
     }
 }
