@@ -2,22 +2,28 @@ package at.favre.lib.planb.recover;
 
 import android.content.Context;
 
+import at.favre.lib.planb.data.CrashData;
+
 public interface RecoverBehaviour {
 
     boolean killProcess();
 
     boolean callDefaultExceptionHandler();
 
-    void handleCrash(Thread thread, Throwable throwable, Context context);
+    boolean persistCrashData();
 
-    PostCrashAction getPostCrashAction();
+    void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData);
 
-    interface PostCrashAction {
-        void onUnhandledException(Thread thread, Throwable throwable, Context context);
+    CrashAction getPreCrashAction();
 
-        class Default implements PostCrashAction {
+    CrashAction getPostCrashAction();
+
+    interface CrashAction {
+        void onUnhandledException(Context context, Thread thread, Throwable throwable, CrashData crashData);
+
+        class Default implements CrashAction {
             @Override
-            public void onUnhandledException(Thread thread, Throwable throwable, Context context) {
+            public void onUnhandledException(Context context, Thread thread, Throwable throwable, CrashData crashData) {
 
             }
         }

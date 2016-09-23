@@ -4,13 +4,13 @@ import android.content.Context;
 
 import at.favre.lib.planb.data.CrashData;
 
-public class DefaultBehavior extends AbstractBehaviour {
+public class SuppressCrashBehaviour extends AbstractBehaviour {
 
-    public DefaultBehavior(CrashAction prePostAction, CrashAction postCrashAction) {
-        super(false, true, true, prePostAction, postCrashAction);
+    public SuppressCrashBehaviour(CrashAction prePostAction, CrashAction postCrashAction) {
+        super(false, false, true, prePostAction, postCrashAction);
     }
 
-    public DefaultBehavior() {
+    public SuppressCrashBehaviour() {
         this(new CrashAction.Default(), new CrashAction.Default());
     }
 
