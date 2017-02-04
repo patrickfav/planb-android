@@ -1,0 +1,128 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/patrickfav/under-the-hood'      // Homepage URL of the library
+def gitUrl = 'https://github.com/patrickfav/under-the-hood.git'   // Git repository URL
+def descriptionText = 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.'
+group = "at.favre.lib.hood"                      // Maven Group ID for the artifact
+
+allP
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            version rootProject.ext.versionNameLib
+            project {
+                name 'Under the Hood'
+                packaging 'aar'
+                // Add your description here
+                description descriptionText
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'pfavre'
+                        name 'Patrick Favre-Bulle'
+                        email 'patrick.favrebulle@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+
+        pom.whenConfigured { pom ->
+            def found = pom.dependencies.find { dep ->
+                dep.groupId == 'at.favre.lib.hood'
+            }
+
+            if (found != null) {
+                found.type = "aar"
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+// https://github.com/bintray/gradle-bintray-plugin
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    filesSpec { //When uploading any arbitrary files ('filesSpec' is a standard Gradle CopySpec)
+        from new File(project.buildDir, "outputs/aar")
+        include '*-noop.aar'
+        into "$rootProject.ext.versionNameLib/"
+        rename { name -> "hood-core-$rootProject.ext.versionNameLib-noop.aar" }
+    }
+
+    dryRun = false
+    publish = true //Whether version should be auto published after an upload
+    override = false //[Default: false] Whether to override version artifacts already published
+
+    pkg {
+        repo = "maven"
+        // it is the name that appears in bintray when logged
+        name = project.buildDir.getParentFile().name
+        desc = descriptionText
+        issueTrackerUrl = 'https://github.com/patrickfav/under-the-hood/issues'
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        githubRepo = 'patrickfav/under-the-hood'
+        githubReleaseNotesFile = 'CHANGELOG'
+        labels = ['android', 'debugging', 'noop', 'debug-view']
+        version {
+            name = rootProject.ext.versionNameLib
+            vcsTag = rootProject.ext.versionNameLib
+            released = new Date()
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.password")
+            }
+            mavenCentralSync {
+                sync = true
+                //Optional (true by default). Determines whether to sync the version to Maven Central.
+                user = properties.getProperty("bintray.oss.user") //OSS user token
+                password = properties.getProperty("bintray.oss.password") //OSS user password
+                close = '1'
+                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }
+        }
+    }
+}

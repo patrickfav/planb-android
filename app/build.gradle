@@ -1,27 +1,50 @@
 apply plugin: 'com.android.application'
+def Properties localProps = getSigningProperties()
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    signingConfigs {
+        release {
+            storeFile file(localProps.getProperty('RELEASE_KEYSTORE_PATH', 'fillhere'))
+            storePassword localProps.getProperty('RELEASE_KEYSTORE_PW', '')
+            keyAlias localProps.getProperty('RELEASE_KEY_ALIAS', '')
+            keyPassword localProps.getProperty('RELEASE_KEY_PW', '')
+        }
+    }
 
     defaultConfig {
         applicationId "at.favre.app.planb"
-        minSdkVersion 21
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionNameLib
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     compile project(path: ':planb')
 }

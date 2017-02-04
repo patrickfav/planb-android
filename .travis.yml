@@ -1,0 +1,82 @@
+# Possible Issues:
+#
+# .gradlw permission denied:
+# git update-index --chmod=+x gradlew //http://stackoverflow.com/questions/33820638/travis-yml-gradlew-permission-denied
+
+language: android
+jdk: oraclejdk8
+
+android:
+
+  components:
+    - tools # to get the new `repository-11.xml`
+    - platform-tools
+    - tools # to install Android SDK tools 25.1.x (x = 6 right now)
+    - build-tools-25.0.2
+    - android-25
+#    - android-22
+#    - sys-img-armeabi-v7a-android-22
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+  licenses:
+      - 'android-sdk-preview-license-.+'
+      - 'android-sdk-license-.+'
+      - 'google-gdk-license-.+'
+
+env:
+  global:
+   # install timeout in minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=8
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_36d3f0877d28_key -iv $encrypted_36d3f0877d28_iv -in credentials.tar.enc -out credentials.tar -d
+  - tar xvf credentials.tar
+
+# Emulator Management: Create, Start and Wait
+#before_script:
+#  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+#  - emulator -avd test -no-audio -no-window &
+#  - android-wait-for-emulator
+#  - adb shell input keyevent 82 &
+
+script:
+    - ./gradlew clean
+    - ./gradlew assemble --stacktrace
+    - ./gradlew lint --stacktrace
+    - ./gradlew testReleaseUnitTest --info
+#    - ./gradlew connectedDebugAndroidTest
+
+deploy:
+  - provider: script
+    script: ./gradlew install bintrayUpload --info
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+  - provider: releases
+    api_key:
+      secure: "WSPQuQp70j+3o+ADXVEfOpA+eTTY9ZB/P7VMOPcs5NOm70Aa+21jEAJ/U+ldeDGDf7smjYEyDYX+13vu8MIqONcGdQou4Q2M3CH1NYm20YbgtcKpKuF10bAt0tTcBQt1Z9Uh1/prsRZZIb972BHkBB79ir8J5ZaZaW3UqcMlAef5fKIuCU4cjN6Hli5brgtId/lEIukreJY2c5hn5g7xO4ouYfdS7Rj4oudqXilBw1ZOJ3qkn+1hNOdt5KfwqWek2WJ0PG+MsxpIKlEnZqyUbRRXOa3IFMYOZeAs5Q70OqvkkztLFIxUiyNnMODaL3fxN0Gt0rTRqpqwbNoyyuLyJW2hhjuKnmE5/4zo4vhlTaLwx6/hAVP+WgOWa4f+T7enJSKyuZmZ+jfjRnZdIES3WsuGNkXTn7PrHN0rOg07k8MZGl/cC5U7PIRzeCuSBgx55TZGJ1JsHSgqfJ762l5iOmO97jlQfpG/wfH95VutRKhfxkmT2lK6uyBmabUQgu4NkEHrIVrigCe1ASuUR+R79/DRUF302KOd27la8sH6m9bI4P5vm3UsxZFpR7wGRG1eNbCIeIHBJ1haljYhyFFbWs3tZoBzFS6irgE3hbYAqOf0LYjxcoLG/vhZ0P7cblrR9okHP2YwXy67Y10Zc/kTsaAVmnVGgixaLIeydSLS00Q="
+    file_glob: true
+    file:
+     - 'app/build/outputs/apk/app-release*.apk'
+     - 'planb/build/outputs/aar/planb-release*.aar'
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
+notifications:
+  slack:
+    secure: "oQxYapPC3lhL++2pvBYIkLQHcJiUedbbLvv+5VFEz16BtTLsh1M/9CDq8XsglKc3+raERnmwWPP0nCYKchJX/8kGYo+UwK6N+sPMkM+T4XA6g0JfMpkB3WVky/0Sg3m3lo8V6ZgAU2bMPuZKij9k7l+cT6ljhKNTO53gUXknYnQb7K/uhP/4ZgDU86vjNj+SPLb/cWa+YF8RWzJ7UBIaJTykb+zZRS3tBjvvvphlpS/VBqm9oudyS+LdLhNFjwHv/MTVE4hJPiWdCbdtip8y12UCeaKRx+G5pPD67FtDg8cjvMwYjKTOrE0njXdf48saCi1QAZXLwQKhwQrVTdSCJGglcqGRvHJLKeNYktgwGbz4cDbmc5+gX3WbBGDICpHEdwFwHZwGnMyOz6UjPJw+iWhbW3eGISDeu9gDnJRj8B+r5Do47n5teyTTXPJXQ67s/g4lgqhip5+LS2iEwUg+KNWEj3hmjRw8B9wl3gY/b+xho0zxxka42zc6I3CmgS+nUj+ylPUYicz7wxrPeRdwLSod1BbEoaKlIbAowYs0QK9Ly4nwJuYBw3z94gRtj605UmNGedvFD4JaMq+F+ZAUBZaJ+IAPskg1tmsU4Saj4ix0V+qXTSPMCFMifKzVgVDda2rfioMRCQSuK770/2yO/yMD5B9pZuKlFR6DCSriAlA="
+  email: false

@@ -1,1 +1,1 @@
-include ':app', ':planb'
+include ':app', ':planb', ':hood'
