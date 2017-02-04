@@ -6,7 +6,6 @@ def gitUrl = 'https://github.com/patrickfav/under-the-hood.git'   // Git reposit
 def descriptionText = 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.'
 group = "at.favre.lib.hood"                      // Maven Group ID for the artifact
 
-allP
 
 install {
     repositories.mavenInstaller {
