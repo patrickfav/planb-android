@@ -30,6 +30,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled true
+    }
+
     lintOptions {
         abortOnError false
     }

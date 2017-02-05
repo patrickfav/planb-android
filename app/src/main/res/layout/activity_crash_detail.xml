@@ -1,50 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        tools:context=".CrashDetailActivity">
 
-        <TextView
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/inc_toolbar" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:text="Crash Report"
-            android:paddingBottom="12dp"
-            android:textSize="36sp"/>
+            android:paddingTop="?attr/actionBarSize">
 
-        <TextView
-            android:id="@+id/tv_cause"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textSize="16sp"
-            tools:text="java.lang.IllegalStateException caused by at.favre.lib.planb.recover.RestartActivityBehaviour.getForegroundActivityIntent(RestartActivityBehaviour.java:71)"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:text="Stacktrace"
-            android:paddingBottom="12dp"
-            android:textSize="36sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:paddingBottom="12dp"
+                    android:text="Crash Report"
+                    android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/tv_stacktrace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textSize="10sp"
-            tools:text="Could not get intent for current foreground activity
+                <TextView
+                    android:id="@+id/tv_cause"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:textSize="16sp"
+                    tools:text="java.lang.IllegalStateException caused by at.favre.lib.planb.recover.RestartActivityBehaviour.getForegroundActivityIntent(RestartActivityBehaviour.java:71)" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:paddingBottom="12dp"
+                    android:text="Stacktrace"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/tv_stacktrace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:textSize="10sp"
+                    tools:text="Could not get intent for current foreground activity
         java.lang.IllegalStateException: Could not create current foreground activity, could not find at.favre.app.planb
         at at.favre.lib.planb.recover.RestartActivityBehaviour.getForegroundActivityIntent(RestartActivityBehaviour.java:71)
-        at at.favre.lib.planb.recover.RestartActivityBehaviour.handleCrash(RestartActivityBehaviour.java:40)"
-            />
-    </LinearLayout>
-</ScrollView>
+        at at.favre.lib.planb.recover.RestartActivityBehaviour.handleCrash(RestartActivityBehaviour.java:40)" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</layout>
