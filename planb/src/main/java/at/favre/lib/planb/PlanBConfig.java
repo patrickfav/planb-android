@@ -1,6 +1,7 @@
 package at.favre.lib.planb;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import at.favre.lib.planb.data.PersistenceStorage;
 import at.favre.lib.planb.data.SharedPrefStorage;
@@ -51,17 +52,18 @@ public class PlanBConfig {
     }
 
     public static class Builder {
-        private boolean debug = true;
-        private boolean enableLog = debug;
+        private boolean debug;
+        private boolean enableLog;
         private RecoverBehaviour debugBehaviour = new DefaultBehavior();
         private RecoverBehaviour releaseBehaviour = new RestartActivityBehaviour();
         private PersistenceStorage storage;
 
         Builder(Context context) {
             this.storage = new SharedPrefStorage(context);
+            this.debug = this.enableLog = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
         }
 
-        public Builder debugMode(boolean enabled) {
+        public Builder isDebugBuild(boolean enabled) {
             this.debug = enabled;
             return this;
         }
@@ -76,7 +78,7 @@ public class PlanBConfig {
             return this;
         }
 
-        public Builder releaseCrashBehaviour(RecoverBehaviour behaviour) {
+        public Builder productionCrashBehaviour(RecoverBehaviour behaviour) {
             this.releaseBehaviour = behaviour;
             return this;
         }

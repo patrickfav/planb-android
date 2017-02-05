@@ -13,8 +13,8 @@ public class CrashApplication extends Application {
     public void onCreate() {
         super.onCreate();
         PlanB.get(this).enableCrashHandler(
-                PlanB.get(this).configBuilder().debugMode(true)
-                        .debugCrashBehaviour(new RestartActivityBehaviour(new Intent(this,CrashDetailActivity.class))).build());
+                PlanB.get(this).configBuilder().isDebugBuild(true)
+                        .debugCrashBehaviour(new RestartActivityBehaviour(new Intent(this, CrashDetailActivity.class))).build());
     }
 
     public void crash() {

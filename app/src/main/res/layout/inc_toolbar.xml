@@ -11,5 +11,5 @@
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        tools:targetApi="lollipop"></android.support.v7.widget.Toolbar>
+        tools:targetApi="lollipop" />
 </merge>

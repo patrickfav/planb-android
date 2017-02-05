@@ -24,7 +24,7 @@ class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
         try {
-            log("got uncaught exception: " + throwable.getClass().getSimpleName() + ", debugMode: " + config.debug, config.enableLog);
+            log("got uncaught exception: " + throwable.getClass().getSimpleName() + ", isDebugBuild: " + config.debug, config.enableLog);
 
             RecoverBehaviour behaviour = (config.debug ? config.debugBehaviour : config.releaseBehaviour);
 
