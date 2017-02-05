@@ -2,44 +2,47 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 def final publishConfig = [
-        name                : 'Plan B',
-        group               : 'at.favre.lib',
-        siteUrl             : 'https://github.com/patrickfav/planb-android',
-        gitUrl              : 'https://github.com/patrickfav/planb-android.git',
-        issueTrackerUrl     : 'https://github.com/patrickfav/planb-android/issues',
-        githubRepo          : 'patrickfav/planb-android',
+        name                    : 'Plan B',
+        group                   : 'at.favre.lib',
+        version                 : rootProject.ext.versionNameLib,
+        descriptionText         : 'A crash recovery library for Android. It allows tracking and handling crashes with different rules for debugging and production.',
+        inceptionYear           : '2016',
+        siteUrl                 : 'https://github.com/patrickfav/planb-android',
+        gitUrl                  : 'https://github.com/patrickfav/planb-android.git',
+        issueTrackerUrl         : 'https://github.com/patrickfav/planb-android/issues',
+        issueTrackerName        : 'Github',
+        githubRepo              : 'patrickfav/planb-android',
 
-        descriptionText     : 'A crash recovery library for Android. It allows tracking and handling crashes with different rules for debugging and production.',
+        pomDevId                : 'pfavre',
+        pomDevName              : 'Patrick Favre-Bulle',
+        pomDevMail              : 'patrick.favrebulle@gmail.com',
 
-        syncWithMavenCentral: true,
-        uploadDryRun        : true,
-        uploadAutoPublish   : true,
-        uploadOverride      : true,
+        licenseName             : 'The Apache Software License, Version 2.0',
+        licenseBintray          : ['Apache-2.0'],
+        licenseUrl              : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
 
-        pomDevId            : 'pfavre',
-        pomDevName          : 'Patrick Favre-Bulle',
-        pomDevMail          : 'patrick.favrebulle@gmail.com',
+        bintrayLabels           : ['android', 'crash', 'crash-reporting', 'crash-recovery', 'android-library'],
 
-        licenseName         : 'The Apache Software License, Version 2.0',
-        licenseBintray      : 'Apache-2.0',
-        licenseUrl          : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
-
-        bintrayLabels       : ['android', 'crash', 'crash-reporting', 'crash-recovery', 'android-library']
+        bintrayUploadDryRun     : false, //Whether to only mock uploading
+        bintrayUploadAutoPublish: true, //Whether version should be auto published after an upload
+        bintrayUploadOverride   : true, //[Default: false] Whether to override version artifacts already published
+        bintrayPubDlNumbers     : true, //Whether to show public dl stats in bintray
+        bintraySyncMavenCentral : false
 ]
 
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
         pom {
-            version rootProject.ext.versionNameLib
+            version publishConfig.version
             project {
                 name publishConfig.name
-                group publishConfig.group
+                groupId publishConfig.group
                 packaging 'aar'
                 description publishConfig.descriptionText
                 url publishConfig.siteUrl
+                inceptionYear publishConfig.inceptionYear
 
-                // Set your license
                 licenses {
                     license {
                         name publishConfig.licenseName
@@ -57,6 +60,11 @@ install {
                     connection publishConfig.gitUrl
                     developerConnection publishConfig.gitUrl
                     url publishConfig.siteUrl
+                }
+
+                issueManagement {
+                    system publishConfig.issueTrackerName
+                    url publishConfig.issueTrackerUrl
                 }
             }
         }
@@ -94,29 +102,33 @@ bintray {
 
     configurations = ['archives']
 
-    dryRun = publishConfig.uploadDryRun
-    publish = publishConfig.uploadAutoPublish
+    dryRun = publishConfig.bintrayUploadDryRun
+    publish = publishConfig.bintrayUploadAutoPublish
     //Whether version should be auto published after an upload
-    override = publishConfig.uploadOverride
+    override = publishConfig.bintrayUploadOverride
     //[Default: false] Whether to override version artifacts already published
 
     pkg {
         repo = "maven"
         // it is the name that appears in bintray when logged
         name = project.buildDir.getParentFile().name
+        group publishConfig.group
+
         desc = publishConfig.descriptionText
         issueTrackerUrl = publishConfig.issueTrackerUrl
         websiteUrl = publishConfig.siteUrl
         vcsUrl = publishConfig.gitUrl
-        licenses = [publishConfig.licenseBintray]
+
+        licenses = publishConfig.licenseBintray
+
         githubRepo = publishConfig.githubRepo
         githubReleaseNotesFile = 'CHANGELOG'
         labels = publishConfig.bintrayLabels
+        publicDownloadNumbers = publishConfig.bintrayPubDlNumbers
 
         version {
-
-            name = rootProject.ext.versionNameLib
-            vcsTag = rootProject.ext.versionNameLib
+            name = publishConfig.version
+            vcsTag = publishConfig.version
             released = new Date()
 
             gpg {
@@ -125,7 +137,7 @@ bintray {
             }
 
             mavenCentralSync {
-                sync = publishConfig.syncWithMavenCentral
+                sync = publishConfig.bintraySyncMavenCentral
                 //Optional (true by default). Determines whether to sync the version to Maven Central.
                 user = properties.getProperty("bintray.oss.user") //OSS user token
                 password = properties.getProperty("bintray.oss.password") //OSS user password
