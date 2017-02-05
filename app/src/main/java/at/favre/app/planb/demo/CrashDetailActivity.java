@@ -1,4 +1,4 @@
-package at.favre.app.planb;
+package at.favre.app.planb.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,10 +7,6 @@ import android.widget.TextView;
 
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.data.CrashData;
-
-/**
- * Created by PatrickF on 23.09.2016.
- */
 
 public class CrashDetailActivity extends AppCompatActivity {
 

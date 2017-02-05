@@ -1,13 +1,9 @@
-package at.favre.app.planb;
+package at.favre.app.planb.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import at.favre.lib.planb.PlanB;
-import at.favre.lib.planb.data.CrashData;
 import at.favre.lib.planb.util.CrashUtil;
 
 public class MainActivity extends AppCompatActivity {

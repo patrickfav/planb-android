@@ -1,4 +1,4 @@
-package at.favre.app.planb;
+package at.favre.app.planb.demo;
 
 import android.app.Application;
 import android.content.Intent;
