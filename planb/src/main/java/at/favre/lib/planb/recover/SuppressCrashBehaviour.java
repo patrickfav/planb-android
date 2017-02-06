@@ -7,7 +7,7 @@ import at.favre.lib.planb.data.CrashData;
 public class SuppressCrashBehaviour extends AbstractBehaviour {
 
     public SuppressCrashBehaviour(CrashAction prePostAction, CrashAction postCrashAction) {
-        super(false, false, true, prePostAction, postCrashAction);
+        super(true, false, true, prePostAction, postCrashAction);
     }
 
     public SuppressCrashBehaviour() {
@@ -16,5 +16,6 @@ public class SuppressCrashBehaviour extends AbstractBehaviour {
 
     @Override
     public void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData) {
+        //no-op
     }
 }

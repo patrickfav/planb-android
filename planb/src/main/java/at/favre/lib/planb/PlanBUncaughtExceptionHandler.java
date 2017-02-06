@@ -56,6 +56,8 @@ class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
                 log("kill process", config.enableLog);
                 android.os.Process.killProcess(android.os.Process.myPid());
             }
+
+            log("uncaught exception handling finish", config.enableLog);
         } catch (Exception e) {
             Log.e(TAG, "there was an exception in the crash recover logic", e);
         }

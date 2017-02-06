@@ -66,7 +66,7 @@ public class RestartActivityBehaviour extends AbstractBehaviour {
         }
 
         try {
-            intent = new Intent(context, Class.forName(componentName.getPackageName()));
+            intent = new Intent(context, Class.forName(componentName.getClassName()));
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("Could not create current foreground activity, could not find " + componentName.getPackageName());
         }
