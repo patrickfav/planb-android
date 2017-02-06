@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="at.favre.lib.planb.full">
+
+    <application>
+        <activity
+            android:name=".CrashDetailActivity"
+            android:label="Crash Report"
+            android:theme="@style/PlanBCrashDetailTheme" />
+    </application>
+
+</manifest>

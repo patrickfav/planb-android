@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+
+android {
+    publishNonDefault false
+    defaultPublishConfig "release"
+    testBuildType "release"
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionNameLib
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile project(path: ':planb')
+    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+}

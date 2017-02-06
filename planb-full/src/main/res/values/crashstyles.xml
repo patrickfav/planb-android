@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="PlanBCrashDetailTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#333333</item>
+        <item name="colorPrimaryDark">#4d2d2d</item>
+        <item name="colorAccent">#404E57</item>
+        <item name="android:windowBackground">@drawable/planb_crashbg</item>
+    </style>
+
+    <style name="PlanBCrashDetailBaseText">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="PlanBCrashDetailSubHeader" parent="PlanBCrashDetailBaseText">
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-thin</item>
+    </style>
+
+    <style name="PlanBCrashDetailMonospace" parent="PlanBCrashDetailBaseText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">monospace</item>
+    </style>
+</resources>

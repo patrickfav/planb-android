@@ -50,5 +50,5 @@ android {
 dependencies {
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
-    compile project(path: ':planb')
+    compile project(path: ':planb-full')
 }

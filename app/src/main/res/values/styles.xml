@@ -1,16 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#f57c00</item>
         <item name="colorPrimaryDark">#c46300</item>
         <item name="colorAccent">#4a13c2</item>
-    </style>
-
-    <style name="CrashDetailTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#333333</item>
-        <item name="colorPrimaryDark">#0e0e0e</item>
-        <item name="colorAccent">#4a13c2</item>
-        <!--<item name="android:textColor">#f4f4f4</item>-->
     </style>
 </resources>

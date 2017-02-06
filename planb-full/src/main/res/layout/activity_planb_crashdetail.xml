@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CrashDetailActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="1"
+                    android:paddingBottom="48dp"
+                    android:paddingTop="32dp"
+                    android:text="¯\\_(ツ)_/¯"
+                    android:textSize="64sp" />
+
+                <TextView
+                    android:id="@+id/timestamp"
+                    style="@style/PlanBCrashDetailMonospace"
+                    android:layout_marginBottom="-6dp"
+                    android:alpha="0.4"
+                    android:text="Sun Feb 05 2017 19:14:55 GMT+0100"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/PlanBCrashDetailBaseText"
+                    android:fontFamily="sans-serif-thin"
+                    android:paddingBottom="4dp"
+                    android:textSize="36sp"
+                    tools:text="NullPointerException" />
+
+                <TextView
+                    android:id="@+id/tv_cause"
+                    style="@style/PlanBCrashDetailMonospace"
+                    tools:text="at.favre.lib.planb.recover.RestartActivityBehaviour.getForegroundActivityIntent(RestartActivityBehaviour.java:71)" />
+
+                <TextView
+                    style="@style/PlanBCrashDetailSubHeader"
+                    android:paddingBottom="4dp"
+                    android:text="Version" />
+
+                <TextView
+                    android:id="@+id/tv_state_version"
+                    style="@style/PlanBCrashDetailMonospace"
+                    android:text="Version: v2.4.5 (567)" />
+
+                <TextView
+                    android:id="@+id/tv_state_build"
+                    style="@style/PlanBCrashDetailMonospace"
+                    android:text="Build: debug/paa" />
+
+                <TextView
+                    android:id="@+id/tv_state_scm"
+                    style="@style/PlanBCrashDetailMonospace"
+                    android:text="SCM-Hash: af5617ab / CI: 567" />
+
+                <TextView
+                    style="@style/PlanBCrashDetailSubHeader"
+                    android:text="Stacktrace" />
+
+                <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_stacktrace"
+                        style="@style/PlanBCrashDetailMonospace"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="12dp"
+                        android:textSize="10sp"
+                        tools:text="Could not get intent for current foreground activity java.lang.IllegalStateException: Could not create current foreground activity, could not find at.favre.app.planb
+    at at.favre.lib.planb.recover.RestartActivityBehaviour.getForegroundActivityIntent(RestartActivityBehaviour.java:71)
+    at at.favre.lib.planb.recover.RestartActivityBehaviour.handleCrash(RestartActivityBehaviour.java:40)" />
+                </HorizontalScrollView>
+
+                <Button
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Log Bugreport" />
+
+                <Button
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Restart" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</layout>

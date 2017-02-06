@@ -33,6 +33,9 @@ public class CrashData implements Comparable<CrashData> {
 
     public final String fullStacktrace;
 
+    //public final String versionName;
+    //public final String versionCode;
+
     public Map<String, String> customData;
 
     public CrashData(String id, long timestamp, String message, String throwableClassName, String threadName,
