@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.full.CrashDetailActivity;
+import at.favre.lib.planb.recover.DefaultBehavior;
 import at.favre.lib.planb.recover.RestartActivityBehaviour;
 import at.favre.lib.planb.recover.SuppressCrashBehaviour;
 import at.favre.lib.planb.util.CrashUtil;
@@ -30,6 +31,11 @@ public class CrashApplication extends Application {
     public void setPlanBRestart() {
         PlanB.get(this).enableCrashHandler(
                 PlanB.get(this).configBuilder().isDebugBuild(true).debugCrashBehaviour(new RestartActivityBehaviour()).build());
+    }
+
+    public void setPlanBDefault() {
+        PlanB.get(this).enableCrashHandler(
+                PlanB.get(this).configBuilder().isDebugBuild(true).debugCrashBehaviour(new DefaultBehavior()).build());
     }
 
     public void crash() {

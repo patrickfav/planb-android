@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String OPTION_SHOW_REPORT = "show report";
     private static final String OPTION_SUPPRESS = "suppress";
     private static final String OPTION_RESTART = "restart";
-    private static final List<String> OPTIONS = Arrays.asList(OPTION_SHOW_REPORT, OPTION_SUPPRESS, OPTION_RESTART);
+    private static final String OPTION_DEFAULT = "default";
+
+    private static final List<String> OPTIONS = Arrays.asList(OPTION_SHOW_REPORT, OPTION_SUPPRESS, OPTION_RESTART,OPTION_DEFAULT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case OPTION_RESTART:
                         application.setPlanBRestart();
+                        break;
+                    case OPTION_DEFAULT:
+                        application.setPlanBDefault();
                         break;
                     default:
                         throw new IllegalArgumentException("unknown position");
