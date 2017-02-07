@@ -20,10 +20,6 @@ android {
         buildConfigField "String", "BUILD_DATE", "\"" + getBuildTime() + "\""
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     buildTypes {
         release {
             minifyEnabled false
