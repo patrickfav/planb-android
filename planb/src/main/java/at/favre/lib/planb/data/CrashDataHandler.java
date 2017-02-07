@@ -9,4 +9,8 @@ public interface CrashDataHandler {
     List<CrashData> getAll();
 
     boolean hasUnhandledCrash();
+
+    void persistCrashData(CrashData cd);
+
+    void clear();
 }

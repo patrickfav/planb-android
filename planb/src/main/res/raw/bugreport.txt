@@ -1,0 +1,35 @@
+__header1(Bugreport)
+
+__header2(Testobject)
+
+Timestamp: {{timestamp}}
+
+__header3(App Version)
+
+Version: {{version}}
+
+SCM: {{scm}}
+
+CI: {{ci}}
+
+__header3(Device)
+
+Model: {{device}}
+
+Android: {{android__version}}
+
+Serial: {{device__serial}}
+
+__header2(Description)
+
+__strong(Preconditions:)
+
+__strong(Observed Behaviour:)
+
+__strong(Expected:)
+
+__header2(Stacktrace)
+
+__strong({{exception}})
+
+__codeBlock({{stacktrace}})

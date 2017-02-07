@@ -3,31 +3,40 @@ package at.favre.lib.planb;
 import android.content.Context;
 
 import at.favre.lib.planb.data.CrashDataHandler;
-import at.favre.lib.planb.data.SharedPrefStorage;
 
-public class PlanB {
-
-    public static PlanB get(Context context) {
-        return new PlanB(context);
-    }
-
-    private Context context;
-
-    private PlanB(Context context) {
-        this.context = context;
-    }
-
+public final class PlanB {
+    private static PlanB instance;
     static Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
-    public void enableCrashHandler(PlanBConfig config) {
+    public static PlanB get() {
+        if (instance == null) {
+            instance = new PlanB();
+        }
+        return instance;
+    }
+
+    private PlanBConfig config;
+
+    private PlanB() {
+    }
+
+    public void enableCrashHandler(PlanBConfig config, Context context) {
+        this.config = config;
         Thread.setDefaultUncaughtExceptionHandler(new PlanBUncaughtExceptionHandler(context, config));
     }
 
-    public PlanBConfig.Builder configBuilder() {
-        return new PlanBConfig.Builder(context);
+    public void disableCrashHandler() {
+        Thread.setDefaultUncaughtExceptionHandler(defaultUncaughtExceptionHandler);
+    }
+
+    public PlanBConfig.Builder configBuilder(Context context) {
+        return PlanBConfig.newBuilder(context);
     }
 
     public CrashDataHandler getCrashDataHandler() {
-        return new SharedPrefStorage(context);
+        if (config == null) {
+            throw new IllegalStateException("you need to enable the crash handler first");
+        }
+        return config.storage;
     }
 }

@@ -13,6 +13,7 @@ import at.favre.lib.planb.data.CrashData;
 public class RestartActivityBehaviour extends AbstractBehaviour {
     private final static String TAG = RestartActivityBehaviour.class.getName();
     private final static int DEFAULT_ACTIVITY_FLAGS = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+    public static final String KEY_CRASHDATA = "CRASHDATA";
 
     private Intent intent;
 
@@ -43,6 +44,8 @@ public class RestartActivityBehaviour extends AbstractBehaviour {
                 return;
             }
         }
+
+        intent.putExtra(KEY_CRASHDATA, crashData);
         intent.addFlags(DEFAULT_ACTIVITY_FLAGS);
         context.startActivity(intent);
     }

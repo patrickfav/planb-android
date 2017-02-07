@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
 
 
@@ -44,7 +45,7 @@ public class CrashDataUtil {
         return b;
     }
 
-    public static CrashData createFromCrash(Thread thread, Throwable throwable, Map<String, String> customData) {
+    public static CrashData createFromCrash(PlanBConfig config, Thread thread, Throwable throwable, Map<String, String> customData) {
         if (throwable == null) {
             throw new IllegalArgumentException("throwable must not be null");
         }
@@ -61,7 +62,10 @@ public class CrashDataUtil {
                 element.getFileName(),
                 element.getLineNumber(),
                 CrashUtil.printStacktrace(throwable),
-                customData
-        );
+                config.versionName + " (" + config.versionCode + ")",
+                config.appBuiltType + ":" + config.appFlavour,
+                config.scmRevHash.substring(0, Math.min(8, config.scmRevHash.length())) + " / " + config.scmBranch,
+                config.ciBuildId + " / " + config.ciBuildJob,
+                customData);
     }
 }

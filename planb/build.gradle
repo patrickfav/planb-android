@@ -30,6 +30,7 @@ android {
 
 dependencies {
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+    compile "com.android.support:support-annotations:$rootProject.ext.dependencies.support"
 }
 
 apply from: "$rootDir/gradle/publish.gradle"

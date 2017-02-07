@@ -57,17 +57,17 @@
                 <TextView
                     android:id="@+id/tv_state_version"
                     style="@style/PlanBCrashDetailMonospace"
-                    android:text="Version: v2.4.5 (567)" />
-
-                <TextView
-                    android:id="@+id/tv_state_build"
-                    style="@style/PlanBCrashDetailMonospace"
-                    android:text="Build: debug/paa" />
+                    tools:text="Version: v2.4.5 (567) / debug:paa" />
 
                 <TextView
                     android:id="@+id/tv_state_scm"
                     style="@style/PlanBCrashDetailMonospace"
-                    android:text="SCM-Hash: af5617ab / CI: 567" />
+                    tools:text="SCM: a47287b / feat-bla" />
+
+                <TextView
+                    android:id="@+id/tv_state_ci"
+                    style="@style/PlanBCrashDetailMonospace"
+                    tools:text="CI: Build 567 / PSA Release" />
 
                 <TextView
                     style="@style/PlanBCrashDetailSubHeader"
@@ -80,8 +80,8 @@
                     <TextView
                         android:id="@+id/tv_stacktrace"
                         style="@style/PlanBCrashDetailMonospace"
-                        android:paddingTop="4dp"
                         android:paddingBottom="12dp"
+                        android:paddingTop="4dp"
                         android:textSize="10sp"
                         tools:text="Could not get intent for current foreground activity java.lang.IllegalStateException: Could not create current foreground activity, could not find at.favre.app.planb
     at at.favre.lib.planb.recover.RestartActivityBehaviour.getForegroundActivityIntent(RestartActivityBehaviour.java:71)
@@ -89,6 +89,7 @@
                 </HorizontalScrollView>
 
                 <Button
+                    android:id="@+id/btn_log"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,6 +97,7 @@
                     android:text="Log Bugreport" />
 
                 <Button
+                    android:id="@+id/btn_restart"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

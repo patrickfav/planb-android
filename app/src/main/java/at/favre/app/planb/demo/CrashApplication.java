@@ -18,24 +18,47 @@ public class CrashApplication extends Application {
     }
 
     public void setPlanBSuppress() {
-        PlanB.get(this).enableCrashHandler(
-                PlanB.get(this).configBuilder().isDebugBuild(true).debugCrashBehaviour(new SuppressCrashBehaviour()).build());
+        PlanB.get().enableCrashHandler(
+                PlanB.get().configBuilder(this)
+                        .isDebugBuild(true)
+                        .maxCrashReportsSaved(10)
+                        .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
+                        .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
+                        .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
+                        .debugBehaviour(new SuppressCrashBehaviour()).build(), this);
     }
 
     public void setPlanBCrashReport() {
-        PlanB.get(this).enableCrashHandler(
-                PlanB.get(this).configBuilder().isDebugBuild(true)
-                        .debugCrashBehaviour(new RestartActivityBehaviour(new Intent(this, CrashDetailActivity.class))).build());
+        PlanB.get().enableCrashHandler(
+                PlanB.get().configBuilder(this)
+                        .isDebugBuild(true)
+                        .maxCrashReportsSaved(10)
+                        .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
+                        .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
+                        .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
+                        .debugBehaviour(new RestartActivityBehaviour(new Intent(this, CrashDetailActivity.class))).build(), this);
     }
 
     public void setPlanBRestart() {
-        PlanB.get(this).enableCrashHandler(
-                PlanB.get(this).configBuilder().isDebugBuild(true).debugCrashBehaviour(new RestartActivityBehaviour()).build());
+        PlanB.get().enableCrashHandler(
+                PlanB.get().configBuilder(this)
+                        .isDebugBuild(true)
+                        .maxCrashReportsSaved(10)
+                        .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
+                        .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
+                        .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
+                        .debugBehaviour(new RestartActivityBehaviour()).build(), this);
     }
 
     public void setPlanBDefault() {
-        PlanB.get(this).enableCrashHandler(
-                PlanB.get(this).configBuilder().isDebugBuild(true).debugCrashBehaviour(new DefaultBehavior()).build());
+        PlanB.get().enableCrashHandler(
+                PlanB.get().configBuilder(this)
+                        .isDebugBuild(true)
+                        .maxCrashReportsSaved(10)
+                        .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
+                        .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
+                        .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
+                        .debugBehaviour(new DefaultBehavior()).build(), this);
     }
 
     public void crash() {

@@ -20,6 +20,13 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionNameLib
+
+        buildConfigField "String", "GIT_REV", "\"" + getGitRev() + "\""
+        buildConfigField "String", "GIT_BRANCH", "\"" + getGitBranch() + "\""
+        buildConfigField "String", "GIT_DATE", "\"" + getGitCommitDate() + "\""
+        buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
+        buildConfigField "String", "BUILD_DATE", "\"" + getBuildTime() + "\""
+        buildConfigField "boolean", "IS_CI_BUILD", "${isCiBuild()}"
     }
 
     buildTypes {

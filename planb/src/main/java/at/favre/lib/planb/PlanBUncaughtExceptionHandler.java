@@ -24,16 +24,16 @@ class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
         try {
-            log("got uncaught exception: " + throwable.getClass().getSimpleName() + ", isDebugBuild: " + config.debug, config.enableLog);
+            log("got uncaught exception: " + throwable.getClass().getSimpleName() + ", isDebugBuild: " + config.isDebugBuild, config.enableLog);
 
-            RecoverBehaviour behaviour = (config.debug ? config.debugBehaviour : config.releaseBehaviour);
+            RecoverBehaviour behaviour = (config.isDebugBuild ? config.debugBehaviour : config.releaseBehaviour);
 
             Map<String, String> customCrashData = null;
             if (throwable instanceof ICrashExceptionData) {
                 customCrashData = ((ICrashExceptionData) throwable).getAdditionalExceptionData();
             }
 
-            CrashData crashData = CrashDataUtil.createFromCrash(thread, throwable, customCrashData);
+            CrashData crashData = CrashDataUtil.createFromCrash(config, thread, throwable, customCrashData);
             if (behaviour.persistCrashData()) {
                 log("persist crash data", config.enableLog);
                 config.storage.persistCrashData(crashData);

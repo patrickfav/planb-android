@@ -12,7 +12,7 @@ import java.util.Set;
 import at.favre.lib.planb.util.CrashDataUtil;
 
 
-public class SharedPrefStorage implements PersistenceStorage, CrashDataHandler {
+public class SharedPrefStorage implements CrashDataHandler {
     private static final String PREF_PREFIX = "at.favre.lib.planb.1870382740324_";
     private static final String KEY_LATEST = "KEY_LATEST";
     private static final String KEY_HASNEW = "KEY_HASNEW";

@@ -1,10 +1,13 @@
 package at.favre.lib.planb.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CrashData implements Comparable<CrashData> {
+public class CrashData implements Comparable<CrashData>, Parcelable {
     private static final String MAP_SPLIT = ":";
     private static final String ARG_ID = "ARG_ID";
     private static final String ARG_DATE = "ARG_DATE";
@@ -16,6 +19,10 @@ public class CrashData implements Comparable<CrashData> {
     private static final String ARG_CAUSE_METHOD_NAME = "ARG_CAUSE_METHOD_NAME";
     private static final String ARG_CAUSE_FILE_NAME = "ARG_CAUSE_FILE_NAME";
     private static final String ARG_CAUSE_LINE_NUM = "ARG_CAUSE_LINE_NUM";
+    private static final String ARG_VERSION = "ARG_VERSION";
+    private static final String ARG_SCM = "ARG_SCM";
+    private static final String ARG_CI = "ARG_CI";
+    private static final String ARG_APP_VARIANT = "ARG_APP_VARIANT";
     private static final String ARG_CUSTOM_MAP = "ARG_CUSTOM_MAP";
 
     public final String id;
@@ -33,14 +40,17 @@ public class CrashData implements Comparable<CrashData> {
 
     public final String fullStacktrace;
 
-    //public final String versionName;
-    //public final String versionCode;
+    public final String versionString;
+    public final String applicationVariant;
+    public final String scmString;
+    public final String ciString;
 
     public Map<String, String> customData;
 
     public CrashData(String id, long timestamp, String message, String throwableClassName, String threadName,
                      String causeClassName, String causeMethodName, String causeFileName, int causeLineNum,
-                     String fullStacktrace, Map<String, String> customData) {
+                     String fullStacktrace, String versionString, String applicationVariant, String scmString,
+                     String ciString, Map<String, String> customData) {
         this.id = id;
         this.timestamp = timestamp;
         this.message = message;
@@ -52,13 +62,18 @@ public class CrashData implements Comparable<CrashData> {
         this.throwableClassName = throwableClassName;
         this.threadName = threadName;
         this.customData = (customData == null ? Collections.<String, String>emptyMap() : customData);
+        this.versionString = versionString;
+        this.applicationVariant = applicationVariant;
+        this.scmString = scmString;
+        this.ciString = ciString;
     }
 
     public static CrashData create(Map<String, String> map) {
         Map<String, String> customData = new HashMap<>();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (entry.getKey().startsWith(ARG_CUSTOM_MAP)) {
-                customData.put(entry.getKey().split(MAP_SPLIT)[1], entry.getValue());
+                String key = entry.getKey().substring(entry.getKey().indexOf(MAP_SPLIT.charAt(0)), entry.getKey().length());
+                customData.put(key, entry.getValue());
             }
         }
         return new CrashData(
@@ -72,6 +87,10 @@ public class CrashData implements Comparable<CrashData> {
                 map.get(ARG_CAUSE_FILE_NAME),
                 Integer.valueOf(map.get(ARG_CAUSE_LINE_NUM)),
                 map.get(ARG_FULLSTACK),
+                map.get(ARG_VERSION),
+                map.get(ARG_APP_VARIANT),
+                map.get(ARG_SCM),
+                map.get(ARG_CI),
                 customData);
     }
 
@@ -88,6 +107,10 @@ public class CrashData implements Comparable<CrashData> {
         map.put(ARG_CAUSE_FILE_NAME, causeFileName);
         map.put(ARG_CAUSE_LINE_NUM, String.valueOf(causeLineNum));
         map.put(ARG_FULLSTACK, fullStacktrace);
+        map.put(ARG_VERSION, versionString);
+        map.put(ARG_APP_VARIANT, applicationVariant);
+        map.put(ARG_SCM, scmString);
+        map.put(ARG_CI, ciString);
 
         for (Map.Entry<String, String> entry : customData.entrySet()) {
             if (entry.getKey() == null) {
@@ -150,4 +173,69 @@ public class CrashData implements Comparable<CrashData> {
         }
         return Long.valueOf(timestamp).compareTo(crashData.timestamp);
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeLong(this.timestamp);
+        dest.writeString(this.message);
+        dest.writeString(this.throwableClassName);
+        dest.writeString(this.threadName);
+        dest.writeString(this.causeClassName);
+        dest.writeString(this.causeMethodName);
+        dest.writeString(this.causeFileName);
+        dest.writeInt(this.causeLineNum);
+        dest.writeString(this.fullStacktrace);
+        dest.writeString(this.versionString);
+        dest.writeString(this.applicationVariant);
+        dest.writeString(this.scmString);
+        dest.writeString(this.ciString);
+        dest.writeInt(this.customData.size());
+        for (Map.Entry<String, String> entry : this.customData.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeString(entry.getValue());
+        }
+    }
+
+    protected CrashData(Parcel in) {
+        this.id = in.readString();
+        this.timestamp = in.readLong();
+        this.message = in.readString();
+        this.throwableClassName = in.readString();
+        this.threadName = in.readString();
+        this.causeClassName = in.readString();
+        this.causeMethodName = in.readString();
+        this.causeFileName = in.readString();
+        this.causeLineNum = in.readInt();
+        this.fullStacktrace = in.readString();
+        this.versionString = in.readString();
+        this.applicationVariant = in.readString();
+        this.scmString = in.readString();
+        this.ciString = in.readString();
+        int customDataSize = in.readInt();
+        this.customData = new HashMap<String, String>(customDataSize);
+        for (int i = 0; i < customDataSize; i++) {
+            String key = in.readString();
+            String value = in.readString();
+            this.customData.put(key, value);
+        }
+    }
+
+    public static final Parcelable.Creator<CrashData> CREATOR = new Parcelable.Creator<CrashData>() {
+        @Override
+        public CrashData createFromParcel(Parcel source) {
+            return new CrashData(source);
+        }
+
+        @Override
+        public CrashData[] newArray(int size) {
+            return new CrashData[size];
+        }
+    };
 }
