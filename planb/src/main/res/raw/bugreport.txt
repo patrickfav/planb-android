@@ -16,9 +16,9 @@ __header3(Device)
 
 Model: {{device}}
 
-Android: {{android__version}}
+Android: {{android_version}}
 
-Serial: {{device__serial}}
+Serial: {{device_serial}}
 
 __header2(Description)
 

@@ -2,16 +2,16 @@ package at.favre.lib.planb.parser;
 
 
 import android.support.annotation.IntDef;
+import android.support.annotation.VisibleForTesting;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class GenericMLParser {
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TOKEN_HEADER1, TOKEN_HEADER2, TOKEN_HEADER3, TOKEN_STRONG, TOKEN_CODEBLOCK})
+    @IntDef({TOKEN_HEADER1, TOKEN_HEADER2, TOKEN_HEADER3, TOKEN_STRONG, TOKEN_ITALIC, TOKEN_CODE, TOKEN_CODEBLOCK, TOKEN_QUOTE})
     public @interface MarkupToken {
     }
 
@@ -19,31 +19,85 @@ public class GenericMLParser {
     public static final int TOKEN_HEADER2 = 1;
     public static final int TOKEN_HEADER3 = 2;
     public static final int TOKEN_STRONG = 3;
-    public static final int TOKEN_CODEBLOCK = 4;
+    public static final int TOKEN_ITALIC = 4;
+    public static final int TOKEN_CODE = 5;
+    public static final int TOKEN_CODEBLOCK = 6;
+    public static final int TOKEN_QUOTE = 7;
 
-    public final static Map<Integer, String> genericTokens = new HashMap<>();
+    public final static Map<String, Integer> genericTokens = new HashMap<>();
 
     static {
-        genericTokens.put(TOKEN_HEADER1, "__header1");
-        genericTokens.put(TOKEN_HEADER2, "__header2");
-        genericTokens.put(TOKEN_HEADER3, "__header3");
-        genericTokens.put(TOKEN_STRONG, "__strong");
-        genericTokens.put(TOKEN_CODEBLOCK, "__codeBlock");
+        genericTokens.put("header1", TOKEN_HEADER1);
+        genericTokens.put("header2", TOKEN_HEADER2);
+        genericTokens.put("header3", TOKEN_HEADER3);
+        genericTokens.put("strong", TOKEN_STRONG);
+        genericTokens.put("italic", TOKEN_ITALIC);
+        genericTokens.put("code", TOKEN_CODE);
+        genericTokens.put("codeBlock", TOKEN_CODEBLOCK);
+        genericTokens.put("quote", TOKEN_QUOTE);
     }
 
-    private String fillPlaceholder(String text, Map<String, String> values) {
+    public String render(String template, MarkupRenderer renderer, Map<String, String> placeHolderValues) {
+        StringBuilder out = new StringBuilder();
+        out.append(renderer.renderHeader());
+        out.append(fillPlaceholder(renderTemplate(template, renderer), placeHolderValues));
+        out.append(renderer.renderFooter());
+        return out.toString();
+    }
+
+    @VisibleForTesting
+    String fillPlaceholder(String text, Map<String, String> values) {
         for (Map.Entry<String, String> entry : values.entrySet()) {
-            text = text.replaceAll("{{" + entry.getKey() + "}}", entry.getValue());
+            System.out.println(entry.getKey() + " replace with " + entry.getValue());
+            text = text.replace("{{" + entry.getKey() + "}}", entry.getValue());
         }
         return text;
     }
 
-    private String render(String text, MarkupRenderer renderer) {
-        for (Map.Entry<Integer, String> token : genericTokens.entrySet()) {
-            Pattern.compile(token.getValue() + "\\((.*?)\\)").matcher(text);
+    public String renderTemplate(String template, MarkupRenderer renderer) {
+        StringBuilder out = new StringBuilder();
+        char[] chars = template.toCharArray();
+
+        boolean commandMode = false;
+        boolean contentMode = false;
+        StringBuilder command = new StringBuilder();
+        StringBuilder content = new StringBuilder();
+
+        for (int i = 0; i < chars.length; i++) {
+            if (contentMode) {
+                if (chars[i] == ')') {
+                    //noinspection WrongConstant
+                    out.append(renderer.render(content.toString(), genericTokens.get(command.toString())));
+
+                    command.setLength(0);
+                    content.setLength(0);
+                    commandMode = false;
+                    contentMode = false;
+                } else {
+                    content.append(chars[i]);
+                }
+                continue;
+            }
+
+
+            if (commandMode) {
+                if (chars[i] == '(') {
+                    contentMode = true;
+                } else {
+                    command.append(chars[i]);
+                }
+                continue;
+            }
+
+            if (chars[i] == '_' && i + 1 < chars.length && chars[i + 1] == '_') {
+                commandMode = true;
+                i += 1;
+                continue;
+            }
+
+            out.append(chars[i]);
         }
 
-        return null;
+        return out.toString();
     }
-
 }

@@ -2,27 +2,16 @@ package at.favre.lib.planb;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import at.favre.lib.planb.data.CrashDataHandler;
 import at.favre.lib.planb.data.SharedPrefStorage;
+import at.favre.lib.planb.parser.MarkupRenderer;
 import at.favre.lib.planb.recover.DefaultBehavior;
 import at.favre.lib.planb.recover.RecoverBehaviour;
 
 public class PlanBConfig {
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({ML_MARKDOWN, ML_TEXTILE, ML_ASCIIDOC, ML_HTML})
-    public @interface MarkupLanguage {
-    }
 
-    public static final int ML_MARKDOWN = 0;
-    public static final int ML_TEXTILE = 1;
-    public static final int ML_ASCIIDOC = 2;
-    public static final int ML_HTML = 3;
 
     public final boolean isDebugBuild;
 
@@ -142,7 +131,7 @@ public class PlanBConfig {
             this.isDebugBuild = this.enableLog = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             this.debugBehaviour = new DefaultBehavior();
             this.releaseBehaviour = new DefaultBehavior();
-            this.bugReportMarkupLanguage = ML_MARKDOWN;
+            this.bugReportMarkupLanguage = MarkupRenderer.ML_MARKDOWN;
             try {
                 this.versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
                 this.versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
@@ -160,7 +149,7 @@ public class PlanBConfig {
             return this;
         }
 
-        public Builder bugReportMarkupLanguage(@MarkupLanguage int bugReportMarkupLanguage) {
+        public Builder bugReportMarkupLanguage(@MarkupRenderer.MarkupLanguage int bugReportMarkupLanguage) {
             this.bugReportMarkupLanguage = bugReportMarkupLanguage;
             return this;
         }
