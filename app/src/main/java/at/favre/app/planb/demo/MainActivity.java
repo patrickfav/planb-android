@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import at.favre.app.planb.demo.databinding.ActivityMainBinding;
+import at.favre.lib.planb.full.CrashExplorerOverviewActivity;
 import at.favre.lib.planb.util.CrashUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String OPTION_RESTART = "restart";
     private static final String OPTION_DEFAULT = "default";
 
-    private static final List<String> OPTIONS = Arrays.asList(OPTION_SHOW_REPORT, OPTION_SUPPRESS, OPTION_RESTART,OPTION_DEFAULT);
+    private static final List<String> OPTIONS = Arrays.asList(OPTION_SHOW_REPORT, OPTION_SUPPRESS, OPTION_RESTART, OPTION_DEFAULT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CrashExplorerOverviewActivity.start(MainActivity.this);
+            }
+        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, OPTIONS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -5,7 +5,7 @@
         <item name="colorPrimary">#333333</item>
         <item name="colorPrimaryDark">#4d2d2d</item>
         <item name="colorAccent">#404E57</item>
-        <item name="android:windowBackground">@drawable/planb_crashbg</item>
+        <item name="android:windowBackground">@drawable/planblib_crashbg</item>
     </style>
 
     <style name="PlanBCrashDetailBaseText">
@@ -23,5 +23,11 @@
     <style name="PlanBCrashDetailMonospace" parent="PlanBCrashDetailBaseText">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">monospace</item>
+    </style>
+
+    <style name="PlanBDefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#f57c00</item>
+        <item name="colorPrimaryDark">#c46300</item>
+        <item name="colorAccent">#4a13c2</item>
     </style>
 </resources>

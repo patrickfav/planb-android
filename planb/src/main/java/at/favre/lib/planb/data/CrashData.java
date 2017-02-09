@@ -2,6 +2,7 @@ package at.favre.lib.planb.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -167,11 +168,8 @@ public class CrashData implements Comparable<CrashData>, Parcelable {
     }
 
     @Override
-    public int compareTo(CrashData crashData) {
-        if (crashData == null) {
-            throw new NullPointerException("crashData must not be null");
-        }
-        return Long.valueOf(timestamp).compareTo(crashData.timestamp);
+    public int compareTo(@NonNull CrashData crashData) {
+        return Long.valueOf(crashData.timestamp).compareTo(timestamp);
     }
 
 

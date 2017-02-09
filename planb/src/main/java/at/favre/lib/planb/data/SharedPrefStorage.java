@@ -1,5 +1,6 @@
 package at.favre.lib.planb.data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -53,6 +54,7 @@ public class SharedPrefStorage implements CrashDataHandler {
         return preferences.getBoolean(KEY_HASNEW, false);
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void persistCrashData(CrashData cd) {
         preferences.edit()
@@ -72,6 +74,7 @@ public class SharedPrefStorage implements CrashDataHandler {
         }
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void clear() {
         preferences.edit().clear().commit();

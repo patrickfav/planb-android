@@ -193,6 +193,12 @@ public class PlanBConfig {
             return this;
         }
 
+        public Builder behaviour(RecoverBehaviour behaviour) {
+            this.debugBehaviour = behaviour;
+            this.releaseBehaviour = behaviour;
+            return this;
+        }
+
         public Builder storage(CrashDataHandler storage) {
             this.storage = storage;
             return this;

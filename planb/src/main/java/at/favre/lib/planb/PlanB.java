@@ -5,6 +5,7 @@ import android.content.Context;
 import at.favre.lib.planb.data.CrashDataHandler;
 
 public final class PlanB {
+
     private static PlanB instance;
     static Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 

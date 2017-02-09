@@ -12,25 +12,6 @@
             android:id="@+id/toolbar"
             layout="@layout/inc_toolbar" />
 
-        <Button
-            android:id="@+id/button"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:minWidth="230dp"
-            android:text="Crash Activity" />
-
-        <Button
-            android:id="@+id/button2"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:minWidth="230dp"
-            android:text="Crash Application" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,5 +28,34 @@
             android:layout_gravity="center"
             android:minWidth="230dp"
             tools:listitem="@android:layout/simple_spinner_dropdown_item" />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:minWidth="230dp"
+            android:text="@string/crash_activity_btn_crashactivity" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="230dp"
+            android:text="@string/crash_activity_btn_crashapp" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:backgroundTint="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="230dp"
+            android:text="Open Explorer" />
     </LinearLayout>
 </layout>

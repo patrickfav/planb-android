@@ -2,12 +2,15 @@ package at.favre.lib.planb.util;
 
 import android.os.Bundle;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
@@ -63,9 +66,21 @@ public class CrashDataUtil {
                 element.getLineNumber(),
                 CrashUtil.printStacktrace(throwable),
                 config.versionName + " (" + config.versionCode + ")",
-                config.appBuiltType + ":" + config.appFlavour,
-                config.scmRevHash.substring(0, Math.min(8, config.scmRevHash.length())) + " / " + config.scmBranch,
-                config.ciBuildId + " / " + config.ciBuildJob,
+                config.appBuiltType + (config.appFlavour != null && !config.appFlavour.isEmpty() ? (":" + config.appFlavour) : ""),
+                config.scmRevHash != null ? config.scmRevHash.substring(0, Math.min(8, config.scmRevHash.length())) + " (" + config.scmBranch + ")" : "",
+                config.ciBuildId != null ? config.ciBuildId + (config.ciBuildJob != null ? " / " + config.ciBuildJob : "") : "",
                 customData);
+    }
+
+    public static String getClassNameForException(String throwableClassName) {
+        if (throwableClassName != null && throwableClassName.contains(".")) {
+            String[] parts = throwableClassName.split(Pattern.quote("."));
+            return parts[parts.length - 1];
+        }
+        return throwableClassName;
+    }
+
+    public static String parseDate(long timestamp) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.getDefault()).format(new Date(timestamp));
     }
 }

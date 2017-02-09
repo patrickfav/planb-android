@@ -6,6 +6,14 @@
             android:name=".CrashDetailActivity"
             android:label="Crash Report"
             android:theme="@style/PlanBCrashDetailTheme" />
+        <activity
+            android:name=".CrashExplorerOverviewActivity"
+            android:label="Crash Data Explorer"
+            android:theme="@style/PlanBDefaultTheme" />
+        <activity
+            android:name=".CrashExplorerDetailActivity"
+            android:label="Crash Report"
+            android:theme="@style/PlanBDefaultTheme" />
     </application>
 
 </manifest>

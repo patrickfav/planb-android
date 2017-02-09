@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PlanB Full</string>
+    <string name="crashdetail_btn_primary">Log Bugreport</string>
+    <string name="crashdetail_btn_secondary">Restart</string>
+    <string name="crashdetail_title_version">Version</string>
+    <string name="crashdetail_title_stacktrace">Stacktrace</string>
+    <string name="menu_delete">Delete</string>
 </resources>

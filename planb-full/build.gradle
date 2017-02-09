@@ -32,5 +32,7 @@ android {
 dependencies {
     compile project(path: ':planb')
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }
