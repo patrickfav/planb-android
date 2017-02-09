@@ -51,6 +51,15 @@
         <Button
             android:id="@+id/button3"
             style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="230dp"
+            android:text="@string/crash_activity_btn_crashrnd" />
+
+        <Button
+            android:id="@+id/button_explorer"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
             android:backgroundTint="#333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import java.nio.channels.IllegalSelectorException;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import at.favre.app.planb.demo.databinding.ActivityMainBinding;
 import at.favre.lib.planb.full.CrashExplorerOverviewActivity;
@@ -46,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RuntimeException[] exceptions = new RuntimeException[]{
+                        new IllegalStateException("This is a test exception"),
+                        new IllegalArgumentException("This is a test exception"),
+                        new RuntimeException("This is a test exception"),
+                        new IllegalSelectorException(),
+                        new IllegalThreadStateException("This is a test exception"),
+                        new IllegalCharsetNameException("This is a test exception"),
+                        new IllegalMonitorStateException("This is a test exception"),};
+
+                throw exceptions[new Random().nextInt(exceptions.length)];
+            }
+        });
+
+        binding.buttonExplorer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CrashExplorerOverviewActivity.start(MainActivity.this);

@@ -2,4 +2,5 @@
     <string name="app_name">PlanB Demo</string>
     <string name="crash_activity_btn_crashactivity">Crash Activity</string>
     <string name="crash_activity_btn_crashapp">Crash Application</string>
+    <string name="crash_activity_btn_crashrnd">Crash Random</string>
 </resources>
