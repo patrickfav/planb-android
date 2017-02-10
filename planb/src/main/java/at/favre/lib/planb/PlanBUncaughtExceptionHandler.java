@@ -39,13 +39,13 @@ class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
                 config.storage.persistCrashData(crashData);
             }
 
-            behaviour.getPreCrashAction().onUnhandledException(context, thread, throwable, crashData);
+            behaviour.getPreCrashAction().onUnhandledException(context, thread, throwable, crashData, config);
 
             log("handle crash", config.enableLog);
 
-            behaviour.handleCrash(context, thread, throwable, crashData);
+            behaviour.handleCrash(context, thread, throwable, crashData, config);
 
-            behaviour.getPostCrashAction().onUnhandledException(context, thread, throwable, crashData);
+            behaviour.getPostCrashAction().onUnhandledException(context, thread, throwable, crashData, config);
 
             if (behaviour.callDefaultExceptionHandler()) {
                 log("call default uncaughtExceptionHandler " + PlanB.defaultUncaughtExceptionHandler.getClass().getName(), config.enableLog);

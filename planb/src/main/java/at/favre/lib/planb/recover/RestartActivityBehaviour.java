@@ -8,12 +8,15 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
+import at.favre.lib.planb.PlanB;
+import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
 
 public class RestartActivityBehaviour extends AbstractBehaviour {
     private final static String TAG = RestartActivityBehaviour.class.getName();
     private final static int DEFAULT_ACTIVITY_FLAGS = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
     public static final String KEY_CRASHDATA = "CRASHDATA";
+    public static final String KEY_BUGREPORT_SYNTAX = "BUGREPORT_SYNTAX";
 
     private Intent intent;
 
@@ -35,7 +38,7 @@ public class RestartActivityBehaviour extends AbstractBehaviour {
     }
 
     @Override
-    public void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData) {
+    public void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData, PlanBConfig config) {
         if (intent == null) {
             try {
                 intent = getForegroundActivityIntent(context);
@@ -46,6 +49,7 @@ public class RestartActivityBehaviour extends AbstractBehaviour {
         }
 
         intent.putExtra(KEY_CRASHDATA, crashData);
+        intent.putExtra(KEY_BUGREPORT_SYNTAX, config.bugReportMarkupLanguage);
         intent.addFlags(DEFAULT_ACTIVITY_FLAGS);
         context.startActivity(intent);
     }

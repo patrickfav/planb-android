@@ -113,6 +113,7 @@ public class CrashDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = v.getContext().getPackageManager().getLaunchIntentForPackage(v.getContext().getPackageName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

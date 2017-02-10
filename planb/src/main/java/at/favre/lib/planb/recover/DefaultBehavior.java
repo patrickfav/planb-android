@@ -2,6 +2,7 @@ package at.favre.lib.planb.recover;
 
 import android.content.Context;
 
+import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
 
 public class DefaultBehavior extends AbstractBehaviour {
@@ -15,6 +16,6 @@ public class DefaultBehavior extends AbstractBehaviour {
     }
 
     @Override
-    public void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData) {
+    public void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData, PlanBConfig config) {
     }
 }
