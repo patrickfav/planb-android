@@ -4,7 +4,7 @@
     <string name="crashdetail_btn_secondary">Restart</string>
     <string name="crashdetail_title_version">Version</string>
     <string name="crashdetail_title_stacktrace">Stacktrace</string>
-    <string name="crashexplorer_toast_log">Log to console.</string>
+    <string name="crashexplorer_toast_log">Logged to Console</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_log">Log to Console</string>
 </resources>

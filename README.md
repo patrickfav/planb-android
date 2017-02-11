@@ -10,6 +10,10 @@ A crash recovery lib
 [![Build Status](https://travis-ci.org/patrickfav/planb-android.svg?branch=master)](https://travis-ci.org/patrickfav/planb-android)
 [![play store banner](doc/playstore_badge_new_sm.png)](https://play.google.com/store/apps/details?id=at.favre.app.planb.demo)
 
+[![Screenshot 1](doc/screenshot_1.png)]
+[![Screenshot 2](doc/screenshot_2.png)]
+
+
 ## Quick Start
 
 Add the following to your dependencies ([add jcenter to your repositories](https://developer.android.com/studio/build/index.html#top-level) if you haven't)
