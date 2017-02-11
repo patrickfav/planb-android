@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 def Properties localProps = getSigningProperties()
 
 android {
@@ -27,6 +29,8 @@ android {
         buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
         buildConfigField "String", "BUILD_DATE", "\"" + getBuildTime() + "\""
         buildConfigField "boolean", "IS_CI_BUILD", "${isCiBuild()}"
+
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: "186371371a51415791ca38c23b7b2220"]
     }
 
     buildTypes {
@@ -57,5 +61,9 @@ android {
 dependencies {
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+
+    compile 'net.hockeyapp.android:HockeySDK:4.1.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') { transitive = true; }
+
     compile project(path: ':planb-full')
 }

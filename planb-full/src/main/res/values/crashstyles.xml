@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/crash_bg_blue_dark</item>
         <item name="colorAccent">@color/crash_bg_blue_accent</item>
         <item name="android:windowBackground">@drawable/planblib_crashbg_blue</item>
+        <item name="android:textColor">@color/crash_bg_blue_text</item>
     </style>
 
     <style name="PlanBCrashDetailBaseText">

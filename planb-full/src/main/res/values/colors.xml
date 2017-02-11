@@ -4,15 +4,18 @@
     <color name="crash_bg_red2">#9b6060</color>
     <color name="crash_bg_red_dark">#4d2d2d</color>
     <color name="crash_bg_red_accent">#404E57</color>
+    <color name="crash_bg_red_text">#e7e7e7</color>
 
     <color name="crash_bg_blue">#039BE5</color>
     <color name="crash_bg_blue2">#0ca7f4</color>
     <color name="crash_bg_blue_dark">#0288D1</color>
     <color name="crash_bg_blue_accent">#B2AC13</color>
+    <color name="crash_bg_blue_text">#fafafa</color>
 
     <color name="crash_bg_orange">#c66e00</color>
     <color name="crash_bg_orange2">#df7f07</color>
     <color name="crash_bg_orange_dark">#9f4800</color>
     <color name="crash_bg_orange_accent">#3512BC</color>
+    <color name="crash_bg_orange_text">#fafafa</color>
 
 </resources>

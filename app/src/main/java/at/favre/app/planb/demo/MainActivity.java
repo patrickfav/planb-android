@@ -1,26 +1,26 @@
 package at.favre.app.planb.demo;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import java.nio.channels.IllegalSelectorException;
-import java.nio.charset.IllegalCharsetNameException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import at.favre.app.planb.demo.databinding.ActivityMainBinding;
+import at.favre.app.planb.demo.util.DemoAppUtil;
+import at.favre.lib.planb.PlanB;
+import at.favre.lib.planb.data.CrashData;
 import at.favre.lib.planb.full.CrashExplorerOverviewActivity;
 import at.favre.lib.planb.util.CrashUtil;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getName();
-
     private static final String OPTION_SHOW_REPORT = "show report";
     private static final String OPTION_SUPPRESS = "suppress";
     private static final String OPTION_RESTART = "restart";
@@ -31,36 +31,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         setSupportActionBar((Toolbar) binding.toolbar.findViewById(R.id.toolbar));
-        binding.button.setOnClickListener(new View.OnClickListener() {
+        binding.buttonCrashActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CrashUtil.crash();
             }
         });
 
-        binding.button2.setOnClickListener(new View.OnClickListener() {
+        binding.buttonCrashApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((CrashApplication) getApplication()).crash();
             }
         });
 
-        binding.button3.setOnClickListener(new View.OnClickListener() {
+        binding.buttonCrashRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RuntimeException[] exceptions = new RuntimeException[]{
-                        new IllegalStateException("This is a test exception"),
-                        new IllegalArgumentException("This is a test exception"),
-                        new RuntimeException("This is a test exception"),
-                        new IllegalSelectorException(),
-                        new IllegalThreadStateException("This is a test exception"),
-                        new IllegalCharsetNameException("This is a test exception"),
-                        new IllegalMonitorStateException("This is a test exception"),};
-
-                throw exceptions[new Random().nextInt(exceptions.length)];
+                DemoAppUtil.throwRandomRuntimeException();
             }
         });
 
@@ -68,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 CrashExplorerOverviewActivity.start(MainActivity.this);
+            }
+        });
+
+        binding.buttonHockey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HockeyAppIntegrationActivity.start(MainActivity.this);
+            }
+        });
+
+        binding.buttonCrashlytics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CrashlyticsIntegrationActivity.start(MainActivity.this);
             }
         });
 
@@ -104,4 +110,24 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.optionSpinner.setSelection(OPTIONS.indexOf(OPTION_SHOW_REPORT));
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (PlanB.get().getCrashDataHandler().hasUnhandledCrash()) {
+            CrashData crashData = PlanB.get().getCrashDataHandler().getLatest();
+            new AlertDialog.Builder(this)
+                    .setTitle("App Crash")
+                    .setMessage("The following crash was recorded: " + crashData.throwableClassName)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+
 }

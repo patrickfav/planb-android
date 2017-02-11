@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="PlanBHockeyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#009EE1</item>
+        <item name="colorPrimaryDark">#0076a7</item>
+        <item name="colorAccent">#AEA710</item>
+    </style>
+
+    <style name="PlanBCrashlyticsTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#D13232</item>
+        <item name="colorPrimaryDark">#892121</item>
+        <item name="colorAccent">#35759E</item>
+    </style>
+
+    <style name="DefaultDebugButton" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:minWidth">230dp</item>
+    </style>
 </resources>

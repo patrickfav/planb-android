@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.support.annotation.Nullable;
 
-import at.favre.lib.planb.data.CrashDataHandler;
-import at.favre.lib.planb.data.SharedPrefStorage;
 import at.favre.lib.planb.parser.MarkupRenderer;
 import at.favre.lib.planb.recover.DefaultBehavior;
 import at.favre.lib.planb.recover.RecoverBehaviour;
 
 public class PlanBConfig {
-
 
     public final boolean isDebugBuild;
 
@@ -30,7 +27,6 @@ public class PlanBConfig {
     public final RecoverBehaviour debugBehaviour;
 
     public final RecoverBehaviour releaseBehaviour;
-    public final CrashDataHandler storage;
 
     private PlanBConfig(Builder builder) {
         isDebugBuild = builder.isDebugBuild;
@@ -47,13 +43,11 @@ public class PlanBConfig {
         ciBuildJob = builder.ciBuildJob;
         debugBehaviour = builder.debugBehaviour;
         releaseBehaviour = builder.releaseBehaviour;
-        storage = builder.storage;
     }
 
     static Builder newBuilder(Context context) {
         return new Builder(context);
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -83,10 +77,7 @@ public class PlanBConfig {
             return false;
         if (debugBehaviour != null ? !debugBehaviour.equals(that.debugBehaviour) : that.debugBehaviour != null)
             return false;
-        if (releaseBehaviour != null ? !releaseBehaviour.equals(that.releaseBehaviour) : that.releaseBehaviour != null)
-            return false;
-        return storage != null ? storage.equals(that.storage) : that.storage == null;
-
+        return releaseBehaviour != null ? !releaseBehaviour.equals(that.releaseBehaviour) : that.releaseBehaviour != null;
     }
 
     @Override
@@ -105,7 +96,6 @@ public class PlanBConfig {
         result = 31 * result + (ciBuildJob != null ? ciBuildJob.hashCode() : 0);
         result = 31 * result + (debugBehaviour != null ? debugBehaviour.hashCode() : 0);
         result = 31 * result + (releaseBehaviour != null ? releaseBehaviour.hashCode() : 0);
-        result = 31 * result + (storage != null ? storage.hashCode() : 0);
         return result;
     }
 
@@ -124,10 +114,8 @@ public class PlanBConfig {
         private String ciBuildJob;
         private RecoverBehaviour debugBehaviour;
         private RecoverBehaviour releaseBehaviour;
-        private CrashDataHandler storage;
 
         private Builder(Context context) {
-            this.storage = new SharedPrefStorage(context);
             this.isDebugBuild = this.enableLog = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             this.debugBehaviour = new DefaultBehavior();
             this.releaseBehaviour = new DefaultBehavior();
@@ -196,11 +184,6 @@ public class PlanBConfig {
         public Builder behaviour(RecoverBehaviour behaviour) {
             this.debugBehaviour = behaviour;
             this.releaseBehaviour = behaviour;
-            return this;
-        }
-
-        public Builder storage(CrashDataHandler storage) {
-            this.storage = storage;
             return this;
         }
 

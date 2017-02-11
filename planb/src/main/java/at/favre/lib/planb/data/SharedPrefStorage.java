@@ -17,7 +17,7 @@ public class SharedPrefStorage implements CrashDataHandler {
     private static final String PREF_PREFIX = "at.favre.lib.planb.1870382740324_";
     private static final String KEY_LATEST = "KEY_LATEST";
     private static final String KEY_HASNEW = "KEY_HASNEW";
-    private static final int MAX_CRASH_DATA_SIZE = 10;
+    private static final int MAX_CRASH_DATA_SIZE = 25;
 
     private SharedPreferences preferences;
     private int capacity;
@@ -34,7 +34,7 @@ public class SharedPrefStorage implements CrashDataHandler {
     @Override
     public CrashData getLatest() {
         CrashData cd = CrashDataUtil.createCrashDataFromStringSet(preferences.getStringSet(preferences.getString(KEY_LATEST, null), null));
-        preferences.edit().putBoolean(KEY_HASNEW, false);
+        preferences.edit().putBoolean(KEY_HASNEW, false).apply();
         return cd;
     }
 
@@ -67,10 +67,12 @@ public class SharedPrefStorage implements CrashDataHandler {
 
         if (all.size() > capacity) {
             Collections.sort(all);
-            List<CrashData> overflowList = all.subList(capacity - 1, all.size());
+            List<CrashData> overflowList = all.subList(capacity, all.size());
+            SharedPreferences.Editor editor = preferences.edit();
             for (CrashData crashData : overflowList) {
-                preferences.edit().remove(crashData.id);
+                editor.remove(crashData.id);
             }
+            editor.commit();
         }
     }
 

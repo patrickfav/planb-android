@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:minWidth="230dp"
             android:paddingTop="16dp"
-            android:text="Crash Recovery Behaviour" />
+            android:text="@string/main_crash_recovery_behaviour" />
 
         <Spinner
             android:id="@+id/optionSpinner"
@@ -30,41 +30,43 @@
             tools:listitem="@android:layout/simple_spinner_dropdown_item" />
 
         <Button
-            android:id="@+id/button"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:id="@+id/buttonCrashActivity"
+            style="@style/DefaultDebugButton"
             android:layout_marginTop="24dp"
-            android:minWidth="230dp"
             android:text="@string/crash_activity_btn_crashactivity" />
 
         <Button
-            android:id="@+id/button2"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:minWidth="230dp"
+            android:id="@+id/buttonCrashApp"
+            style="@style/DefaultDebugButton"
             android:text="@string/crash_activity_btn_crashapp" />
 
         <Button
-            android:id="@+id/button3"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:minWidth="230dp"
+            android:id="@+id/buttonCrashRandom"
+            style="@style/DefaultDebugButton"
             android:text="@string/crash_activity_btn_crashrnd" />
 
         <Button
             android:id="@+id/button_explorer"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
+            style="@style/DefaultDebugButton"
             android:backgroundTint="#333"
+            android:text="Open Explorer" />
+
+        <Button
+            android:id="@+id/button_hockey"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:minWidth="230dp"
-            android:text="Open Explorer" />
+            android:text="HockeyApp Test" />
+
+        <Button
+            android:id="@+id/button_crashlytics"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="230dp"
+            android:text="Crashlytics Test" />
     </LinearLayout>
 </layout>

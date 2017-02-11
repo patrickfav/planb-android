@@ -18,6 +18,14 @@ Add the following to your dependencies ([add jcenter to your repositories](https
 compile 'at.favre.lib:planb:x.y.z'
 ```
 
+# Integration with Crash Frameworks
+
+## HockeyApp
+
+## Crashlytics
+
+## Acra
+
 ## Similar Projects:
 
 * [Recovery](https://github.com/Sunzxyong/Recovery)

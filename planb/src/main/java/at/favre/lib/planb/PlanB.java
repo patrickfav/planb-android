@@ -3,6 +3,7 @@ package at.favre.lib.planb;
 import android.content.Context;
 
 import at.favre.lib.planb.data.CrashDataHandler;
+import at.favre.lib.planb.data.SharedPrefStorage;
 
 public final class PlanB {
 
@@ -17,8 +18,16 @@ public final class PlanB {
     }
 
     private PlanBConfig config;
-
+    private CrashDataHandler crashDataHandler;
     private PlanB() {
+    }
+
+    public void init(Context context) {
+        this.crashDataHandler = new SharedPrefStorage(context);
+    }
+
+    public void init(Context context, CrashDataHandler crashDataHandler) {
+        this.crashDataHandler = crashDataHandler;
     }
 
     public void enableCrashHandler(PlanBConfig config, Context context) {
@@ -35,9 +44,9 @@ public final class PlanB {
     }
 
     public CrashDataHandler getCrashDataHandler() {
-        if (config == null) {
-            throw new IllegalStateException("you need to enable the crash handler first");
+        if (crashDataHandler == null) {
+            throw new IllegalStateException("you need to init the lib first with PlanB.get().init(...)");
         }
-        return config.storage;
+        return crashDataHandler;
     }
 }

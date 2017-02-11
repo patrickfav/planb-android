@@ -36,7 +36,7 @@ class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
             CrashData crashData = CrashDataUtil.createFromCrash(config, thread, throwable, customCrashData);
             if (behaviour.persistCrashData()) {
                 log("persist crash data", config.enableLog);
-                config.storage.persistCrashData(crashData);
+                PlanB.get().getCrashDataHandler().persistCrashData(crashData);
             }
 
             behaviour.getPreCrashAction().onUnhandledException(context, thread, throwable, crashData, config);

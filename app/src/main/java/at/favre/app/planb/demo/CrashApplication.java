@@ -15,6 +15,7 @@ public class CrashApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        PlanB.get().init(this);
     }
 
     public void setPlanBSuppress() {

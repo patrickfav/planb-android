@@ -6,7 +6,7 @@
         android:id="@+id/timestamp"
         style="@style/PlanBCrashDetailMonospace"
         android:layout_marginBottom="-6dp"
-        android:alpha="0.4"
+        android:alpha="0.65"
         android:textSize="12sp"
         tools:text="Sun Feb 05 2017 19:14:55 GMT+0100" />
 
