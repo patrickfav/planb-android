@@ -1,6 +1,12 @@
 package at.favre.lib.planb.parser;
 
+import android.support.annotation.NonNull;
+
+/**
+ * Renderer for https://daringfireball.net/projects/markdown/
+ */
 public class MarkdownRenderer implements MarkupRenderer {
+    @NonNull
     @Override
     public String renderHeader() {
         return "";
@@ -31,6 +37,7 @@ public class MarkdownRenderer implements MarkupRenderer {
         return "unknown command (" + content + ")";
     }
 
+    @NonNull
     @Override
     public String renderFooter() {
         return "";

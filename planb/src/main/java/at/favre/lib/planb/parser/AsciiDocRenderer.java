@@ -1,7 +1,13 @@
 package at.favre.lib.planb.parser;
 
 
+import android.support.annotation.NonNull;
+
+/**
+ * Renderer for http://www.methods.co.nz/asciidoc/
+ */
 public class AsciiDocRenderer implements MarkupRenderer {
+    @NonNull
     @Override
     public String renderHeader() {
         return "";
@@ -32,6 +38,7 @@ public class AsciiDocRenderer implements MarkupRenderer {
         return "unknown command (" + content + ")";
     }
 
+    @NonNull
     @Override
     public String renderFooter() {
         return "";

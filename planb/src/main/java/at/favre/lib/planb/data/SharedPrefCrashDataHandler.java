@@ -3,6 +3,7 @@ package at.favre.lib.planb.data;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,21 +13,28 @@ import java.util.Set;
 
 import at.favre.lib.planb.util.CrashDataUtil;
 
-
-public class SharedPrefStorage implements CrashDataHandler {
+/**
+ * The default implementation using {@link SharedPreferences} as persistence storage.
+ */
+public class SharedPrefCrashDataHandler implements CrashDataHandler {
     private static final String PREF_PREFIX = "at.favre.lib.planb.1870382740324_";
     private static final String KEY_LATEST = "KEY_LATEST";
     private static final String KEY_HASNEW = "KEY_HASNEW";
-    private static final int MAX_CRASH_DATA_SIZE = 25;
+    private static final int DEFAULT_CRASH_DATA_SIZE = 25;
+    private static final int MAX_CRASH_DATA_SIZE = 200;
 
     private SharedPreferences preferences;
     private int capacity;
 
-    public SharedPrefStorage(Context context) {
-        this(context, MAX_CRASH_DATA_SIZE);
+    public SharedPrefCrashDataHandler(Context context) {
+        this(context, DEFAULT_CRASH_DATA_SIZE);
     }
 
-    public SharedPrefStorage(Context context, int maxCapacity) {
+    public SharedPrefCrashDataHandler(Context context, int maxCapacity) {
+        if (maxCapacity > MAX_CRASH_DATA_SIZE || maxCapacity < 1) {
+            throw new IllegalArgumentException("Cannot create with this capacity. Max capacity is " + MAX_CRASH_DATA_SIZE + " but " + maxCapacity + " was provided.");
+        }
+
         preferences = context.getSharedPreferences(PREF_PREFIX, Context.MODE_PRIVATE);
         capacity = maxCapacity;
     }
@@ -38,6 +46,7 @@ public class SharedPrefStorage implements CrashDataHandler {
         return cd;
     }
 
+    @NonNull
     @Override
     public List<CrashData> getAll() {
         List<CrashData> crashDataList = new ArrayList<>();
@@ -47,6 +56,11 @@ public class SharedPrefStorage implements CrashDataHandler {
             }
         }
         return crashDataList;
+    }
+
+    @Override
+    public int size() {
+        return preferences.getAll().size();
     }
 
     @Override
@@ -74,6 +88,18 @@ public class SharedPrefStorage implements CrashDataHandler {
             }
             editor.commit();
         }
+    }
+
+    @Override
+    public int countOfCrashes(long fromTimestamp) {
+        List<CrashData> crashDatas = getAll();
+        int count = 0;
+        for (CrashData crashData : crashDatas) {
+            if (crashData.timestamp >= fromTimestamp) {
+                count++;
+            }
+        }
+        return count;
     }
 
     @SuppressLint("ApplySharedPref")

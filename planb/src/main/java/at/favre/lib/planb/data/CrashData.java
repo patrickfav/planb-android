@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is the model that contains all the crash information
+ */
 public class CrashData implements Comparable<CrashData>, Parcelable {
     private static final String MAP_SPLIT = ":";
     private static final String ARG_ID = "ARG_ID";
@@ -26,24 +29,74 @@ public class CrashData implements Comparable<CrashData>, Parcelable {
     private static final String ARG_APP_VARIANT = "ARG_APP_VARIANT";
     private static final String ARG_CUSTOM_MAP = "ARG_CUSTOM_MAP";
 
+    /**
+     * Synthetic unique id
+     */
     public final String id;
 
+    /**
+     * Timestamp as provide by {@link java.util.Date}
+     */
     public final long timestamp;
 
+    /**
+     * Message of the {@link Throwable}
+     */
     public final String message;
+
+    /**
+     * Full class name of the {@link Throwable}
+     */
     public final String throwableClassName;
+
+    /**
+     * Name of the thread
+     */
     public final String threadName;
 
+    /**
+     * Class name of the first cause
+     */
     public final String causeClassName;
+
+    /**
+     * Method name of the first cause
+     */
     public final String causeMethodName;
+
+    /**
+     * File name of the first cause
+     */
     public final String causeFileName;
+
+    /**
+     * File line number of the first cause
+     */
     public final int causeLineNum;
 
+    /**
+     * Full stacktrace
+     */
     public final String fullStacktrace;
 
+    /**
+     * String containing version, versionCode etc.
+     */
     public final String versionString;
+
+    /**
+     * Built type and variant
+     */
     public final String applicationVariant;
+
+    /**
+     * SCM revision hashes, branches etc.
+     */
     public final String scmString;
+
+    /**
+     * Continous Integration build number, etc.
+     */
     public final String ciString;
 
     public Map<String, String> customData;

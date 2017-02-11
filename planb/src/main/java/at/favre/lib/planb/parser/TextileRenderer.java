@@ -1,10 +1,12 @@
 package at.favre.lib.planb.parser;
 
-/**
- * Created by PatrickF on 08.02.2017.
- */
+import android.support.annotation.NonNull;
 
+/**
+ * Renderer for https://txstyle.org/
+ */
 public class TextileRenderer implements MarkupRenderer {
+    @NonNull
     @Override
     public String renderHeader() {
         return "";
@@ -34,6 +36,7 @@ public class TextileRenderer implements MarkupRenderer {
         return "unknown command (" + content + ")";
     }
 
+    @NonNull
     @Override
     public String renderFooter() {
         return "";

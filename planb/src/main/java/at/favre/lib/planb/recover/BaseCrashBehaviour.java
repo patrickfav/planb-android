@@ -1,6 +1,11 @@
 package at.favre.lib.planb.recover;
 
-public abstract class AbstractBehaviour implements RecoverBehaviour {
+import android.support.annotation.NonNull;
+
+/**
+ * Base implementation
+ */
+public abstract class BaseCrashBehaviour implements CrashRecoverBehaviour {
     private boolean killProcess;
     private boolean callDefault;
     private boolean persistCrashData;
@@ -8,13 +13,13 @@ public abstract class AbstractBehaviour implements RecoverBehaviour {
     private CrashAction preCrashAction;
     private CrashAction postCrashAction;
 
-    public AbstractBehaviour(boolean killProcess, boolean callDefault, boolean persistCrashData,
-                             CrashAction preCrashAction, CrashAction postCrashAction) {
+    public BaseCrashBehaviour(boolean killProcess, boolean callDefault, boolean persistCrashData,
+                              CrashAction preCrashAction, CrashAction postCrashAction) {
         this.killProcess = killProcess;
         this.callDefault = callDefault;
         this.persistCrashData = persistCrashData;
-        this.preCrashAction = preCrashAction == null ? new CrashAction.Default() : preCrashAction;
-        this.postCrashAction = postCrashAction == null ? new CrashAction.Default() : postCrashAction;
+        this.preCrashAction = preCrashAction == null ? new CrashAction.Noop() : preCrashAction;
+        this.postCrashAction = postCrashAction == null ? new CrashAction.Noop() : postCrashAction;
     }
 
     @Override
@@ -32,11 +37,13 @@ public abstract class AbstractBehaviour implements RecoverBehaviour {
         return persistCrashData;
     }
 
+    @NonNull
     @Override
     public CrashAction getPreCrashAction() {
         return preCrashAction;
     }
 
+    @NonNull
     @Override
     public CrashAction getPostCrashAction() {
         return postCrashAction;

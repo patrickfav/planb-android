@@ -1,6 +1,12 @@
 package at.favre.lib.planb.parser;
 
-public class HTMLRenderer implements MarkupRenderer {
+import android.support.annotation.NonNull;
+
+/**
+ * A renderer for basic HTML5
+ */
+public class HTML5Renderer implements MarkupRenderer {
+    @NonNull
     @Override
     public String renderHeader() {
         return "<!doctype html><html><head></head><body>\n";
@@ -31,6 +37,7 @@ public class HTMLRenderer implements MarkupRenderer {
         return "unknown command (" + content + ")";
     }
 
+    @NonNull
     @Override
     public String renderFooter() {
         return "\n</body></html>";

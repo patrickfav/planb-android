@@ -5,16 +5,14 @@ import android.content.pm.ApplicationInfo;
 import android.support.annotation.Nullable;
 
 import at.favre.lib.planb.parser.MarkupRenderer;
+import at.favre.lib.planb.recover.CrashRecoverBehaviour;
 import at.favre.lib.planb.recover.DefaultBehavior;
-import at.favre.lib.planb.recover.RecoverBehaviour;
 
 public class PlanBConfig {
-
     public final boolean isDebugBuild;
 
     public final boolean enableLog;
     public final int bugReportMarkupLanguage;
-    public final int maxCrashReportsSaved;
     public final String versionName;
 
     public final int versionCode;
@@ -24,15 +22,14 @@ public class PlanBConfig {
     public final String scmBranch;
     public final String ciBuildId;
     public final String ciBuildJob;
-    public final RecoverBehaviour debugBehaviour;
+    public final CrashRecoverBehaviour debugBehaviour;
 
-    public final RecoverBehaviour releaseBehaviour;
+    public final CrashRecoverBehaviour releaseBehaviour;
 
     private PlanBConfig(Builder builder) {
         isDebugBuild = builder.isDebugBuild;
         enableLog = builder.enableLog;
         bugReportMarkupLanguage = builder.bugReportMarkupLanguage;
-        maxCrashReportsSaved = builder.maxCrashReportsSaved;
         versionName = builder.versionName;
         versionCode = builder.versionCode;
         appBuiltType = builder.appBuiltType;
@@ -59,7 +56,6 @@ public class PlanBConfig {
         if (isDebugBuild != that.isDebugBuild) return false;
         if (enableLog != that.enableLog) return false;
         if (bugReportMarkupLanguage != that.bugReportMarkupLanguage) return false;
-        if (maxCrashReportsSaved != that.maxCrashReportsSaved) return false;
         if (versionCode != that.versionCode) return false;
         if (versionName != null ? !versionName.equals(that.versionName) : that.versionName != null)
             return false;
@@ -85,7 +81,6 @@ public class PlanBConfig {
         int result = (isDebugBuild ? 1 : 0);
         result = 31 * result + (enableLog ? 1 : 0);
         result = 31 * result + bugReportMarkupLanguage;
-        result = 31 * result + maxCrashReportsSaved;
         result = 31 * result + (versionName != null ? versionName.hashCode() : 0);
         result = 31 * result + versionCode;
         result = 31 * result + (appBuiltType != null ? appBuiltType.hashCode() : 0);
@@ -103,7 +98,6 @@ public class PlanBConfig {
         private boolean isDebugBuild;
         private boolean enableLog;
         private int bugReportMarkupLanguage;
-        private int maxCrashReportsSaved;
         private String versionName;
         private int versionCode;
         private String appBuiltType;
@@ -112,8 +106,8 @@ public class PlanBConfig {
         private String scmBranch;
         private String ciBuildId;
         private String ciBuildJob;
-        private RecoverBehaviour debugBehaviour;
-        private RecoverBehaviour releaseBehaviour;
+        private CrashRecoverBehaviour debugBehaviour;
+        private CrashRecoverBehaviour releaseBehaviour;
 
         private Builder(Context context) {
             this.isDebugBuild = this.enableLog = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
@@ -142,11 +136,6 @@ public class PlanBConfig {
             return this;
         }
 
-        public Builder maxCrashReportsSaved(int maxCrashReportsSaved) {
-            this.maxCrashReportsSaved = maxCrashReportsSaved;
-            return this;
-        }
-
         public Builder version(String versionName, int versionCode) {
             this.versionName = versionName;
             this.versionCode = versionCode;
@@ -171,17 +160,17 @@ public class PlanBConfig {
             return this;
         }
 
-        public Builder debugBehaviour(RecoverBehaviour debugBehaviour) {
+        public Builder debugBehaviour(CrashRecoverBehaviour debugBehaviour) {
             this.debugBehaviour = debugBehaviour;
             return this;
         }
 
-        public Builder releaseBehaviour(RecoverBehaviour releaseBehaviour) {
+        public Builder releaseBehaviour(CrashRecoverBehaviour releaseBehaviour) {
             this.releaseBehaviour = releaseBehaviour;
             return this;
         }
 
-        public Builder behaviour(RecoverBehaviour behaviour) {
+        public Builder behaviour(CrashRecoverBehaviour behaviour) {
             this.debugBehaviour = behaviour;
             this.releaseBehaviour = behaviour;
             return this;

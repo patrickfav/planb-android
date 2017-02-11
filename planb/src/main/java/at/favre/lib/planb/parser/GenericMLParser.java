@@ -9,6 +9,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parses the generic markup language that is used as intermediate for other
+ * markup languages.
+ */
 public class GenericMLParser {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({TOKEN_HEADER1, TOKEN_HEADER2, TOKEN_HEADER3, TOKEN_STRONG, TOKEN_ITALIC, TOKEN_CODE, TOKEN_CODEBLOCK, TOKEN_QUOTE})

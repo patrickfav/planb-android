@@ -9,6 +9,9 @@ import java.util.Map;
 
 import at.favre.lib.planb.data.CrashData;
 
+/**
+ * Handling the document specific placeholder
+ */
 public class BugReportPlaceholderHandler {
     private static final String PH_TIMESTAMP = "timestamp";
     private static final String PH_VERSION = "version";

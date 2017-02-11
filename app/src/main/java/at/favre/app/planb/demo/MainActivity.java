@@ -21,6 +21,9 @@ import at.favre.lib.planb.full.CrashExplorerOverviewActivity;
 import at.favre.lib.planb.util.CrashUtil;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String PREF = "PREF";
+    private static final String PREF_IGNORE_UNHANDLED = "PREF_IGNORE_UNHANDLED";
+
     private static final String OPTION_SHOW_REPORT = "show report";
     private static final String OPTION_SUPPRESS = "suppress";
     private static final String OPTION_RESTART = "restart";
@@ -115,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (PlanB.get().getCrashDataHandler().hasUnhandledCrash()) {
+        if (PlanB.get().getCrashDataHandler().hasUnhandledCrash() &&
+                !getSharedPreferences(PREF, MODE_PRIVATE).getBoolean(PREF_IGNORE_UNHANDLED, false)) {
             CrashData crashData = PlanB.get().getCrashDataHandler().getLatest();
             new AlertDialog.Builder(this)
                     .setTitle("App Crash")
@@ -125,9 +129,13 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
+                    })
+                    .setNegativeButton("Ignore All", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getSharedPreferences(PREF, MODE_PRIVATE).edit().putBoolean(PREF_IGNORE_UNHANDLED, true).apply();
+                        }
                     }).show();
         }
     }
-
-
 }

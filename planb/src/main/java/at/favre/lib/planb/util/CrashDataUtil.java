@@ -1,7 +1,5 @@
 package at.favre.lib.planb.util;
 
-import android.os.Bundle;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,10 +14,18 @@ import java.util.regex.Pattern;
 import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
 
-
+/**
+ * Util for crash data
+ */
 public class CrashDataUtil {
     private static final String DIVIDER = ":::o:::";
 
+    /**
+     * Simple serializer of crash data to
+     *
+     * @param crashData
+     * @return serialized key:value version of this model
+     */
     public static Set<String> createCrashDataSet(CrashData crashData) {
         Set<String> set = new HashSet<>();
         for (Map.Entry<String, String> entry : crashData.createMap().entrySet()) {
@@ -28,6 +34,12 @@ public class CrashDataUtil {
         return set;
     }
 
+    /**
+     * Creates a crash data model from simple serialized key:value set.
+     * See {@link #createCrashDataSet(CrashData)}
+     * @param serialized as provided from {@link #createCrashDataSet(CrashData)}
+     * @return pojo
+     */
     public static CrashData createCrashDataFromStringSet(Set<String> serialized) {
         if (serialized == null) {
             return null;
@@ -41,14 +53,14 @@ public class CrashDataUtil {
         return CrashData.create(dataMap);
     }
 
-    public static Bundle createCrashDataBundle(CrashData crashData) {
-        Bundle b = new Bundle();
-        for (Map.Entry<String, String> entry : crashData.createMap().entrySet()) {
-            b.putString(entry.getKey(), entry.getValue());
-        }
-        return b;
-    }
-
+    /**
+     * Creates a crash model from exception data
+     * @param config
+     * @param thread
+     * @param throwable
+     * @param customData
+     * @return the model containing all the data provided
+     */
     public static CrashData createFromCrash(PlanBConfig config, Thread thread, Throwable throwable, Map<String, String> customData) {
         if (throwable == null) {
             throw new IllegalArgumentException("throwable must not be null");
@@ -73,6 +85,11 @@ public class CrashDataUtil {
                 customData);
     }
 
+    /**
+     * Gets the name without qualification (ie. package) of the given class name
+     * @param throwableClassName ie. 'java.lang.NullPointerException'
+     * @return class name without package
+     */
     public static String getClassNameForException(String throwableClassName) {
         if (throwableClassName != null && throwableClassName.contains(".")) {
             String[] parts = throwableClassName.split(Pattern.quote("."));
@@ -81,10 +98,20 @@ public class CrashDataUtil {
         return throwableClassName;
     }
 
+    /**
+     * Formats date for given timestamp
+     * @param timestamp
+     * @return date as string
+     */
     public static String parseDate(long timestamp) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.getDefault()).format(new Date(timestamp));
     }
 
+    /**
+     * Loggable summary of a list of crash data
+     * @param crashDataList to use for log
+     * @return summary
+     */
     public static StringBuilder getLogString(List<CrashData> crashDataList) {
         StringBuilder sb = new StringBuilder("==== STORED CRASH DATA (").append(crashDataList.size()).append(") ===\n");
         for (CrashData crashData : crashDataList) {
@@ -97,6 +124,11 @@ public class CrashDataUtil {
         return sb;
     }
 
+    /**
+     * Loggable string of crash data details
+     * @param crashData
+     * @return string
+     */
     public static StringBuilder getLogString(CrashData crashData) {
         StringBuilder sb = new StringBuilder("==== RECORDED UNHANDLED EXCEPTION ==\n");
         sb.append(parseDate(crashData.timestamp)).append("\n");

@@ -20,7 +20,7 @@ import java.util.Scanner;
 import at.favre.lib.planb.data.CrashData;
 import at.favre.lib.planb.parser.BugReportPlaceholderHandler;
 import at.favre.lib.planb.parser.GenericMLParser;
-import at.favre.lib.planb.parser.MarkdownRenderer;
+import at.favre.lib.planb.parser.MarkupRenderer;
 import at.favre.lib.planb.recover.RestartActivityBehaviour;
 
 public class CrashDetailActivity extends ACrashDetailView {
@@ -63,9 +63,12 @@ public class CrashDetailActivity extends ACrashDetailView {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                int syntaxId = getIntent().getIntExtra(RestartActivityBehaviour.KEY_BUGREPORT_SYNTAX, MarkupRenderer.ML_MARKDOWN);
+
                 GenericMLParser parser = new GenericMLParser();
-                Log.w("", "==BUGREPORT START==\n\n" + parser.render(result, new MarkdownRenderer(), handler.getPlaceHolderMap()) + "\n\n==BUGREPORT END==");
-                Toast.makeText(v.getContext(), "Logged to console.", Toast.LENGTH_SHORT).show();
+                //noinspection WrongConstant
+                Log.w("", "==BUGREPORT START==\n\n" + parser.render(result, MarkupRenderer.Util.getById(syntaxId), handler.getPlaceHolderMap()) + "\n\n==BUGREPORT END==");
+                Toast.makeText(v.getContext(), R.string.crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
             }
         });
     }

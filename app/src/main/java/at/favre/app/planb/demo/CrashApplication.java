@@ -16,13 +16,13 @@ public class CrashApplication extends Application {
     public void onCreate() {
         super.onCreate();
         PlanB.get().init(this);
+        setPlanBCrashReport();
     }
 
     public void setPlanBSuppress() {
         PlanB.get().enableCrashHandler(
-                PlanB.get().configBuilder(this)
+                PlanB.get().newConfig(this)
                         .isDebugBuild(true)
-                        .maxCrashReportsSaved(10)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
@@ -31,9 +31,8 @@ public class CrashApplication extends Application {
 
     public void setPlanBCrashReport() {
         PlanB.get().enableCrashHandler(
-                PlanB.get().configBuilder(this)
+                PlanB.get().newConfig(this)
                         .isDebugBuild(true)
-                        .maxCrashReportsSaved(10)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
@@ -42,9 +41,8 @@ public class CrashApplication extends Application {
 
     public void setPlanBRestart() {
         PlanB.get().enableCrashHandler(
-                PlanB.get().configBuilder(this)
+                PlanB.get().newConfig(this)
                         .isDebugBuild(true)
-                        .maxCrashReportsSaved(10)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
@@ -53,9 +51,8 @@ public class CrashApplication extends Application {
 
     public void setPlanBDefault() {
         PlanB.get().enableCrashHandler(
-                PlanB.get().configBuilder(this)
+                PlanB.get().newConfig(this)
                         .isDebugBuild(true)
-                        .maxCrashReportsSaved(10)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)

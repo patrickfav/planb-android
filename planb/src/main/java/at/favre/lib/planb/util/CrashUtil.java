@@ -10,12 +10,22 @@ import java.util.List;
 
 import at.favre.lib.planb.exceptions.MockRuntimeException;
 
+/**
+ * Util for handling crashes and exceptions
+ */
 public class CrashUtil {
 
+    /**
+     * Throws a mock runtime exception for testing
+     */
     public static void crash() {
         throw new MockRuntimeException();
     }
 
+    /**
+     * @param context
+     * @return true if the current app is in background
+     */
     public static boolean isAppInBackground(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
@@ -29,6 +39,12 @@ public class CrashUtil {
         return false;
     }
 
+    /**
+     * Prints the stacktrace of a throwable to a string
+     *
+     * @param t
+     * @return the stacktrace as string
+     */
     public static String printStacktrace(Throwable t) {
         StringWriter sw = null;
         try {
@@ -47,6 +63,13 @@ public class CrashUtil {
         }
     }
 
+    /**
+     * Returns a simple summary of an exception's stacktrace elements
+     * @param detailMsg addition message
+     * @param stackTrace from the throwable
+     * @param stackTraceHierarchy at what depth of the stacktrace it should start
+     * @return summary
+     */
     private static String getExceptionSummary(String detailMsg, StackTraceElement[] stackTrace, int stackTraceHierarchy) {
         String msg = detailMsg;
         if (stackTrace.length > stackTraceHierarchy) {

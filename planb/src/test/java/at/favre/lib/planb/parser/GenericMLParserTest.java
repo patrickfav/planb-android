@@ -15,7 +15,7 @@ public class GenericMLParserTest {
     public void testAll() throws Exception {
         GenericMLParser parser = new GenericMLParser();
 
-        MarkupRenderer[] rendererList = new MarkupRenderer[]{new MarkdownRenderer(), new AsciiDocRenderer(), new TextileRenderer(), new HTMLRenderer()};
+        MarkupRenderer[] rendererList = new MarkupRenderer[]{new MarkdownRenderer(), new AsciiDocRenderer(), new TextileRenderer(), new HTML5Renderer()};
         for (MarkupRenderer markupRenderer : rendererList) {
             System.out.println(markupRenderer.getClass().getName());
             String rendered = parser.renderTemplate("__header1(Bugreport)\n" +

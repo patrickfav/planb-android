@@ -6,42 +6,70 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
 
-public class RestartActivityBehaviour extends AbstractBehaviour {
+/**
+ * Will restart the app with a defined activity.
+ */
+public class RestartActivityBehaviour extends BaseCrashBehaviour {
     private final static String TAG = RestartActivityBehaviour.class.getName();
     private final static int DEFAULT_ACTIVITY_FLAGS = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+
     public static final String KEY_CRASHDATA = "CRASHDATA";
     public static final String KEY_BUGREPORT_SYNTAX = "BUGREPORT_SYNTAX";
 
     private Intent intent;
 
+    /**
+     * Restarts the app and start given intent
+     *
+     * @param intent
+     * @param preCrashAction
+     * @param postCrashAction
+     */
     public RestartActivityBehaviour(Intent intent, CrashAction preCrashAction, CrashAction postCrashAction) {
         super(true, false, true, preCrashAction, postCrashAction);
         this.intent = intent;
     }
 
+    /**
+     * Restarts the app and start given intent
+     *
+     * @param intent
+     */
     public RestartActivityBehaviour(Intent intent) {
-        this(intent, new CrashAction.Default(), new CrashAction.Default());
+        this(intent, new CrashAction.Noop(), new CrashAction.Noop());
     }
 
+    /**
+     * Will restart the app with current foreground activity
+     *
+     * @param preCrashAction
+     * @param postCrashAction
+     */
     public RestartActivityBehaviour(CrashAction preCrashAction, CrashAction postCrashAction) {
         this(null, preCrashAction, postCrashAction);
     }
 
+    /**
+     * Will restart the app with current foreground activity
+     */
     public RestartActivityBehaviour() {
         this(null);
     }
 
     @Override
-    public void handleCrash(Context context, Thread thread, Throwable throwable, CrashData crashData, PlanBConfig config) {
+    public void handleCrash(@NonNull Context context, @NonNull Thread thread, @NonNull Throwable throwable, @NonNull CrashData crashData, @NonNull PlanBConfig config) {
         if (intent == null) {
             try {
                 intent = getForegroundActivityIntent(context);
+                if (intent == null) {
+                    intent = getLauncherIntent(context);
+                }
             } catch (Exception e) {
                 Log.e(TAG, "Could not get intent for current foreground activity", e);
                 return;
@@ -52,6 +80,10 @@ public class RestartActivityBehaviour extends AbstractBehaviour {
         intent.putExtra(KEY_BUGREPORT_SYNTAX, config.bugReportMarkupLanguage);
         intent.addFlags(DEFAULT_ACTIVITY_FLAGS);
         context.startActivity(intent);
+    }
+
+    private Intent getLauncherIntent(Context context) {
+        return context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
     }
 
     private Intent getForegroundActivityIntent(Context context) {
