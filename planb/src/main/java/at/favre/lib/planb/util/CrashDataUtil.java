@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -82,5 +83,26 @@ public class CrashDataUtil {
 
     public static String parseDate(long timestamp) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.getDefault()).format(new Date(timestamp));
+    }
+
+    public static StringBuilder getLogString(List<CrashData> crashDataList) {
+        StringBuilder sb = new StringBuilder("==== STORED CRASH DATA (").append(crashDataList.size()).append(") ===\n");
+        for (CrashData crashData : crashDataList) {
+            sb.append(parseDate(crashData.timestamp)).append("\n");
+            sb.append(crashData.throwableClassName).append(": ").append(crashData.message).append("\n");
+            sb.append("\tcaused by ").append(crashData.causeClassName).append(".").append(crashData.causeMethodName).append("(").append(crashData.causeFileName).append(":").append(crashData.causeLineNum).append(")");
+            sb.append("\n------------------------\n");
+        }
+        sb.append("\n");
+        return sb;
+    }
+
+    public static StringBuilder getLogString(CrashData crashData) {
+        StringBuilder sb = new StringBuilder("==== RECORDED UNHANDLED EXCEPTION ==\n");
+        sb.append(parseDate(crashData.timestamp)).append("\n");
+        sb.append(crashData.throwableClassName).append(": ").append(crashData.message).append("\n");
+        sb.append("\tVersion: ").append(crashData.versionString).append(", SCM: ").append(crashData.scmString).append(", CI: ").append(crashData.ciString).append("\n\n");
+        sb.append("\t").append(crashData.fullStacktrace);
+        return sb;
     }
 }

@@ -12,5 +12,23 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/planblib_inc_toolbar" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="16dp">
+
+                <include layout="@layout/planblib_inc_crashdetails" />
+
+            </LinearLayout>
+        </ScrollView>
+
     </FrameLayout>
 </FrameLayout>

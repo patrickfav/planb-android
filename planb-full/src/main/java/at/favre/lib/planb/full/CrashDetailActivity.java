@@ -4,21 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -30,9 +22,8 @@ import at.favre.lib.planb.parser.BugReportPlaceholderHandler;
 import at.favre.lib.planb.parser.GenericMLParser;
 import at.favre.lib.planb.parser.MarkdownRenderer;
 import at.favre.lib.planb.recover.RestartActivityBehaviour;
-import at.favre.lib.planb.util.CrashDataUtil;
 
-public class CrashDetailActivity extends AppCompatActivity {
+public class CrashDetailActivity extends ACrashDetailView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,25 +33,7 @@ public class CrashDetailActivity extends AppCompatActivity {
         vibrate(savedInstanceState);
 
         final CrashData cd = getIntent().getParcelableExtra(RestartActivityBehaviour.KEY_CRASHDATA);
-
-        if (cd != null) {
-            ((TextView) findViewById(R.id.title)).setText(CrashDataUtil.getClassNameForException(cd.throwableClassName));
-
-            setVersionString("Version: ", cd.versionString + " [" + cd.applicationVariant + "]", R.id.tv_state_version);
-            setVersionString("SCM: ", cd.scmString, R.id.tv_state_scm);
-            setVersionString("CI: ", cd.ciString, R.id.tv_state_ci);
-            setAdditionalVersionTextView(((TextView) findViewById(R.id.tv_additional_version_info)));
-
-            final SpannableStringBuilder throwableClassName = new SpannableStringBuilder(cd.throwableClassName);
-            throwableClassName.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, throwableClassName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            final SpannableStringBuilder causeFileNameAndNum = new SpannableStringBuilder(cd.causeFileName + ":" + cd.causeLineNum);
-            causeFileNameAndNum.setSpan(new UnderlineSpan(), 0, causeFileNameAndNum.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            ((TextView) findViewById(R.id.timestamp)).setText(CrashDataUtil.parseDate(cd.timestamp));
-            ((TextView) findViewById(R.id.tv_ex_msg)).setText(cd.message);
-            ((TextView) findViewById(R.id.tv_stacktrace)).setText(cd.fullStacktrace);
-        }
+        setCrashDataToView(cd);
 
         configurePrimaryButton(cd, ((Button) findViewById(R.id.btn_log)));
         configureSecondaryButton(cd, ((Button) findViewById(R.id.btn_restart)));
@@ -72,16 +45,6 @@ public class CrashDetailActivity extends AppCompatActivity {
             if (vibrator.hasVibrator()) {
                 vibrator.vibrate(200);
             }
-        }
-    }
-
-    private void setVersionString(String label, String content, @IdRes int id) {
-        if (content != null && !content.isEmpty()) {
-            final SpannableStringBuilder titleVersion = new SpannableStringBuilder(label);
-            titleVersion.setSpan(new StyleSpan(Typeface.BOLD), 0, titleVersion.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ((TextView) findViewById(id)).setText(new SpannableStringBuilder(titleVersion).append(content));
-        } else {
-            findViewById(id).setVisibility(View.GONE);
         }
     }
 
@@ -117,9 +80,5 @@ public class CrashDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    protected void setAdditionalVersionTextView(TextView textView) {
-        textView.setVisibility(View.GONE);
     }
 }

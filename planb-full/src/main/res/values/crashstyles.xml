@@ -3,9 +3,9 @@
 
     <style name="PlanBCrashDetailTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#333333</item>
-        <item name="colorPrimaryDark">#4d2d2d</item>
-        <item name="colorAccent">#404E57</item>
-        <item name="android:windowBackground">@drawable/planblib_crashbg</item>
+        <item name="colorPrimaryDark">@color/crash_bg_blue_dark</item>
+        <item name="colorAccent">@color/crash_bg_blue_accent</item>
+        <item name="android:windowBackground">@drawable/planblib_crashbg_blue</item>
     </style>
 
     <style name="PlanBCrashDetailBaseText">

@@ -4,8 +4,15 @@
     tools:context=".CrashExplorerOverviewActivity">
 
     <item
+        android:id="@+id/action_log"
+        android:icon="@drawable/planblib_ic_terminal_24dp"
+        android:title="@string/menu_log"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_delete"
         android:icon="@drawable/planblib_ic_delete_white_24dp"
         android:title="@string/menu_delete"
         app:showAsAction="ifRoom" />
+
 </menu>

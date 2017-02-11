@@ -4,16 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,18 +19,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
 
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.data.CrashData;
+import at.favre.lib.planb.full.util.ViewUtil;
 import at.favre.lib.planb.util.CrashDataUtil;
 
 
 public class CrashExplorerOverviewActivity extends AppCompatActivity {
-
+    private static final String TAG = CrashExplorerOverviewActivity.class.getName();
     private RecyclerView recyclerView;
+    private List<CrashData> crashDataList;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, CrashExplorerOverviewActivity.class);
@@ -54,30 +55,23 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
     }
 
     private void updateRecyclerView() {
-        List<CrashData> list = PlanB.get().getCrashDataHandler().getAll();
+        crashDataList = PlanB.get().getCrashDataHandler().getAll();
 
-        ((CrashDataAdapter) recyclerView.getAdapter()).setCrashDataList(list);
-        if (list.isEmpty()) {
+        ((CrashDataAdapter) recyclerView.getAdapter()).setCrashDataList(crashDataList);
+        if (crashDataList.isEmpty()) {
             findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.empty_view).setVisibility(View.GONE);
         }
+        getSupportActionBar().setTitle(getTitle() + " (" + crashDataList.size() + ")");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.planblib_menu_default, menu);
-
-        tintMenuItem(menu, R.id.action_delete);
+        inflater.inflate(R.menu.planblib_menu_overview, menu);
+        ViewUtil.tintMenuItem(menu, R.id.action_delete, Color.WHITE);
         return true;
-    }
-
-    private static void tintMenuItem(Menu menu, @IdRes int iconId) {
-        MenuItem item = menu.findItem(iconId);
-        Drawable icon = DrawableCompat.wrap(item.getIcon());
-        DrawableCompat.setTint(icon, Color.WHITE);
-        item.setIcon(icon);
     }
 
     @Override
@@ -100,6 +94,9 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     }).show();
+        } else if (i == R.id.action_log) {
+            Log.w(TAG, CrashDataUtil.getLogString(crashDataList).toString());
+            Toast.makeText(this, R.string.crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
         }
         return true;
     }
@@ -148,7 +145,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CrashExplorerDetailActivity.start(itemView.getContext());
+                    CrashExplorerDetailActivity.start(itemView.getContext(), crashData);
                 }
             });
 
