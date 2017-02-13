@@ -41,6 +41,11 @@
             android:text="@string/crash_activity_btn_crashapp" />
 
         <Button
+            android:id="@+id/buttonCrashAdditional"
+            style="@style/DefaultDebugButton"
+            android:text="@string/crash_activity_btn_additional" />
+
+        <Button
             android:id="@+id/buttonCrashRandom"
             style="@style/DefaultDebugButton"
             android:text="@string/crash_activity_btn_crashrnd" />

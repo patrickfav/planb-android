@@ -50,6 +50,19 @@
         android:visibility="gone" />
 
     <TextView
+        android:id="@+id/header_additional"
+        style="@style/PlanBCrashDetailSubHeader"
+        android:text="@string/crashdetail_title_additional"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/container_additional"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+    <TextView
         style="@style/PlanBCrashDetailSubHeader"
         android:text="@string/crashdetail_title_stacktrace" />
 

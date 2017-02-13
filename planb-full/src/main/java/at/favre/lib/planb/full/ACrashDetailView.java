@@ -8,8 +8,13 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Map;
 
 import at.favre.lib.planb.data.CrashData;
 import at.favre.lib.planb.util.CrashDataUtil;
@@ -33,6 +38,20 @@ public abstract class ACrashDetailView extends AppCompatActivity {
             ((TextView) findViewById(R.id.timestamp)).setText(CrashDataUtil.parseDate(cd.timestamp));
             ((TextView) findViewById(R.id.tv_ex_msg)).setText(cd.message);
             ((TextView) findViewById(R.id.tv_stacktrace)).setText(cd.fullStacktrace);
+
+            if (!cd.customData.isEmpty()) {
+                findViewById(R.id.header_additional).setVisibility(View.VISIBLE);
+                ViewGroup viewGroup = ((LinearLayout) findViewById(R.id.container_additional));
+                viewGroup.setVisibility(View.VISIBLE);
+
+                for (Map.Entry<String, String> entry : cd.customData.entrySet()) {
+                    TextView tv = (TextView) LayoutInflater.from(this).inflate(R.layout.planblib_inc_text_prop, viewGroup, false);
+                    final SpannableStringBuilder key = new SpannableStringBuilder(entry.getKey()).append(": ");
+                    key.setSpan(new StyleSpan(Typeface.BOLD), 0, key.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tv.setText(new SpannableStringBuilder(key).append(entry.getValue()));
+                    viewGroup.addView(tv);
+                }
+            }
         }
     }
 

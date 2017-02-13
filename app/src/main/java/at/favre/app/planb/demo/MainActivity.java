@@ -11,9 +11,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import at.favre.app.planb.demo.databinding.ActivityMainBinding;
+import at.favre.app.planb.demo.exceptions.MockAdditionalDataException;
 import at.favre.app.planb.demo.util.DemoAppUtil;
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.data.CrashData;
@@ -56,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DemoAppUtil.throwRandomRuntimeException();
+            }
+        });
+
+        binding.buttonCrashAdditional.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                throw new MockAdditionalDataException("this is only a test", createRndMap());
             }
         });
 
@@ -114,10 +125,18 @@ public class MainActivity extends AppCompatActivity {
         binding.optionSpinner.setSelection(OPTIONS.indexOf(OPTION_SHOW_REPORT));
     }
 
+    private Map<String, String> createRndMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("aKey", "aValue");
+        map.put("uuid-1", UUID.randomUUID().toString());
+        map.put("uuid-2", UUID.randomUUID().toString());
+        map.put("uuid-3", UUID.randomUUID().toString());
+        return map;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
         if (PlanB.get().getCrashDataHandler().hasUnhandledCrash() &&
                 !getSharedPreferences(PREF, MODE_PRIVATE).getBoolean(PREF_IGNORE_UNHANDLED, false)) {
             CrashData crashData = PlanB.get().getCrashDataHandler().getLatest();

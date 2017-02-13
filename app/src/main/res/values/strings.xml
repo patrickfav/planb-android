@@ -3,6 +3,7 @@
     <string name="crash_activity_btn_crashactivity">Crash Activity</string>
     <string name="crash_activity_btn_crashapp">Crash Application</string>
     <string name="crash_activity_btn_crashrnd">Crash Random</string>
+    <string name="crash_activity_btn_additional">Crash Additional Props</string>
     <string name="activity_label_hockey">Hockey App Integration Test</string>
     <string name="activity_label_crashlytics">Crashlytics Integration Test</string>
     <string name="main_crash_recovery_behaviour">Crash Recovery Behaviour</string>

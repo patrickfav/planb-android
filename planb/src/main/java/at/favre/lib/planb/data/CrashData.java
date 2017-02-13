@@ -126,7 +126,7 @@ public class CrashData implements Comparable<CrashData>, Parcelable {
         Map<String, String> customData = new HashMap<>();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (entry.getKey().startsWith(ARG_CUSTOM_MAP)) {
-                String key = entry.getKey().substring(entry.getKey().indexOf(MAP_SPLIT.charAt(0)), entry.getKey().length());
+                String key = entry.getKey().substring(entry.getKey().indexOf(MAP_SPLIT.charAt(0)) + 1, entry.getKey().length());
                 customData.put(key, entry.getValue());
             }
         }
