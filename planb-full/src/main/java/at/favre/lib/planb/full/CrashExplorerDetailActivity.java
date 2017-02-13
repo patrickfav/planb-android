@@ -54,6 +54,8 @@ public class CrashExplorerDetailActivity extends ACrashDetailView {
         if (i == R.id.action_log) {
             Log.w(TAG, CrashDataUtil.getLogString(crashData).toString());
             Toast.makeText(this, R.string.crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
+        } else if (i == android.R.id.home) {
+            onBackPressed();
         }
         return true;
     }

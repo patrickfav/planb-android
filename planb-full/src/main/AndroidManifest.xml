@@ -13,8 +13,12 @@
         <activity
             android:name=".CrashExplorerDetailActivity"
             android:label="Crash Report"
-            android:theme="@style/PlanBDefaultTheme"
-            android:parentActivityName=".CrashExplorerOverviewActivity" />
+            android:parentActivityName=".CrashExplorerOverviewActivity"
+            android:theme="@style/PlanBDefaultTheme" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".CrashExplorerOverviewActivity" />
     </application>
 
 </manifest>

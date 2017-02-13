@@ -18,7 +18,7 @@
     <style name="PlanBCrashDetailSubHeader" parent="PlanBCrashDetailBaseText">
         <item name="android:paddingTop">16dp</item>
         <item name="android:textSize">32sp</item>
-        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-thin</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
     </style>
 
     <style name="PlanBCrashDetailMonospace" parent="PlanBCrashDetailBaseText">

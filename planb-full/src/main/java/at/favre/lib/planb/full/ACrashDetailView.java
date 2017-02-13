@@ -24,9 +24,10 @@ public abstract class ACrashDetailView extends AppCompatActivity {
         if (cd != null) {
             ((TextView) findViewById(R.id.title)).setText(CrashDataUtil.getClassNameForException(cd.throwableClassName));
 
-            setVersionString("Version: ", cd.versionString + " [" + cd.applicationVariant + "]", R.id.tv_state_version);
-            setVersionString("SCM: ", cd.scmString, R.id.tv_state_scm);
-            setVersionString("CI: ", cd.ciString, R.id.tv_state_ci);
+            setKeyValueString("Thread: ", cd.threadName, R.id.tv_thread);
+            setKeyValueString("Version: ", cd.versionString + " [" + cd.applicationVariant + "]", R.id.tv_state_version);
+            setKeyValueString("SCM: ", cd.scmString, R.id.tv_state_scm);
+            setKeyValueString("CI: ", cd.ciString, R.id.tv_state_ci);
             setAdditionalVersionTextView(((TextView) findViewById(R.id.tv_additional_version_info)));
 
             final SpannableStringBuilder throwableClassName = new SpannableStringBuilder(cd.throwableClassName);
@@ -46,22 +47,24 @@ public abstract class ACrashDetailView extends AppCompatActivity {
 
                 for (Map.Entry<String, String> entry : cd.customData.entrySet()) {
                     TextView tv = (TextView) LayoutInflater.from(this).inflate(R.layout.planblib_inc_text_prop, viewGroup, false);
-                    final SpannableStringBuilder key = new SpannableStringBuilder(entry.getKey()).append(": ");
-                    key.setSpan(new StyleSpan(Typeface.BOLD), 0, key.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    tv.setText(new SpannableStringBuilder(key).append(entry.getValue()));
+                    setKeyValueString(entry.getKey() + ": ", entry.getValue(), tv);
                     viewGroup.addView(tv);
                 }
             }
         }
     }
 
-    private void setVersionString(String label, String content, @IdRes int id) {
+    private void setKeyValueString(String label, String content, @IdRes int id) {
+        setKeyValueString(label, content, ((TextView) findViewById(id)));
+    }
+
+    private void setKeyValueString(String label, String content, TextView textView) {
         if (content != null && !content.isEmpty()) {
             final SpannableStringBuilder titleVersion = new SpannableStringBuilder(label);
             titleVersion.setSpan(new StyleSpan(Typeface.BOLD), 0, titleVersion.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ((TextView) findViewById(id)).setText(new SpannableStringBuilder(titleVersion).append(content));
+            textView.setText(new SpannableStringBuilder(titleVersion).append(content));
         } else {
-            findViewById(id).setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
         }
     }
 
