@@ -18,7 +18,7 @@ import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
 public final class PlanB {
 
     private static PlanB instance;
-    static Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+    static final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
     /**
      * Gets an instance of the singleton

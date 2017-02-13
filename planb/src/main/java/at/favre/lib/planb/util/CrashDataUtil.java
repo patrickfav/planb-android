@@ -72,7 +72,7 @@ public class CrashDataUtil {
                 new Date().getTime(),
                 throwable.getMessage(),
                 throwable.getClass().getName(),
-                thread.getName(),
+                thread.getName() + " [" + thread.getId() + "]",
                 element.getClassName(),
                 element.getMethodName(),
                 element.getFileName(),
