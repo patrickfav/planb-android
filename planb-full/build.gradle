@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    compile project(path: ':planb')
+    compile project(path: ':planb-core')
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
 

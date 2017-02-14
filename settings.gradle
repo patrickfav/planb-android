@@ -1,1 +1,1 @@
-include ':app', ':planb', ':planb-full'
+include ':app', ':planb-core', ':planb-full'
