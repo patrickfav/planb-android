@@ -26,14 +26,21 @@ import java.util.List;
 
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.data.CrashData;
+import at.favre.lib.planb.full.util.CrashDataExceptionComparator;
 import at.favre.lib.planb.full.util.ViewUtil;
 import at.favre.lib.planb.util.CrashDataUtil;
 
 
 public class CrashExplorerOverviewActivity extends AppCompatActivity {
     private static final String TAG = CrashExplorerOverviewActivity.class.getName();
+    private static final String KEY_SORT = "SORT";
+
+    private final static int SORT_DATE = 0;
+    private final static int SORT_EXCEPTION_NAME = 1;
+
     private RecyclerView recyclerView;
     private List<CrashData> crashDataList;
+    private int currentSort = SORT_DATE;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, CrashExplorerOverviewActivity.class);
@@ -43,6 +50,10 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            currentSort = savedInstanceState.getInt(KEY_SORT, SORT_DATE);
+        }
+
         setContentView(R.layout.planblib_activity_crashexplorer_overview);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar).findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -57,7 +68,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
     private void updateRecyclerView() {
         crashDataList = PlanB.get().getCrashDataHandler().getAll();
 
-        ((CrashDataAdapter) recyclerView.getAdapter()).setCrashDataList(crashDataList);
+        ((CrashDataAdapter) recyclerView.getAdapter()).setCrashDataList(crashDataList, currentSort);
         if (crashDataList.isEmpty()) {
             findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
         } else {
@@ -70,7 +81,10 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.planblib_menu_overview, menu);
+
         ViewUtil.tintMenuItem(menu, R.id.action_delete, Color.WHITE);
+        ViewUtil.tintMenuItem(menu, R.id.action_log, Color.WHITE);
+        ViewUtil.tintMenuItem(menu, R.id.action_sort, Color.WHITE);
         return true;
     }
 
@@ -97,8 +111,22 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
         } else if (i == R.id.action_log) {
             Log.w(TAG, CrashDataUtil.getLogString(crashDataList).toString());
             Toast.makeText(this, R.string.crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
+        } else if (i == R.id.action_sort_date || i == R.id.action_sort_exception) {
+            if (i == R.id.action_sort_date) {
+                currentSort = SORT_DATE;
+            }
+            if (i == R.id.action_sort_exception) {
+                currentSort = SORT_EXCEPTION_NAME;
+            }
+            updateRecyclerView();
         }
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_SORT, currentSort);
     }
 
     public static class CrashDataAdapter extends RecyclerView.Adapter<CrashDataHolder> {
@@ -107,9 +135,14 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
         public CrashDataAdapter() {
         }
 
-        public void setCrashDataList(List<CrashData> crashDataList) {
+        public void setCrashDataList(List<CrashData> crashDataList, int sortType) {
             this.crashDataList = crashDataList;
-            Collections.sort(crashDataList);
+
+            if (sortType == SORT_EXCEPTION_NAME) {
+                Collections.sort(crashDataList, new CrashDataExceptionComparator());
+            } else {
+                Collections.sort(crashDataList);
+            }
             notifyDataSetChanged();
         }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="sort_types">
+        <item>Timestamp</item>
+        <item>Exception Name</item>
+    </array>
+</resources>
