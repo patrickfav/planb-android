@@ -65,5 +65,5 @@ dependencies {
     compile 'net.hockeyapp.android:HockeySDK:4.1.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') { transitive = true; }
 
-    compile project(path: ':planb-full')
+    compile project(path: ':planb')
 }
