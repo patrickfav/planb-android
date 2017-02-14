@@ -69,7 +69,7 @@ public class CrashDataUtil {
 
         return new CrashData(
                 UUID.randomUUID().toString(),
-                new Date().getTime(),
+                System.currentTimeMillis(),
                 throwable.getMessage(),
                 throwable.getClass().getName(),
                 thread.getName() + " [" + thread.getId() + "]",

@@ -18,5 +18,9 @@
     <color name="crash_bg_orange_accent">#3512BC</color>
     <color name="crash_bg_orange_text">#fafafa</color>
 
+    <color name="bg_very_recent">#fce7e7</color>
+    <color name="bg_recent">#fffae3</color>
+    <color name="bg_fairly_new">#f1f6ff</color>
+
 
 </resources>

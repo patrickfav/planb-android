@@ -3,7 +3,6 @@ package at.favre.lib.planb;
 import android.content.Context;
 import android.util.Log;
 
-import java.util.Date;
 import java.util.Map;
 
 import at.favre.lib.planb.data.CrashData;
@@ -43,7 +42,7 @@ class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
                 crashDataHandler.persistCrashData(crashData);
             }
 
-            if (crashDataHandler.countOfCrashes(new Date().getTime() - 1000) >= 3) {
+            if (crashDataHandler.countOfCrashes(System.currentTimeMillis() - 1000) >= 3) {
                 log("too many crashes in series - something seems wrong, abort custom crash ahndling", config.enableLog);
                 PlanB.defaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
                 return;

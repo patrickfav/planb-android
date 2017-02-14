@@ -159,6 +159,17 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
             holder.exception.setText(CrashDataUtil.getClassNameForException(cd.throwableClassName));
             holder.message.setText(cd.message);
             holder.crashData = cd;
+
+            long diff = System.currentTimeMillis() - cd.timestamp;
+            if (diff < 6 * 60 * 60 * 1000) {
+                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(R.color.bg_very_recent));
+            } else if (diff < 24 * 60 * 60 * 1000) {
+                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(R.color.bg_recent));
+            } else if (diff < 3 * 24 * 60 * 60 * 1000) {
+                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(R.color.bg_fairly_new));
+            } else {
+                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(android.R.color.transparent));
+            }
         }
 
         @Override
@@ -172,6 +183,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
         TextView exception;
         TextView message;
         CrashData crashData;
+        View root;
 
         public CrashDataHolder(final View itemView) {
             super(itemView);
@@ -181,7 +193,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
                     CrashExplorerDetailActivity.start(itemView.getContext(), crashData);
                 }
             });
-
+            root = itemView.findViewById(R.id.root_inc);
             timestamp = ((TextView) itemView.findViewById(R.id.timestamp));
             exception = ((TextView) itemView.findViewById(R.id.exception));
             message = ((TextView) itemView.findViewById(R.id.message));
