@@ -11,7 +11,10 @@ import at.favre.lib.planb.exceptions.ICrashExceptionData;
 import at.favre.lib.planb.recover.CrashRecoverBehaviour;
 import at.favre.lib.planb.util.CrashDataUtil;
 
-class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+/**
+ * The main {@link java.lang.Thread.UncaughtExceptionHandler} using the configured behaviour
+ */
+final class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final static String TAG = PlanBUncaughtExceptionHandler.class.getName();
 
     private PlanBConfig config;
