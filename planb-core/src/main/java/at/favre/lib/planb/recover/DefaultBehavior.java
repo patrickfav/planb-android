@@ -2,6 +2,7 @@ package at.favre.lib.planb.recover;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
@@ -11,7 +12,7 @@ import at.favre.lib.planb.data.CrashData;
  */
 public class DefaultBehavior extends BaseCrashBehaviour {
 
-    public DefaultBehavior(CrashAction prePostAction, CrashAction postCrashAction) {
+    public DefaultBehavior(@Nullable CrashAction prePostAction, @Nullable CrashAction postCrashAction) {
         super(false, true, true, prePostAction, postCrashAction);
     }
 

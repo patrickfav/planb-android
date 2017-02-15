@@ -1,6 +1,7 @@
 package at.favre.lib.planb.recover;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Base implementation
@@ -14,7 +15,7 @@ public abstract class BaseCrashBehaviour implements CrashRecoverBehaviour {
     private CrashAction postCrashAction;
 
     public BaseCrashBehaviour(boolean killProcess, boolean callDefault, boolean persistCrashData,
-                              CrashAction preCrashAction, CrashAction postCrashAction) {
+                              @Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
         this.killProcess = killProcess;
         this.callDefault = callDefault;
         this.persistCrashData = persistCrashData;

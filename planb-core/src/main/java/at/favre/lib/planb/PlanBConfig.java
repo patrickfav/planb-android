@@ -1,7 +1,6 @@
 package at.favre.lib.planb;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.support.annotation.Nullable;
 
 import at.favre.lib.planb.parser.MarkupRenderer;
@@ -9,8 +8,6 @@ import at.favre.lib.planb.recover.CrashRecoverBehaviour;
 import at.favre.lib.planb.recover.DefaultBehavior;
 
 public class PlanBConfig {
-    public final boolean isDebugBuild;
-
     public final boolean enableLog;
     public final int bugReportMarkupLanguage;
     public final String versionName;
@@ -27,7 +24,6 @@ public class PlanBConfig {
     public final CrashRecoverBehaviour releaseBehaviour;
 
     private PlanBConfig(Builder builder) {
-        isDebugBuild = builder.isDebugBuild;
         enableLog = builder.enableLog;
         bugReportMarkupLanguage = builder.bugReportMarkupLanguage;
         versionName = builder.versionName;
@@ -53,7 +49,6 @@ public class PlanBConfig {
 
         PlanBConfig that = (PlanBConfig) o;
 
-        if (isDebugBuild != that.isDebugBuild) return false;
         if (enableLog != that.enableLog) return false;
         if (bugReportMarkupLanguage != that.bugReportMarkupLanguage) return false;
         if (versionCode != that.versionCode) return false;
@@ -78,8 +73,7 @@ public class PlanBConfig {
 
     @Override
     public int hashCode() {
-        int result = (isDebugBuild ? 1 : 0);
-        result = 31 * result + (enableLog ? 1 : 0);
+        int result = (enableLog ? 1 : 0);
         result = 31 * result + bugReportMarkupLanguage;
         result = 31 * result + (versionName != null ? versionName.hashCode() : 0);
         result = 31 * result + versionCode;
@@ -95,7 +89,6 @@ public class PlanBConfig {
     }
 
     public static final class Builder {
-        private boolean isDebugBuild;
         private boolean enableLog;
         private int bugReportMarkupLanguage;
         private String versionName;
@@ -110,7 +103,6 @@ public class PlanBConfig {
         private CrashRecoverBehaviour releaseBehaviour;
 
         private Builder(Context context) {
-            this.isDebugBuild = this.enableLog = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             this.debugBehaviour = new DefaultBehavior();
             this.releaseBehaviour = new DefaultBehavior();
             this.bugReportMarkupLanguage = MarkupRenderer.ML_MARKDOWN;
@@ -119,11 +111,6 @@ public class PlanBConfig {
                 this.versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
             } catch (Exception e) {
             }
-        }
-
-        public Builder isDebugBuild(boolean isDebugBuild) {
-            this.isDebugBuild = isDebugBuild;
-            return this;
         }
 
         public Builder enableLog(boolean enableLog) {

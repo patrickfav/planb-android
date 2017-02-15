@@ -5,9 +5,6 @@ import android.content.Intent;
 
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.full.CrashDetailActivity;
-import at.favre.lib.planb.recover.DefaultBehavior;
-import at.favre.lib.planb.recover.RestartActivityBehaviour;
-import at.favre.lib.planb.recover.SuppressCrashBehaviour;
 import at.favre.lib.planb.util.CrashUtil;
 
 public class CrashApplication extends Application {
@@ -15,48 +12,44 @@ public class CrashApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PlanB.get().init(this);
+        PlanB.get().init(this, true);
         setPlanBCrashReport();
     }
 
     public void setPlanBSuppress() {
         PlanB.get().enableCrashHandler(
                 PlanB.get().newConfig(this)
-                        .isDebugBuild(true)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
-                        .debugBehaviour(new SuppressCrashBehaviour()).build(), this);
+                        .debugBehaviour(PlanB.factory().createSuppressCrashBehaviour()).build(), this);
     }
 
     public void setPlanBCrashReport() {
         PlanB.get().enableCrashHandler(
                 PlanB.get().newConfig(this)
-                        .isDebugBuild(true)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
-                        .debugBehaviour(new RestartActivityBehaviour(new Intent(this, CrashDetailActivity.class))).build(), this);
+                        .debugBehaviour(PlanB.factory().createStartActivityCrashBehaviour(new Intent(this, CrashDetailActivity.class))).build(), this);
     }
 
     public void setPlanBRestart() {
         PlanB.get().enableCrashHandler(
                 PlanB.get().newConfig(this)
-                        .isDebugBuild(true)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
-                        .debugBehaviour(new RestartActivityBehaviour()).build(), this);
+                        .debugBehaviour(PlanB.factory().createStartActivityCrashBehaviour()).build(), this);
     }
 
     public void setPlanBDefault() {
         PlanB.get().enableCrashHandler(
                 PlanB.get().newConfig(this)
-                        .isDebugBuild(true)
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
-                        .debugBehaviour(new DefaultBehavior()).build(), this);
+                        .debugBehaviour(PlanB.factory().createDefaultHandlerBehaviour()).build(), this);
     }
 
     public void crash() {

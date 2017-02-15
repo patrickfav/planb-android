@@ -21,7 +21,7 @@ import at.favre.lib.planb.data.CrashData;
 import at.favre.lib.planb.parser.BugReportPlaceholderHandler;
 import at.favre.lib.planb.parser.GenericMLParser;
 import at.favre.lib.planb.parser.MarkupRenderer;
-import at.favre.lib.planb.recover.RestartActivityBehaviour;
+import at.favre.lib.planb.recover.StartActivityBehaviour;
 
 public class CrashDetailActivity extends ACrashDetailView {
 
@@ -32,7 +32,7 @@ public class CrashDetailActivity extends ACrashDetailView {
 
         vibrate(savedInstanceState);
 
-        final CrashData cd = getIntent().getParcelableExtra(RestartActivityBehaviour.KEY_CRASHDATA);
+        final CrashData cd = getIntent().getParcelableExtra(StartActivityBehaviour.KEY_CRASHDATA);
         setCrashDataToView(cd);
 
         configurePrimaryButton(cd, ((Button) findViewById(R.id.btn_log)));
@@ -63,7 +63,7 @@ public class CrashDetailActivity extends ACrashDetailView {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                int syntaxId = getIntent().getIntExtra(RestartActivityBehaviour.KEY_BUGREPORT_SYNTAX, MarkupRenderer.ML_MARKDOWN);
+                int syntaxId = getIntent().getIntExtra(StartActivityBehaviour.KEY_BUGREPORT_SYNTAX, MarkupRenderer.ML_MARKDOWN);
 
                 GenericMLParser parser = new GenericMLParser();
                 //noinspection WrongConstant

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import at.favre.lib.planb.PlanBConfig;
@@ -15,8 +16,8 @@ import at.favre.lib.planb.data.CrashData;
 /**
  * Will restart the app with a defined activity.
  */
-public class RestartActivityBehaviour extends BaseCrashBehaviour {
-    private final static String TAG = RestartActivityBehaviour.class.getName();
+public class StartActivityBehaviour extends BaseCrashBehaviour {
+    private final static String TAG = StartActivityBehaviour.class.getName();
     private final static int DEFAULT_ACTIVITY_FLAGS = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 
     public static final String KEY_CRASHDATA = "CRASHDATA";
@@ -31,7 +32,7 @@ public class RestartActivityBehaviour extends BaseCrashBehaviour {
      * @param preCrashAction
      * @param postCrashAction
      */
-    public RestartActivityBehaviour(Intent intent, CrashAction preCrashAction, CrashAction postCrashAction) {
+    public StartActivityBehaviour(Intent intent, @Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
         super(true, false, true, preCrashAction, postCrashAction);
         this.intent = intent;
     }
@@ -41,7 +42,7 @@ public class RestartActivityBehaviour extends BaseCrashBehaviour {
      *
      * @param intent
      */
-    public RestartActivityBehaviour(Intent intent) {
+    public StartActivityBehaviour(Intent intent) {
         this(intent, new CrashAction.Noop(), new CrashAction.Noop());
     }
 
@@ -51,14 +52,14 @@ public class RestartActivityBehaviour extends BaseCrashBehaviour {
      * @param preCrashAction
      * @param postCrashAction
      */
-    public RestartActivityBehaviour(CrashAction preCrashAction, CrashAction postCrashAction) {
+    public StartActivityBehaviour(@Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
         this(null, preCrashAction, postCrashAction);
     }
 
     /**
      * Will restart the app with current foreground activity
      */
-    public RestartActivityBehaviour() {
+    public StartActivityBehaviour() {
         this(null);
     }
 
