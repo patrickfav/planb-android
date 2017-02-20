@@ -181,18 +181,23 @@ public final class PlanB {
         }
 
         @Override
-        public CrashRecoverBehaviour createStartActivityCrashBehaviour() {
-            return new StartActivityBehaviour();
+        public CrashRecoverBehaviour createRestartForegroundActivityCrashBehaviour() {
+            return new StartActivityBehaviour(StartActivityBehaviour.FOREGROUND_ACTIVITY);
+        }
+
+        @Override
+        public CrashRecoverBehaviour createRestartLauncherActivityCrashBehaviour() {
+            return new StartActivityBehaviour(StartActivityBehaviour.LAUNCHER_ACTIVTY);
         }
 
         @Override
         public CrashRecoverBehaviour createStartActivityCrashBehaviour(Intent intent) {
-            return new StartActivityBehaviour();
+            return new StartActivityBehaviour(intent);
         }
 
         @Override
-        public CrashRecoverBehaviour createStartActivityCrashBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction) {
-            return new StartActivityBehaviour(prePostAction, postCrashAction);
+        public CrashRecoverBehaviour createRestartForegroundActivityCrashBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction) {
+            return new StartActivityBehaviour(StartActivityBehaviour.FOREGROUND_ACTIVITY, prePostAction, postCrashAction);
         }
 
         @Override

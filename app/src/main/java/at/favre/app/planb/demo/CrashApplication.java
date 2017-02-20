@@ -40,7 +40,7 @@ public class CrashApplication extends Application {
                         .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                         .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                         .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE)
-                        .debugBehaviour(PlanB.factory().createStartActivityCrashBehaviour()).build(), this);
+                        .debugBehaviour(PlanB.factory().createRestartForegroundActivityCrashBehaviour()).build(), this);
     }
 
     public void setPlanBDefault() {

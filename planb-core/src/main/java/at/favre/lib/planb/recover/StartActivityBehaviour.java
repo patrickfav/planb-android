@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
@@ -20,10 +24,26 @@ public class StartActivityBehaviour extends BaseCrashBehaviour {
     private final static String TAG = StartActivityBehaviour.class.getName();
     private final static int DEFAULT_ACTIVITY_FLAGS = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({FOREGROUND_ACTIVITY, LAUNCHER_ACTIVTY})
+    public @interface ActivityType {
+    }
+
+    public static final int FOREGROUND_ACTIVITY = 0;
+    public static final int LAUNCHER_ACTIVTY = 1;
+
     public static final String KEY_CRASHDATA = "CRASHDATA";
     public static final String KEY_BUGREPORT_SYNTAX = "BUGREPORT_SYNTAX";
 
     private Intent intent;
+    @ActivityType
+    private Integer activityType;
+
+    private StartActivityBehaviour(Intent intent, @ActivityType Integer activityType, @Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
+        super(true, false, true, preCrashAction, postCrashAction);
+        this.intent = intent;
+        this.activityType = activityType;
+    }
 
     /**
      * Restarts the app and start given intent
@@ -33,8 +53,7 @@ public class StartActivityBehaviour extends BaseCrashBehaviour {
      * @param postCrashAction
      */
     public StartActivityBehaviour(Intent intent, @Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
-        super(true, false, true, preCrashAction, postCrashAction);
-        this.intent = intent;
+        this(intent, null, preCrashAction, postCrashAction);
     }
 
     /**
@@ -47,27 +66,35 @@ public class StartActivityBehaviour extends BaseCrashBehaviour {
     }
 
     /**
-     * Will restart the app with current foreground activity
+     * Will restart the app with current foreground or launcher activity
      *
+     * @param activityType    if the launcher or foreground activity should be restarted
      * @param preCrashAction
      * @param postCrashAction
      */
-    public StartActivityBehaviour(@Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
-        this(null, preCrashAction, postCrashAction);
+    public StartActivityBehaviour(@ActivityType int activityType, @Nullable CrashAction preCrashAction, @Nullable CrashAction postCrashAction) {
+        this(null, activityType, preCrashAction, postCrashAction);
     }
 
     /**
-     * Will restart the app with current foreground activity
+     * Will restart the app with current foreground or launcher activity
+     *
+     * @param activityType if the launcher or foreground activity should be restarted
      */
-    public StartActivityBehaviour() {
-        this(null);
+    public StartActivityBehaviour(@ActivityType int activityType) {
+        this(activityType, null, null);
     }
 
     @Override
     public void handleCrash(@NonNull Context context, @NonNull Thread thread, @NonNull Throwable throwable, @NonNull CrashData crashData, @NonNull PlanBConfig config) {
         if (intent == null) {
             try {
-                intent = getForegroundActivityIntent(context);
+                if (activityType == FOREGROUND_ACTIVITY) {
+                    intent = getForegroundActivityIntent(context);
+                } else if (activityType == LAUNCHER_ACTIVTY) {
+                    intent = getLauncherIntent(context);
+                }
+
                 if (intent == null) {
                     intent = getLauncherIntent(context);
                 }

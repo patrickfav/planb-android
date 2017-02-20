@@ -40,9 +40,16 @@ public interface RecoverBehaviorFactory {
     CrashRecoverBehaviour createDefaultHandlerBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction);
 
     /**
-     * Creates behaviour where the current foreground activity (or launch activity) will be started on crash, effectively restarting the app
+     * Creates behaviour where the current foreground activity will be started on crash.
+     * Note that the activity might miss some bundle data, since it will be restarted with an empty bundle.
+     * See {@link #createRestartLauncherActivityCrashBehaviour()} for a more stable approach.
      */
-    CrashRecoverBehaviour createStartActivityCrashBehaviour();
+    CrashRecoverBehaviour createRestartForegroundActivityCrashBehaviour();
+
+    /**
+     * Creates behaviour where the current launcher activity will be started on crash, effectively restarting the app.
+     */
+    CrashRecoverBehaviour createRestartLauncherActivityCrashBehaviour();
 
     /**
      * Creates behaviour where the provided activity will be started
@@ -52,12 +59,14 @@ public interface RecoverBehaviorFactory {
     CrashRecoverBehaviour createStartActivityCrashBehaviour(Intent intent);
 
     /**
-     * Creates behaviour where the provided activity will be started
+     * Creates behaviour where the current foreground activity will be started on crash.
+     * Note that the activity might miss some bundle data, since it will be restarted with an empty bundle.
+     * See {@link #createRestartLauncherActivityCrashBehaviour()} for a more stable approach.
      *
      * @param prePostAction   called before {@link CrashRecoverBehaviour#handleCrash(Context, Thread, Throwable, CrashData, PlanBConfig)}
      * @param postCrashAction called after {@link CrashRecoverBehaviour#handleCrash(Context, Thread, Throwable, CrashData, PlanBConfig)}
      */
-    CrashRecoverBehaviour createStartActivityCrashBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction);
+    CrashRecoverBehaviour createRestartForegroundActivityCrashBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction);
 
     /**
      * Creates behaviour where the provided activity will be started.
