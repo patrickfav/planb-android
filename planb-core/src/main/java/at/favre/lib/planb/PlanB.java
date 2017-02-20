@@ -20,7 +20,7 @@ import at.favre.lib.planb.recover.SuppressCrashBehaviour;
  * <p>
  * Note: if the app crashes with an unhandled exception, all classes
  * will lose their state. So any code executed after handling he exception
- * will be called with a new {@link android.app.Application} object. S
+ * will be called with a new {@link android.app.Application} object.
  */
 public final class PlanB {
     private final static RecoverBehaviorFactory factory = new DefaultRecoverBehaviorFactor();
@@ -59,7 +59,7 @@ public final class PlanB {
      */
     public void init(@NonNull Context context) {
         boolean debugBuild = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-        init(context, debugBuild, new SharedPrefCrashDataHandler(context));
+        init(debugBuild, new SharedPrefCrashDataHandler(context));
     }
 
     /**
@@ -71,31 +71,29 @@ public final class PlanB {
      * @param debugBuild if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
      */
     public void init(@NonNull Context context, boolean debugBuild) {
-        init(context, debugBuild, new SharedPrefCrashDataHandler(context));
+        init(debugBuild, new SharedPrefCrashDataHandler(context));
     }
 
     /**
      * Init the library. This is required before any other feature can be used.
      * Will create a default {@link CrashDataHandler}.
      *
-     * @param context
      * @param debugBuild       if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
      * @param crashDataHandler a custom implementation for debug and release builds
      */
-    public void init(@NonNull Context context, boolean debugBuild, @NonNull CrashDataHandler crashDataHandler) {
-        init(context, debugBuild, crashDataHandler, crashDataHandler);
+    public void init(boolean debugBuild, @NonNull CrashDataHandler crashDataHandler) {
+        init(debugBuild, crashDataHandler, crashDataHandler);
     }
 
     /**
      * Init the library. This is required before any other feature can be used.
      * Use this if you want to provide a custom implementation of a {@link CrashDataHandler}.
      *
-     * @param context
      * @param debugBuild              if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
      * @param crashDataHandlerDebug   a custom implementation for debug builds
      * @param crashDataHandlerRelease a custom implementation for release builds
      */
-    public void init(@NonNull Context context, boolean debugBuild, @NonNull CrashDataHandler crashDataHandlerDebug, @NonNull CrashDataHandler crashDataHandlerRelease) {
+    public void init(boolean debugBuild, @NonNull CrashDataHandler crashDataHandlerDebug, @NonNull CrashDataHandler crashDataHandlerRelease) {
         this.crashDataHandler = debugBuild ? crashDataHandlerDebug : crashDataHandlerRelease;
         this.isDebugBuild = debugBuild;
     }
