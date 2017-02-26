@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep public class at.favre.lib.planb.exceptions.MockRuntimeException {*;}
+-keep public interface at.favre.lib.planb.interfaces.** {*;}

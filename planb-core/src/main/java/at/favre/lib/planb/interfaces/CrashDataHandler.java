@@ -1,9 +1,11 @@
-package at.favre.lib.planb.data;
+package at.favre.lib.planb.interfaces;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
+
+import at.favre.lib.planb.data.CrashData;
 
 /**
  * Handles retrieving and persisting of crash data

@@ -1,8 +1,6 @@
-package at.favre.lib.planb;
+package at.favre.lib.planb.interfaces;
 
 import android.content.Context;
-
-import at.favre.lib.planb.data.CrashDataHandler;
 
 /**
  * Factory for built-in crash data handler

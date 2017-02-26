@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">PlanB Full</string>
-    <string name="crashdetail_btn_primary">Log Bugreport</string>
-    <string name="crashdetail_btn_secondary">Restart</string>
-    <string name="crashdetail_title_details">Details</string>
-    <string name="crashdetail_title_stacktrace">Stacktrace</string>
-    <string name="crashdetail_title_additional">Additional Properties</string>
-    <string name="crashexplorer_toast_log">Logged to Console</string>
-    <string name="menu_delete">Delete</string>
-    <string name="menu_log">Log to Console</string>
-    <string name="menu_sort">Sort</string>
+    <string name="planb_crashdetail_btn_primary">Log Bugreport</string>
+    <string name="planb_crashdetail_btn_secondary">Restart</string>
+    <string name="planb_crashdetail_title_details">Details</string>
+    <string name="planb_crashdetail_title_stacktrace">Stacktrace</string>
+    <string name="planb_crashdetail_title_additional">Additional Properties</string>
+    <string name="planb_crashexplorer_toast_log">Logged to Console</string>
+    <string name="planb_menu_delete">Delete</string>
+    <string name="planb_menu_log">Log to Console</string>
+    <string name="planb_menu_sort">Sort</string>
+    <string name="planb_menu_sort_by_date">Sort by Date</string>
+    <string name="planb_menu_sort_by_exception_name">Sort by Exception Name</string>
 </resources>

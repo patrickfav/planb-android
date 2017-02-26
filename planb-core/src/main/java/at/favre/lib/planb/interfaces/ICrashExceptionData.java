@@ -1,4 +1,4 @@
-package at.favre.lib.planb.exceptions;
+package at.favre.lib.planb.interfaces;
 
 import android.support.annotation.NonNull;
 

@@ -6,10 +6,12 @@ import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import at.favre.lib.planb.data.CrashDataHandler;
 import at.favre.lib.planb.data.InMemoryCrashDataHandler;
 import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
-import at.favre.lib.planb.recover.CrashRecoverBehaviour;
+import at.favre.lib.planb.interfaces.CrashDataHandler;
+import at.favre.lib.planb.interfaces.CrashDataHandlerFactory;
+import at.favre.lib.planb.interfaces.CrashRecoverBehaviour;
+import at.favre.lib.planb.interfaces.RecoverBehaviorFactory;
 import at.favre.lib.planb.recover.DefaultBehavior;
 import at.favre.lib.planb.recover.StartActivityBehaviour;
 import at.favre.lib.planb.recover.SuppressCrashBehaviour;

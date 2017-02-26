@@ -1,4 +1,4 @@
-package at.favre.lib.planb.recover;
+package at.favre.lib.planb.interfaces;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -34,7 +34,7 @@ public interface CrashRecoverBehaviour {
     boolean callDefaultExceptionHandler();
 
     /**
-     * If the crash data should be persisted with the {@link at.favre.lib.planb.data.CrashDataHandler}
+     * If the crash data should be persisted with the {@link CrashDataHandler}
      * @return true if should be persisted
      */
     boolean persistCrashData();

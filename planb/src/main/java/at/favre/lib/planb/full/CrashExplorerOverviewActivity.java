@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -41,6 +42,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<CrashData> crashDataList;
     private int currentSort = SORT_DATE;
+    private Menu menu;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, CrashExplorerOverviewActivity.class);
@@ -79,13 +81,25 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.planblib_menu_overview, menu);
+        setSortMenuState(menu, currentSort);
 
         ViewUtil.tintMenuItem(menu, R.id.action_delete, Color.WHITE);
         ViewUtil.tintMenuItem(menu, R.id.action_log, Color.WHITE);
         ViewUtil.tintMenuItem(menu, R.id.action_sort, Color.WHITE);
         return true;
+    }
+
+    private void setSortMenuState(Menu menu, int sortType) {
+        if (sortType == SORT_DATE) {
+            menu.findItem(R.id.action_sort_date).setChecked(true);
+            menu.findItem(R.id.action_sort_exception).setChecked(false);
+        } else if (sortType == SORT_EXCEPTION_NAME) {
+            menu.findItem(R.id.action_sort_date).setChecked(false);
+            menu.findItem(R.id.action_sort_exception).setChecked(true);
+        }
     }
 
     @Override
@@ -110,7 +124,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
                     }).show();
         } else if (i == R.id.action_log) {
             Log.w(TAG, CrashDataUtil.getLogString(crashDataList).toString());
-            Toast.makeText(this, R.string.crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.planb_crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
         } else if (i == R.id.action_sort_date || i == R.id.action_sort_exception) {
             if (i == R.id.action_sort_date) {
                 currentSort = SORT_DATE;
@@ -118,6 +132,7 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
             if (i == R.id.action_sort_exception) {
                 currentSort = SORT_EXCEPTION_NAME;
             }
+            setSortMenuState(menu, currentSort);
             updateRecyclerView();
         }
         return true;
@@ -162,13 +177,13 @@ public class CrashExplorerOverviewActivity extends AppCompatActivity {
 
             long diff = System.currentTimeMillis() - cd.timestamp;
             if (diff < 6 * 60 * 60 * 1000) {
-                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(R.color.bg_very_recent));
-            } else if (diff < 24 * 60 * 60 * 1000) {
-                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(R.color.bg_recent));
-            } else if (diff < 3 * 24 * 60 * 60 * 1000) {
-                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(R.color.bg_fairly_new));
+                holder.timestamp.setTypeface(null, Typeface.BOLD);
+                holder.exception.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+                holder.message.setTypeface(null, Typeface.BOLD);
             } else {
-                holder.root.setBackgroundColor(holder.root.getContext().getResources().getColor(android.R.color.transparent));
+                holder.timestamp.setTypeface(null, Typeface.NORMAL);
+                holder.exception.setTypeface(Typeface.MONOSPACE, Typeface.NORMAL);
+                holder.message.setTypeface(null, Typeface.NORMAL);
             }
         }
 

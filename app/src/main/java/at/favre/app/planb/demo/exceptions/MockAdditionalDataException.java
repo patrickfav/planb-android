@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.Map;
 
-import at.favre.lib.planb.exceptions.ICrashExceptionData;
+import at.favre.lib.planb.interfaces.ICrashExceptionData;
 
 public class MockAdditionalDataException extends RuntimeException implements ICrashExceptionData {
     private final Map<String, String> additionalData;

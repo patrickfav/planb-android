@@ -3,6 +3,8 @@ package at.favre.lib.planb.recover;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import at.favre.lib.planb.interfaces.CrashRecoverBehaviour;
+
 /**
  * Base implementation
  */

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.favre.lib.planb.interfaces.CrashDataHandler;
+
 /**
  * This is a simple in memory crash data handler for production environment or
  * if persisting is not needed.

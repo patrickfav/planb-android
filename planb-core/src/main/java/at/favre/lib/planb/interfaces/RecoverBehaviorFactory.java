@@ -1,12 +1,12 @@
-package at.favre.lib.planb;
+package at.favre.lib.planb.interfaces;
 
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import at.favre.lib.planb.PlanBConfig;
 import at.favre.lib.planb.data.CrashData;
-import at.favre.lib.planb.recover.CrashRecoverBehaviour;
 
 /**
  * Factory for all built-in crash behaviors

@@ -49,7 +49,7 @@ public class CrashDetailActivity extends ACrashDetailView {
     }
 
     protected void configurePrimaryButton(final CrashData cd, Button button) {
-        button.setText(R.string.crashdetail_btn_primary);
+        button.setText(R.string.planb_crashdetail_btn_primary);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,13 +68,13 @@ public class CrashDetailActivity extends ACrashDetailView {
                 GenericMLParser parser = new GenericMLParser();
                 //noinspection WrongConstant
                 Log.w("", "==BUGREPORT START==\n\n" + parser.render(result, MarkupRenderer.Util.getById(syntaxId), handler.getPlaceHolderMap()) + "\n\n==BUGREPORT END==");
-                Toast.makeText(v.getContext(), R.string.crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), R.string.planb_crashexplorer_toast_log, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     protected void configureSecondaryButton(final CrashData cd, Button button) {
-        button.setText(R.string.crashdetail_btn_secondary);
+        button.setText(R.string.planb_crashdetail_btn_secondary);
         findViewById(R.id.btn_restart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

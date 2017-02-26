@@ -6,26 +6,28 @@
     <item
         android:id="@+id/action_log"
         android:icon="@drawable/planblib_ic_terminal_24dp"
-        android:title="@string/menu_log"
+        android:title="@string/planb_menu_log"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_sort"
         android:icon="@drawable/planblib_ic_sort_white_24dp"
-        android:title="@string/menu_sort"
+        android:title="@string/planb_menu_sort"
         app:showAsAction="ifRoom">
         <menu>
             <item
+                android:checkable="true"
                 android:id="@+id/action_sort_date"
-                android:title="Sort by Date" />
+                android:title="@string/planb_menu_sort_by_date" />
             <item
+                android:checkable="true"
                 android:id="@+id/action_sort_exception"
-                android:title="Sort by Exception Name" />
+                android:title="@string/planb_menu_sort_by_exception_name" />
         </menu>
     </item>
     <item
         android:id="@+id/action_delete"
         android:icon="@drawable/planblib_ic_delete_white_24dp"
-        android:title="@string/menu_delete"
+        android:title="@string/planb_menu_delete"
         app:showAsAction="ifRoom" />
 
 </menu>

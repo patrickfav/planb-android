@@ -3,8 +3,8 @@ package at.favre.lib.planb;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import at.favre.lib.planb.data.CrashDataHandler;
 import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
+import at.favre.lib.planb.interfaces.CrashDataHandler;
 import at.favre.lib.planb.parser.MarkupRenderer;
 
 public class PlanBConfig {

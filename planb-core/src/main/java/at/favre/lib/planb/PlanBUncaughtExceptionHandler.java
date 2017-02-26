@@ -6,9 +6,9 @@ import android.util.Log;
 import java.util.Map;
 
 import at.favre.lib.planb.data.CrashData;
-import at.favre.lib.planb.data.CrashDataHandler;
-import at.favre.lib.planb.exceptions.ICrashExceptionData;
-import at.favre.lib.planb.recover.CrashRecoverBehaviour;
+import at.favre.lib.planb.interfaces.CrashDataHandler;
+import at.favre.lib.planb.interfaces.CrashRecoverBehaviour;
+import at.favre.lib.planb.interfaces.ICrashExceptionData;
 import at.favre.lib.planb.util.CrashDataUtil;
 
 /**
