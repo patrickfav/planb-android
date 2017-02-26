@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import at.favre.lib.planb.data.CrashDataHandler;
+import at.favre.lib.planb.data.InMemoryCrashDataHandler;
 import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
 import at.favre.lib.planb.recover.CrashRecoverBehaviour;
 import at.favre.lib.planb.recover.DefaultBehavior;
@@ -23,15 +24,23 @@ import at.favre.lib.planb.recover.SuppressCrashBehaviour;
  * will be called with a new {@link android.app.Application} object.
  */
 public final class PlanB {
-    private final static RecoverBehaviorFactory factory = new DefaultRecoverBehaviorFactor();
+    private final static RecoverBehaviorFactory BEHAVIOR_FACTORY = new DefaultRecoverBehaviorFactor();
+    private final static CrashDataHandlerFactory CRASH_DATA_HANDLER_FACTORY = new DefaultCrashDataHandlerFactory();
     private static PlanB instance;
     static final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
     /**
      * @return factory for creating crash recover behaviour
      */
-    public static RecoverBehaviorFactory factory() {
-        return factory;
+    public static RecoverBehaviorFactory behaviourFactory() {
+        return BEHAVIOR_FACTORY;
+    }
+
+    /**
+     * @return factory for creating crash handler (which persist crashes)
+     */
+    public static CrashDataHandlerFactory crashDataHandlerFactory() {
+        return CRASH_DATA_HANDLER_FACTORY;
     }
 
     /**
@@ -44,7 +53,7 @@ public final class PlanB {
         return instance;
     }
 
-    private CrashDataHandler crashDataHandler;
+    private PlanBConfig config;
     private boolean isDebugBuild;
 
     private PlanB() {
@@ -59,42 +68,29 @@ public final class PlanB {
      */
     public void init(@NonNull Context context) {
         boolean debugBuild = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-        init(debugBuild, new SharedPrefCrashDataHandler(context));
-    }
-
-    /**
-     * Init the library. This is required before any other feature can be used.
-     * Will create a default {@link CrashDataHandler}. Internally checks the manifest
-     * if this is an debuggable build.
-     *
-     * @param context
-     * @param debugBuild if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
-     */
-    public void init(@NonNull Context context, boolean debugBuild) {
-        init(debugBuild, new SharedPrefCrashDataHandler(context));
+        init(context, debugBuild);
     }
 
     /**
      * Init the library. This is required before any other feature can be used.
      * Will create a default {@link CrashDataHandler}.
      *
-     * @param debugBuild       if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
-     * @param crashDataHandler a custom implementation for debug and release builds
+     * @param context
+     * @param debugBuild if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
      */
-    public void init(boolean debugBuild, @NonNull CrashDataHandler crashDataHandler) {
-        init(debugBuild, crashDataHandler, crashDataHandler);
+    public void init(@NonNull Context context, boolean debugBuild) {
+        init(debugBuild, newConfig(context).build());
     }
 
     /**
      * Init the library. This is required before any other feature can be used.
-     * Use this if you want to provide a custom implementation of a {@link CrashDataHandler}.
+     * Will create a default {@link CrashDataHandler}.
      *
-     * @param debugBuild              if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
-     * @param crashDataHandlerDebug   a custom implementation for debug builds
-     * @param crashDataHandlerRelease a custom implementation for release builds
+     * @param debugBuild if this is a debug or release build; usually BuildConfig.DEBUG is the correct boolean to pass here
+     * @param config     configure versions and build info aswell as crash handler
      */
-    public void init(boolean debugBuild, @NonNull CrashDataHandler crashDataHandlerDebug, @NonNull CrashDataHandler crashDataHandlerRelease) {
-        this.crashDataHandler = debugBuild ? crashDataHandlerDebug : crashDataHandlerRelease;
+    public void init(boolean debugBuild, @NonNull PlanBConfig config) {
+        this.config = config;
         this.isDebugBuild = debugBuild;
     }
 
@@ -107,12 +103,30 @@ public final class PlanB {
      * <p>
      * This call requires that {@link #init(Context, boolean)} was called first.
      *
-     * @param config  mandatory config to provide app's version data
-     * @param context see {@link #newConfig(Context)}
+     * @param behaviour what exactly to do when a crash occurs
+     * @param context   see {@link #newConfig(Context)}
      */
-    public void enableCrashHandler(PlanBConfig config, Context context) {
+    public void enableCrashHandler(Context context, CrashRecoverBehaviour behaviour) {
+        enableCrashHandler(context, behaviour, behaviour);
+    }
+
+    /**
+     * Enables the crash handling logic, setting the config and behaviour.
+     * <p>
+     * This method will set itself as {@link Thread#getDefaultUncaughtExceptionHandler()}
+     * so be aware if you have other crash reporting frameworks like HokeyApp, Crashlytics
+     * or ACRA.
+     * <p>
+     * This call requires that {@link #init(Context, boolean)} was called first.
+     *
+     * @param debugCrashBehaviour   behaviour for debug builds
+     * @param releaseCrashBehaviour behaviour for release builds
+     * @param context               see {@link #newConfig(Context)}
+     */
+    public void enableCrashHandler(Context context, CrashRecoverBehaviour debugCrashBehaviour, CrashRecoverBehaviour releaseCrashBehaviour) {
         checkIfInit();
-        Thread.setDefaultUncaughtExceptionHandler(new PlanBUncaughtExceptionHandler(context, config));
+        Thread.setDefaultUncaughtExceptionHandler(
+                new PlanBUncaughtExceptionHandler(context, config, isDebugBuild ? debugCrashBehaviour : releaseCrashBehaviour));
     }
 
     /**
@@ -147,17 +161,33 @@ public final class PlanB {
      */
     public CrashDataHandler getCrashDataHandler() {
         checkIfInit();
-        return crashDataHandler;
+        return isDebugBuild ? config.debugCrashDataHandler : config.releaseCrashDataHandler;
     }
 
     private void checkIfInit() {
-        if (crashDataHandler == null) {
+        if (config == null) {
             throw new IllegalStateException("you need to init the lib first with PlanB.get().init(...)");
         }
     }
 
-    private final static class DefaultRecoverBehaviorFactor implements RecoverBehaviorFactory {
+    private final static class DefaultCrashDataHandlerFactory implements CrashDataHandlerFactory {
+        @Override
+        public CrashDataHandler createSharedPrefHandler(Context ctx) {
+            return new SharedPrefCrashDataHandler(ctx);
+        }
 
+        @Override
+        public CrashDataHandler createSharedPrefHandler(Context ctx, int maxCapacity) {
+            return new SharedPrefCrashDataHandler(ctx, maxCapacity);
+        }
+
+        @Override
+        public CrashDataHandler createInMemoryHandler() {
+            return new InMemoryCrashDataHandler();
+        }
+    }
+
+    private final static class DefaultRecoverBehaviorFactor implements RecoverBehaviorFactory {
         @Override
         public CrashRecoverBehaviour createSuppressCrashBehaviour() {
             return new SuppressCrashBehaviour();

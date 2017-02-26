@@ -3,9 +3,9 @@ package at.favre.lib.planb;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import at.favre.lib.planb.data.CrashDataHandler;
+import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
 import at.favre.lib.planb.parser.MarkupRenderer;
-import at.favre.lib.planb.recover.CrashRecoverBehaviour;
-import at.favre.lib.planb.recover.DefaultBehavior;
 
 public class PlanBConfig {
     public final boolean enableLog;
@@ -19,9 +19,9 @@ public class PlanBConfig {
     public final String scmBranch;
     public final String ciBuildId;
     public final String ciBuildJob;
-    public final CrashRecoverBehaviour debugBehaviour;
 
-    public final CrashRecoverBehaviour releaseBehaviour;
+    public final CrashDataHandler debugCrashDataHandler;
+    public final CrashDataHandler releaseCrashDataHandler;
 
     private PlanBConfig(Builder builder) {
         enableLog = builder.enableLog;
@@ -34,8 +34,8 @@ public class PlanBConfig {
         scmBranch = builder.scmBranch;
         ciBuildId = builder.ciBuildId;
         ciBuildJob = builder.ciBuildJob;
-        debugBehaviour = builder.debugBehaviour;
-        releaseBehaviour = builder.releaseBehaviour;
+        debugCrashDataHandler = builder.debugCrashDataHandler;
+        releaseCrashDataHandler = builder.releaseCrashDataHandler;
     }
 
     static Builder newBuilder(Context context) {
@@ -64,11 +64,7 @@ public class PlanBConfig {
             return false;
         if (ciBuildId != null ? !ciBuildId.equals(that.ciBuildId) : that.ciBuildId != null)
             return false;
-        if (ciBuildJob != null ? !ciBuildJob.equals(that.ciBuildJob) : that.ciBuildJob != null)
-            return false;
-        if (debugBehaviour != null ? !debugBehaviour.equals(that.debugBehaviour) : that.debugBehaviour != null)
-            return false;
-        return releaseBehaviour != null ? !releaseBehaviour.equals(that.releaseBehaviour) : that.releaseBehaviour != null;
+        return ciBuildJob != null ? ciBuildJob.equals(that.ciBuildJob) : that.ciBuildJob == null;
     }
 
     @Override
@@ -83,8 +79,6 @@ public class PlanBConfig {
         result = 31 * result + (scmBranch != null ? scmBranch.hashCode() : 0);
         result = 31 * result + (ciBuildId != null ? ciBuildId.hashCode() : 0);
         result = 31 * result + (ciBuildJob != null ? ciBuildJob.hashCode() : 0);
-        result = 31 * result + (debugBehaviour != null ? debugBehaviour.hashCode() : 0);
-        result = 31 * result + (releaseBehaviour != null ? releaseBehaviour.hashCode() : 0);
         return result;
     }
 
@@ -99,12 +93,11 @@ public class PlanBConfig {
         private String scmBranch;
         private String ciBuildId;
         private String ciBuildJob;
-        private CrashRecoverBehaviour debugBehaviour;
-        private CrashRecoverBehaviour releaseBehaviour;
+        private CrashDataHandler debugCrashDataHandler;
+        private CrashDataHandler releaseCrashDataHandler;
 
         private Builder(Context context) {
-            this.debugBehaviour = new DefaultBehavior();
-            this.releaseBehaviour = new DefaultBehavior();
+            this.debugCrashDataHandler = releaseCrashDataHandler = new SharedPrefCrashDataHandler(context);
             this.bugReportMarkupLanguage = MarkupRenderer.ML_MARKDOWN;
             try {
                 this.versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
@@ -147,19 +140,19 @@ public class PlanBConfig {
             return this;
         }
 
-        public Builder debugBehaviour(CrashRecoverBehaviour debugBehaviour) {
-            this.debugBehaviour = debugBehaviour;
+        public Builder crashDataHandler(CrashDataHandler crashDataHandler) {
+            this.debugCrashDataHandler = crashDataHandler;
+            this.releaseCrashDataHandler = crashDataHandler;
             return this;
         }
 
-        public Builder releaseBehaviour(CrashRecoverBehaviour releaseBehaviour) {
-            this.releaseBehaviour = releaseBehaviour;
+        public Builder debugCrashDataHandler(CrashDataHandler crashDataHandler) {
+            this.debugCrashDataHandler = crashDataHandler;
             return this;
         }
 
-        public Builder behaviour(CrashRecoverBehaviour behaviour) {
-            this.debugBehaviour = behaviour;
-            this.releaseBehaviour = behaviour;
+        public Builder releaseCrashDataHandler(CrashDataHandler crashDataHandler) {
+            this.releaseCrashDataHandler = crashDataHandler;
             return this;
         }
 

@@ -20,7 +20,7 @@ public class SharedPrefCrashDataHandler implements CrashDataHandler {
     private static final String PREF_PREFIX = "at.favre.lib.planb.1870382740324_";
     private static final String KEY_LATEST = "KEY_LATEST";
     private static final String KEY_HASNEW = "KEY_HASNEW";
-    private static final int DEFAULT_CRASH_DATA_SIZE = 25;
+    private static final int DEFAULT_CRASH_DATA_SIZE = 50;
     private static final int MAX_CRASH_DATA_SIZE = 200;
 
     private SharedPreferences preferences;

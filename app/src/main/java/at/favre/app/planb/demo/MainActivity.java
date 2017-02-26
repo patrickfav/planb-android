@@ -32,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String OPTION_SUPPRESS = "suppress";
     private static final String OPTION_RESTART = "restart";
     private static final String OPTION_DEFAULT = "default";
+    private static final String OPTION_DISABLE = "disable";
 
-    private static final List<String> OPTIONS = Arrays.asList(OPTION_SHOW_REPORT, OPTION_SUPPRESS, OPTION_RESTART, OPTION_DEFAULT);
+    private static final List<String> OPTIONS = Arrays.asList(OPTION_SHOW_REPORT, OPTION_SUPPRESS, OPTION_RESTART, OPTION_DEFAULT, OPTION_DISABLE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
                     case OPTION_DEFAULT:
                         application.setPlanBDefault();
                         break;
+                    case OPTION_DISABLE:
+                        application.disableCrashHandling();
+                        break;
                     default:
                         throw new IllegalArgumentException("unknown position");
                 }
@@ -119,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         binding.optionSpinner.setSelection(OPTIONS.indexOf(OPTION_SHOW_REPORT));

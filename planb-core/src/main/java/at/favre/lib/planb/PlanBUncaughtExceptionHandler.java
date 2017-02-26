@@ -18,11 +18,13 @@ final class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHan
     private final static String TAG = PlanBUncaughtExceptionHandler.class.getName();
 
     private PlanBConfig config;
+    private CrashRecoverBehaviour behaviour;
     private Context context;
 
-    PlanBUncaughtExceptionHandler(Context context, PlanBConfig config) {
+    PlanBUncaughtExceptionHandler(Context context, PlanBConfig config, CrashRecoverBehaviour behaviour) {
         this.config = config;
         this.context = context;
+        this.behaviour = behaviour;
     }
 
     @Override
@@ -31,8 +33,6 @@ final class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHan
             CrashDataHandler crashDataHandler = PlanB.get().getCrashDataHandler();
 
             log("got uncaught exception: " + throwable.getClass().getSimpleName() + ", isDebugBuild: " + PlanB.get().isDebugBuild(), config.enableLog);
-
-            CrashRecoverBehaviour behaviour = (PlanB.get().isDebugBuild() ? config.debugBehaviour : config.releaseBehaviour);
 
             Map<String, String> customCrashData = null;
             if (throwable instanceof ICrashExceptionData) {
