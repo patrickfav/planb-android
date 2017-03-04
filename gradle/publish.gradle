@@ -2,14 +2,15 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 def final publishConfig = [
-        name                    : 'Plan B',
-        group                   : 'at.favre.lib',
-        version                 : rootProject.ext.versionNameLib,
-        descriptionText         : 'A crash recovery library for Android. It allows tracking and handling crashes with different rules for debugging and production.',
-        inceptionYear           : '2016',
-        siteUrl                 : 'https://github.com/patrickfav/planb-android',
-        gitUrl                  : 'https://github.com/patrickfav/planb-android.git',
-        issueTrackerUrl         : 'https://github.com/patrickfav/planb-android/issues',
+        name           : 'Plan B',
+        repoName       : 'planb', //repo name in bintray 'maven/<reponame>'
+        group          : 'at.favre.lib',
+        version        : rootProject.ext.versionNameLib,
+        descriptionText: 'A crash recovery library for Android. It allows tracking and handling crashes with different rules for debugging and production.',
+        inceptionYear  : '2016',
+        siteUrl        : 'https://github.com/patrickfav/planb-android',
+        gitUrl         : 'https://github.com/patrickfav/planb-android.git',
+        issueTrackerUrl: 'https://github.com/patrickfav/planb-android/issues',
         issueTrackerName        : 'Github',
         githubRepo              : 'patrickfav/planb-android',
 
@@ -111,7 +112,7 @@ bintray {
     pkg {
         repo = "maven"
         // it is the name that appears in bintray when logged
-        name = project.buildDir.getParentFile().name
+        name = publishConfig.repoName
         group publishConfig.group
 
         desc = publishConfig.descriptionText

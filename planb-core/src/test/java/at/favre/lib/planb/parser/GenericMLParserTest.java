@@ -2,6 +2,9 @@ package at.favre.lib.planb.parser;
 
 import org.junit.Test;
 
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 public class GenericMLParserTest {
     @Test
     public void addition_isCorrect() throws Exception {
@@ -54,6 +57,8 @@ public class GenericMLParserTest {
                     "\n" +
                     "__codeBlock({{stacktrace}})", markupRenderer);
             System.out.println(rendered);
+            assertNotNull(rendered);
+            assertTrue(rendered.length() > 20);
         }
     }
 }

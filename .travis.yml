@@ -61,6 +61,7 @@ deploy:
     file:
      - 'app/build/outputs/apk/app-release*.apk'
      - 'planb/build/outputs/aar/planb-release*.aar'
+     - 'planb-core/build/outputs/aar/planb-core-release*.aar'
     skip_cleanup: true
     on:
       branch: master

@@ -36,3 +36,5 @@ dependencies {
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }
+
+apply from: "$rootDir/gradle/publish.gradle"
