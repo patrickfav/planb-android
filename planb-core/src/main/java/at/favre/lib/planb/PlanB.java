@@ -46,6 +46,16 @@ public final class PlanB {
     }
 
     /**
+     * Creates a new config builder
+     *
+     * @param context
+     * @return builder
+     */
+    public static PlanBConfig.Builder newConfig(Context context) {
+        return PlanBConfig.newBuilder(context);
+    }
+
+    /**
      * Gets an instance of the singleton
      */
     public static PlanB get() {
@@ -145,16 +155,6 @@ public final class PlanB {
      */
     public boolean isDebugBuild() {
         return isDebugBuild;
-    }
-
-    /**
-     * Creates a new config builder
-     *
-     * @param context
-     * @return builder
-     */
-    public PlanBConfig.Builder newConfig(Context context) {
-        return PlanBConfig.newBuilder(context);
     }
 
     /**

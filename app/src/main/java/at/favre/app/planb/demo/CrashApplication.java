@@ -12,7 +12,7 @@ public class CrashApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PlanB.get().init(true, PlanB.get().newConfig(this)
+        PlanB.get().init(true, PlanB.newConfig(this)
                 .applicationVariant(BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR)
                 .scm(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH)
                 .ci(BuildConfig.BUILD_NUMBER, BuildConfig.BUILD_DATE).build());
