@@ -17,7 +17,7 @@ public class CrashDataUtilTest {
 
     @Test
     public void testSerializeAndDeserialze() {
-        CrashData crashData = CrashDataUtil.createFromCrash(new PlanBConfig.Builder().build(), Thread.currentThread(), new IllegalStateException(), Collections.<String, String>emptyMap());
+        CrashData crashData = CrashDataUtil.createFromCrash(new PlanBConfig.Builder().build(), Thread.currentThread(), new IllegalStateException("a message"), Collections.<String, String>emptyMap());
 
         Set<String> serialized = CrashDataUtil.createCrashDataSet(crashData);
         assertFalse(serialized.isEmpty());
