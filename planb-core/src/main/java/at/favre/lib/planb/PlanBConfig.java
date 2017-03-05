@@ -2,6 +2,7 @@ package at.favre.lib.planb;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
 import at.favre.lib.planb.interfaces.CrashDataHandler;
@@ -104,6 +105,10 @@ public class PlanBConfig {
                 this.versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
             } catch (Exception e) {
             }
+        }
+
+        @VisibleForTesting
+        public Builder() {
         }
 
         public Builder enableLog(boolean enableLog) {

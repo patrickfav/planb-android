@@ -200,6 +200,14 @@ public class CrashData implements Comparable<CrashData>, Parcelable {
             return false;
         if (fullStacktrace != null ? !fullStacktrace.equals(crashData.fullStacktrace) : crashData.fullStacktrace != null)
             return false;
+        if (versionString != null ? !versionString.equals(crashData.versionString) : crashData.versionString != null)
+            return false;
+        if (applicationVariant != null ? !applicationVariant.equals(crashData.applicationVariant) : crashData.applicationVariant != null)
+            return false;
+        if (scmString != null ? !scmString.equals(crashData.scmString) : crashData.scmString != null)
+            return false;
+        if (ciString != null ? !ciString.equals(crashData.ciString) : crashData.ciString != null)
+            return false;
         return customData != null ? customData.equals(crashData.customData) : crashData.customData == null;
 
     }
@@ -216,6 +224,10 @@ public class CrashData implements Comparable<CrashData>, Parcelable {
         result = 31 * result + (causeFileName != null ? causeFileName.hashCode() : 0);
         result = 31 * result + causeLineNum;
         result = 31 * result + (fullStacktrace != null ? fullStacktrace.hashCode() : 0);
+        result = 31 * result + (versionString != null ? versionString.hashCode() : 0);
+        result = 31 * result + (applicationVariant != null ? applicationVariant.hashCode() : 0);
+        result = 31 * result + (scmString != null ? scmString.hashCode() : 0);
+        result = 31 * result + (ciString != null ? ciString.hashCode() : 0);
         result = 31 * result + (customData != null ? customData.hashCode() : 0);
         return result;
     }
@@ -289,4 +301,25 @@ public class CrashData implements Comparable<CrashData>, Parcelable {
             return new CrashData[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "CrashData{" +
+                "id='" + id + '\'' +
+                ", timestamp=" + timestamp +
+                ", message='" + message + '\'' +
+                ", throwableClassName='" + throwableClassName + '\'' +
+                ", threadName='" + threadName + '\'' +
+                ", causeClassName='" + causeClassName + '\'' +
+                ", causeMethodName='" + causeMethodName + '\'' +
+                ", causeFileName='" + causeFileName + '\'' +
+                ", causeLineNum=" + causeLineNum +
+                ", fullStacktrace='" + fullStacktrace + '\'' +
+                ", versionString='" + versionString + '\'' +
+                ", applicationVariant='" + applicationVariant + '\'' +
+                ", scmString='" + scmString + '\'' +
+                ", ciString='" + ciString + '\'' +
+                ", customData=" + customData +
+                '}';
+    }
 }

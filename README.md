@@ -4,7 +4,7 @@
 
 Planb is a crash recovery lib for Android. It helps defining proper behaviour on [uncaught exceptions](http://www.javamex.com/tutorials/exceptions/exceptions_uncaught_handler.shtml) like suppressing the OS dialog or showing an activity with additional debugging info for debug and production builds. Custom crash actions make it easy to inject your own custom code. The lib also persists crashes locally, so it is possible to view them later. This is specifically convenient when multiple people are testing the app. The persistence handler can also be used to informa the user after a crash, so he/she can e.g. create a bug report. This is thought to extend crash reporting frameworks like [hockeyapp](https://hockeyapp.net/) or [crashlytics](https://try.crashlytics.com/).
 
-The lib contains of a `core` library and a full version containing default implementations for crash Activity and explorer.
+The lib contains of a `core` library and a full version containing default implementations for debugging crash activity and explorer.
 
 [ ![Download](https://api.bintray.com/packages/bintray/jcenter/planb/images/download.svg) ](https://bintray.com/bintray/jcenter/planb/_latestVersion)
 [![Build Status](https://travis-ci.org/patrickfav/planb-android.svg?branch=master)](https://travis-ci.org/patrickfav/planb-android)

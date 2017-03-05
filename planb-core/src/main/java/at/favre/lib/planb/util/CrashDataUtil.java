@@ -48,7 +48,11 @@ public class CrashDataUtil {
         Map<String, String> dataMap = new HashMap<>();
         for (String s : serialized) {
             String[] parts = s.split(DIVIDER);
-            dataMap.put(parts[0], parts[1]);
+            if (parts.length == 1) {
+                dataMap.put(parts[0], "");
+            } else {
+                dataMap.put(parts[0], parts[1]);
+            }
         }
         return CrashData.create(dataMap);
     }

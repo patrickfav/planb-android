@@ -62,19 +62,4 @@ public class CrashUtil {
             }
         }
     }
-
-    /**
-     * Returns a simple summary of an exception's stacktrace elements
-     * @param detailMsg addition message
-     * @param stackTrace from the throwable
-     * @param stackTraceHierarchy at what depth of the stacktrace it should start
-     * @return summary
-     */
-    private static String getExceptionSummary(String detailMsg, StackTraceElement[] stackTrace, int stackTraceHierarchy) {
-        String msg = detailMsg;
-        if (stackTrace.length > stackTraceHierarchy) {
-            msg += " / at " + stackTrace[stackTraceHierarchy].getClassName() + "." + stackTrace[stackTraceHierarchy].getMethodName() + "(" + stackTrace[stackTraceHierarchy].getFileName() + ":" + stackTrace[stackTraceHierarchy].getLineNumber() + ")";
-        }
-        return msg;
-    }
 }
