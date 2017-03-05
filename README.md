@@ -36,7 +36,7 @@ Then either in your `Activity.onCreate()` or in the `Application` itself enable 
 
 ```Java
 PlanB.get().enableCrashHandler(this,
-    PlanB.behaviourFactory(.createRestartForegroundActivityCrashBehaviour());
+    PlanB.behaviourFactory().createRestartForegroundActivityCrashBehaviour());
 ```
 
 Also check out the [demo app on the Play Store](https://play.google.com/store/apps/details?id=at.favre.app.planb.demo).
@@ -64,7 +64,14 @@ The `CrashHandler` can be used to check if the app had a crash. Just call `PlanB
 
 The `PlanBConfig` can be used to set your build config so it will be shown and persisted in the debug crash activity. Parameters like, git commit, flavor and ci number can be set.
 
-Also the crash handler for production and debug can be set. Crash Handler can be created with the factory found in ``PlanB.crashDataHandlerFactory()`. An in-memory implementation exists for production builds where no crash should be persisted.
+Crash Handler can be created with the factory found in `PlanB.crashDataHandlerFactory()`. An in-memory implementation exists for production builds where no crash should be persisted.
+
+## Using for debug and production
+
+Per default the lib reads out the "debuggable" flag in the Android Manifest to check if the app is in debug mode. If your app uses a different flag just pass the current state as boolean in the `PlanB.init()` method.
+
+Through the `PlanBConfig` different handlers for production and debug can be set. Additional when enabling the lib with
+`PlanB.get().enableCrashHandler(...)` different behaviours can be set for debug and release.
 
 ## Using the the Core Module
 
@@ -92,7 +99,7 @@ When extending your exception with `ICrashExceptionData` you can add some additi
 
 # Integration with Crash Frameworks
 
-Basically every crash framework sets itself as the default uncaught exception handler (see [`Thread.UncaughtExceptionHandler`](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.UncaughtExceptionHandler.html). However the `Thread` object only allows a single handler at a time and there is no support of proper chaining the handlers. Therefore there is no elegant way to use multiple crash frameworks, it usually boils down to the when which framework reads or sets the default handler.
+Basically every crash framework sets itself as the default uncaught exception handler (see [`Thread.UncaughtExceptionHandler`](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.UncaughtExceptionHandler.html)). However the `Thread` object only allows a single handler at a time and there is no support of proper chaining the handlers. Therefore there is no elegant way to use multiple crash frameworks, it usually boils down to the when which framework reads or sets the default handler.
 
 ## HockeyApp
 
