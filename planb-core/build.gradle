@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.kt3k.coveralls'
+
 def Properties localProps = rootProject.getSigningProperties()
 
 android {
@@ -53,6 +55,15 @@ dependencies {
     androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+}
+
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/coverage/release/report.xml"
+}
+
+tasks.coveralls {
+    dependsOn 'connectedAndroidTest'
+    onlyIf { System.env.'CI' }
 }
 
 apply from: "$rootDir/gradle/publish.gradle"

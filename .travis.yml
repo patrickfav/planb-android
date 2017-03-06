@@ -6,16 +6,19 @@
 language: android
 jdk: oraclejdk8
 
-android:
+env:
+  matrix:
+    - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
 
+android:
   components:
     - tools # to get the new `repository-11.xml`
     - platform-tools
     - tools # to install Android SDK tools 25.1.x (x = 6 right now)
     - build-tools-25.0.2
     - android-25
-#    - android-22
-#    - sys-img-armeabi-v7a-android-22
+    - android-22
+    - sys-img-armeabi-v7a-android-22
     - extra-google-m2repository
     - extra-android-m2repository
 
@@ -34,17 +37,16 @@ before_install:
   - tar xvf credentials.tar
 
 # Emulator Management: Create, Start and Wait
-#before_script:
-#  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
-#  - emulator -avd test -no-audio -no-window &
-#  - android-wait-for-emulator
-#  - adb shell input keyevent 82 &
+before_script:
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 script:
     - ./gradlew clean assemble --stacktrace
     - ./gradlew lint --stacktrace
-    - ./gradlew testReleaseUnitTest createReleaseCoverageReport --info
-#    - ./gradlew connectedDebugAndroidTest
+    - ./gradlew testReleaseUnitTest connectedReleaseAndroidTest createReleaseCoverageReport --info
 
 deploy:
   - provider: script
