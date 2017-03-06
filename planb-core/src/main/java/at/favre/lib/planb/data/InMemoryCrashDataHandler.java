@@ -20,6 +20,9 @@ public class InMemoryCrashDataHandler implements CrashDataHandler {
     @Override
     public CrashData getLatest() {
         unhandled = false;
+        if (crashDataList.isEmpty()) {
+            return null;
+        }
         return crashDataList.get(0);
     }
 

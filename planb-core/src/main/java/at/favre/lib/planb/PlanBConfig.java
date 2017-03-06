@@ -43,6 +43,11 @@ public class PlanBConfig {
         return new Builder(context);
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    static Builder newBuilder() {
+        return new Builder();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,7 +112,7 @@ public class PlanBConfig {
             }
         }
 
-        @VisibleForTesting
+        @VisibleForTesting(otherwise = VisibleForTesting.NONE)
         public Builder() {
         }
 

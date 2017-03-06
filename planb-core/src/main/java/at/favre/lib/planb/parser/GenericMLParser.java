@@ -49,7 +49,7 @@ public class GenericMLParser {
         return out.toString();
     }
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     String fillPlaceholder(String text, Map<String, String> values) {
         for (Map.Entry<String, String> entry : values.entrySet()) {
             System.out.println(entry.getKey() + " replace with " + entry.getValue());

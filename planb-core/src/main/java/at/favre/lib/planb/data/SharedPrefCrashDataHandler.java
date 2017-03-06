@@ -61,7 +61,7 @@ public class SharedPrefCrashDataHandler implements CrashDataHandler {
 
     @Override
     public int size() {
-        return preferences.getAll().size();
+        return getAll().size();
     }
 
     @Override

@@ -41,10 +41,9 @@ before_install:
 #  - adb shell input keyevent 82 &
 
 script:
-    - ./gradlew clean
-    - ./gradlew assemble --stacktrace
+    - ./gradlew clean assemble --stacktrace
     - ./gradlew lint --stacktrace
-    - ./gradlew testReleaseUnitTest --info
+    - ./gradlew testReleaseUnitTest createReleaseCoverageReport --info
 #    - ./gradlew connectedDebugAndroidTest
 
 deploy:

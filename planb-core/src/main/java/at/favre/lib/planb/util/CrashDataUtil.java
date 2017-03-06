@@ -19,6 +19,7 @@ import at.favre.lib.planb.data.CrashData;
  */
 public class CrashDataUtil {
     private static final String DIVIDER = ":::o:::";
+    private static final String DIVIDER_NULL = ":::o::null:";
 
     /**
      * Simple serializer of crash data to
@@ -29,7 +30,14 @@ public class CrashDataUtil {
     public static Set<String> createCrashDataSet(CrashData crashData) {
         Set<String> set = new HashSet<>();
         for (Map.Entry<String, String> entry : crashData.createMap().entrySet()) {
-            set.add(entry.getKey() + DIVIDER + entry.getValue());
+            if (entry.getKey() == null) {
+                throw new IllegalArgumentException("key must not be null");
+            }
+            if (entry.getValue() == null) {
+                set.add(entry.getKey() + DIVIDER_NULL);
+            } else {
+                set.add(entry.getKey() + DIVIDER + entry.getValue());
+            }
         }
         return set;
     }
@@ -37,6 +45,7 @@ public class CrashDataUtil {
     /**
      * Creates a crash data model from simple serialized key:value set.
      * See {@link #createCrashDataSet(CrashData)}
+     *
      * @param serialized as provided from {@link #createCrashDataSet(CrashData)}
      * @return pojo
      */
@@ -47,11 +56,15 @@ public class CrashDataUtil {
 
         Map<String, String> dataMap = new HashMap<>();
         for (String s : serialized) {
-            String[] parts = s.split(DIVIDER);
-            if (parts.length == 1) {
-                dataMap.put(parts[0], "");
+            if (s.endsWith(DIVIDER_NULL)) {
+                dataMap.put(s.split(DIVIDER_NULL)[0], null);
             } else {
-                dataMap.put(parts[0], parts[1]);
+                String[] parts = s.split(DIVIDER);
+                if (parts.length == 1) {
+                    dataMap.put(parts[0], "");
+                } else {
+                    dataMap.put(parts[0], parts[1]);
+                }
             }
         }
         return CrashData.create(dataMap);
@@ -59,6 +72,7 @@ public class CrashDataUtil {
 
     /**
      * Creates a crash model from exception data
+     *
      * @param config
      * @param thread
      * @param throwable
@@ -91,8 +105,9 @@ public class CrashDataUtil {
 
     /**
      * Gets the name without qualification (ie. package) of the given class name
-     * @param throwableClassName ie. 'java.lang.NullPointerException'
-     * @return class name without package
+     *
+     * @param throwableClassName e.g. 'java.lang.NullPointerException'
+     * @return class name without package e.g. 'NullPointerException'
      */
     public static String getClassNameForException(String throwableClassName) {
         if (throwableClassName != null && throwableClassName.contains(".")) {
@@ -104,6 +119,7 @@ public class CrashDataUtil {
 
     /**
      * Formats date for given timestamp
+     *
      * @param timestamp
      * @return date as string
      */
@@ -113,6 +129,7 @@ public class CrashDataUtil {
 
     /**
      * Loggable summary of a list of crash data
+     *
      * @param crashDataList to use for log
      * @return summary
      */
@@ -130,6 +147,7 @@ public class CrashDataUtil {
 
     /**
      * Loggable string of crash data details
+     *
      * @param crashData
      * @return string
      */
