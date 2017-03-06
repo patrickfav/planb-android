@@ -46,7 +46,7 @@ before_script:
 script:
     - ./gradlew clean assemble --stacktrace
     - ./gradlew lint --stacktrace
-    - ./gradlew testReleaseUnitTest connectedReleaseAndroidTest createReleaseCoverageReport --info
+    - ./gradlew :planb-core:testReleaseUnitTest :planb-core:connectedReleaseAndroidTest :planb-core:createReleaseCoverageReport --stacktrace
 
 deploy:
   - provider: script

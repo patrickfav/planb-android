@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 
+def Properties localProps = rootProject.getSigningProperties()
+
 android {
     publishNonDefault false
     defaultPublishConfig "release"
@@ -7,6 +9,15 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    signingConfigs {
+        release {
+            storeFile file(localProps.getProperty('RELEASE_KEYSTORE_PATH', 'fillhere'))
+            storePassword localProps.getProperty('RELEASE_KEYSTORE_PW', '')
+            keyAlias localProps.getProperty('RELEASE_KEY_ALIAS', '')
+            keyPassword localProps.getProperty('RELEASE_KEY_PW', '')
+        }
+    }
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -25,6 +36,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
