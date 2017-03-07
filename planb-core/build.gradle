@@ -6,7 +6,7 @@ def Properties localProps = rootProject.getSigningProperties()
 android {
     publishNonDefault false
     defaultPublishConfig "release"
-    testBuildType "release"
+    testBuildType "debug"
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -33,17 +33,14 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             testCoverageEnabled true
+        }
+
+        release {
             minifyEnabled false
             consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-        }
-    }
-
-    android.variantFilter { variant ->
-        if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
-            variant.setIgnore(true);
         }
     }
 }
