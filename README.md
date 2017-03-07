@@ -8,6 +8,7 @@ The lib contains of a `core` library and a full version containing default imple
 
 [ ![Download](https://api.bintray.com/packages/bintray/jcenter/planb/images/download.svg) ](https://bintray.com/bintray/jcenter/planb/_latestVersion)
 [![Build Status](https://travis-ci.org/patrickfav/planb-android.svg?branch=master)](https://travis-ci.org/patrickfav/planb-android)
+[![Coverage Status](https://coveralls.io/repos/github/patrickfav/planb-android/badge.svg?branch=master)](https://coveralls.io/github/patrickfav/planb-android?branch=master)
 [![play store banner](doc/playstore_badge_new_sm.png)](https://play.google.com/store/apps/details?id=at.favre.app.planb.demo)
 
 ![Screenshot Gallery](doc/screenshot_gallery.png)
