@@ -92,7 +92,7 @@ public class SharedPrefCrashDataHandler implements CrashDataHandler {
     }
 
     @Override
-    public int countOfCrashes(long fromTimestamp) {
+    public int countOfCrashesSince(long fromTimestamp) {
         List<CrashData> crashDatas = getAll();
         int count = 0;
         for (CrashData crashData : crashDatas) {

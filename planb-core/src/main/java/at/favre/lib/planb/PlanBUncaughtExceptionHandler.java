@@ -45,7 +45,7 @@ final class PlanBUncaughtExceptionHandler implements Thread.UncaughtExceptionHan
                 crashDataHandler.persistCrashData(crashData);
             }
 
-            if (crashDataHandler.countOfCrashes(System.currentTimeMillis() - 1000) >= 3) {
+            if (crashDataHandler.countOfCrashesSince(System.currentTimeMillis() - 1000) >= 3) {
                 log("too many crashes in series - something seems wrong, abort custom crash ahndling", config.enableLog);
                 PlanB.defaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
                 return;

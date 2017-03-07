@@ -57,7 +57,7 @@ public interface CrashDataHandler {
      * @param fromTimestamp timestamp from {@link java.util.Date}
      * @return count of entries
      */
-    int countOfCrashes(long fromTimestamp);
+    int countOfCrashesSince(long fromTimestamp);
 
     /**
      * Clears all persisted crash data entries.

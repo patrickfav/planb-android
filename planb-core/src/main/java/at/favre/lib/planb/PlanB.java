@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import at.favre.lib.planb.data.InMemoryCrashDataHandler;
 import at.favre.lib.planb.data.SharedPrefCrashDataHandler;
@@ -63,6 +64,11 @@ public final class PlanB {
             instance = new PlanB();
         }
         return instance;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    static void destroy() {
+        instance = null;
     }
 
     private PlanBConfig config;
@@ -164,6 +170,16 @@ public final class PlanB {
     public CrashDataHandler getCrashDataHandler() {
         checkIfInit();
         return isDebugBuild ? config.debugCrashDataHandler : config.releaseCrashDataHandler;
+    }
+
+    /**
+     * PlanB must be {@link #init(Context)} before this can be called
+     *
+     * @return currently set config
+     */
+    public PlanBConfig getConfig() {
+        checkIfInit();
+        return config;
     }
 
     private void checkIfInit() {

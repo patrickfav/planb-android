@@ -35,13 +35,13 @@ public class GenericMLParserTest {
                     "\n" +
                     "Version: {{version}}\n" +
                     "\n" +
-                    "SCM: {{scm}}\n" +
+                    "SCM: __code({{scm}})\n" +
                     "\n" +
                     "CI: {{ci}}\n" +
                     "\n" +
                     "__header3(Device)\n" +
                     "\n" +
-                    "Model: {{device}}\n" +
+                    "Model: __italic({{device}})\n" +
                     "\n" +
                     "Android: {{android_version}}\n" +
                     "\n" +

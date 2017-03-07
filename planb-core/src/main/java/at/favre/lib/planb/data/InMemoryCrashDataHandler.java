@@ -49,7 +49,7 @@ public class InMemoryCrashDataHandler implements CrashDataHandler {
     }
 
     @Override
-    public int countOfCrashes(long fromTimestamp) {
+    public int countOfCrashesSince(long fromTimestamp) {
         int count = 0;
         for (CrashData crashData : getAll()) {
             if (crashData.timestamp >= fromTimestamp) {
