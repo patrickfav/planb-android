@@ -56,6 +56,7 @@ public class CrashDataTest {
         List<CrashData> copy = new ArrayList<>(crashDataList);
         Collections.shuffle(copy);
         Collections.sort(copy);
+        Collections.reverse(copy);
 
         for (int i = 0; i < copy.size(); i++) {
             assertEquals(copy.get(i), crashDataList.get(i));
