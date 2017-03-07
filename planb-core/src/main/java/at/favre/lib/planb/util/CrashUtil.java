@@ -1,12 +1,8 @@
 package at.favre.lib.planb.util;
 
-import android.app.ActivityManager;
-import android.content.Context;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 
 import at.favre.lib.planb.exceptions.MockRuntimeException;
 
@@ -20,23 +16,6 @@ public class CrashUtil {
      */
     public static void crash() {
         throw new MockRuntimeException();
-    }
-
-    /**
-     * @param context
-     * @return true if the current app is in background
-     */
-    public static boolean isAppInBackground(Context context) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        if (appProcesses == null)
-            return true;
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            if (appProcess.processName.equals(context.getPackageName())) {
-                return appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND;
-            }
-        }
-        return false;
     }
 
     /**
