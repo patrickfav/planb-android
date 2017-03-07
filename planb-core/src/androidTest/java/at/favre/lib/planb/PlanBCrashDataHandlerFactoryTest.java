@@ -1,8 +1,11 @@
 package at.favre.lib.planb;
 
 
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import at.favre.lib.planb.interfaces.CrashDataHandler;
 import at.favre.lib.planb.interfaces.CrashDataHandlerFactory;
@@ -13,6 +16,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
 public class PlanBCrashDataHandlerFactoryTest {
     private CrashDataHandlerFactory factory;
 

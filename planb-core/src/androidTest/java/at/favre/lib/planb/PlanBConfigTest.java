@@ -1,7 +1,10 @@
 package at.favre.lib.planb;
 
 
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import at.favre.lib.planb.data.InMemoryCrashDataHandler;
 import at.favre.lib.planb.interfaces.CrashDataHandler;
@@ -11,6 +14,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertSame;
 
+@RunWith(AndroidJUnit4.class)
 public class PlanBConfigTest {
 
     @Test

@@ -26,7 +26,7 @@ import static junit.framework.Assert.assertTrue;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class SharedPrefernenceCrashDataHandlerTest {
+public class SharedPreferenceCrashDataHandlerTest {
     private CrashDataHandler handler;
 
     @Before

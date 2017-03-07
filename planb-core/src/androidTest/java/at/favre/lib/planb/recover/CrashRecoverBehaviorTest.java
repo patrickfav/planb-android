@@ -1,6 +1,9 @@
 package at.favre.lib.planb.recover;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import at.favre.lib.planb.interfaces.CrashRecoverBehaviour;
 
@@ -8,6 +11,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
 public class CrashRecoverBehaviorTest {
 
     @Test

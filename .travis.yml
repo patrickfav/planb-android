@@ -46,7 +46,7 @@ before_script:
 script:
     - ./gradlew clean assemble --stacktrace
     - ./gradlew lint --stacktrace
-    - ./gradlew test connectedAndroidTest createDebugCoverageReport coveralls --stacktrace
+    - ./gradlew connectedAndroidTest createDebugCoverageReport coveralls --stacktrace
 
 deploy:
   - provider: script

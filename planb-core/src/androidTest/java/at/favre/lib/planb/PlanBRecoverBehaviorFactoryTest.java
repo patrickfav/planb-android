@@ -1,8 +1,11 @@
 package at.favre.lib.planb;
 
 
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import at.favre.lib.planb.interfaces.CrashRecoverBehaviour;
 import at.favre.lib.planb.interfaces.RecoverBehaviorFactory;
@@ -13,6 +16,7 @@ import at.favre.lib.planb.recover.SuppressCrashBehaviour;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
+@RunWith(AndroidJUnit4.class)
 public class PlanBRecoverBehaviorFactoryTest {
 
     private RecoverBehaviorFactory factory;
