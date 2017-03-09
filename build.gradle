@@ -22,7 +22,7 @@ allprojects {
 }
 
 ext {
-    versionNameApp = "0.1.1"
+    versionNameApp = "0.1.2"
     versionNameLib = "$versionNameApp"
     versionCode = getCiBuildNumber()
     versionNameDep = "0.+"
