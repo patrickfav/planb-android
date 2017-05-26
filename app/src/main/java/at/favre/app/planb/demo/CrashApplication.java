@@ -1,7 +1,6 @@
 package at.favre.app.planb.demo;
 
 import android.app.Application;
-import android.content.Intent;
 
 import at.favre.lib.planb.PlanB;
 import at.favre.lib.planb.full.CrashDetailActivity;
@@ -24,7 +23,7 @@ public class CrashApplication extends Application {
     }
 
     public void setPlanBCrashReport() {
-        PlanB.get().enableCrashHandler(this, PlanB.behaviourFactory().createStartActivityCrashBehaviour(new Intent(this, CrashDetailActivity.class)));
+        PlanB.get().enableCrashHandler(this, PlanB.behaviourFactory().createStartActivityCrashBehaviour(CrashDetailActivity.newInstance(this)));
     }
 
     public void setPlanBRestart() {

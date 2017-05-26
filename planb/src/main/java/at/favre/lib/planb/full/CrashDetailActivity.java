@@ -25,6 +25,10 @@ import at.favre.lib.planb.recover.StartActivityBehaviour;
 
 public class CrashDetailActivity extends ACrashDetailView {
 
+    public static Intent newInstance(Context context) {
+        return new Intent(context, CrashDetailActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
