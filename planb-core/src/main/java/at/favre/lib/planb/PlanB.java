@@ -237,6 +237,11 @@ public final class PlanB {
         }
 
         @Override
+        public CrashRecoverBehaviour createRestartLauncherActivityCrashBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction) {
+            return new StartActivityBehaviour(StartActivityBehaviour.LAUNCHER_ACTIVTY, prePostAction, postCrashAction);
+        }
+
+        @Override
         public CrashRecoverBehaviour createStartActivityCrashBehaviour(Intent intent) {
             return new StartActivityBehaviour(intent);
         }

@@ -148,3 +148,7 @@ bintray {
         }
     }
 }
+
+tasks.bintrayUpload {
+    dependsOn 'install'
+}

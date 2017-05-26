@@ -61,6 +61,8 @@ public class PlanBRecoverBehaviorFactoryTest {
     @Test
     public void testCreateRestartLauncherActivityBehaviors() {
         check(factory.createRestartLauncherActivityCrashBehaviour(), StartActivityBehaviour.class);
+        check(factory.createRestartLauncherActivityCrashBehaviour(null, null), StartActivityBehaviour.class);
+        check(factory.createRestartLauncherActivityCrashBehaviour(null, new CrashRecoverBehaviour.CrashAction.Noop()), StartActivityBehaviour.class);
     }
 
     private void check(CrashRecoverBehaviour behaviour, Class<? extends CrashRecoverBehaviour> expectedClass) {

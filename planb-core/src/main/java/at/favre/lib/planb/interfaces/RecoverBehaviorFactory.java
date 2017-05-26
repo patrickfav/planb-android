@@ -52,6 +52,14 @@ public interface RecoverBehaviorFactory {
     CrashRecoverBehaviour createRestartLauncherActivityCrashBehaviour();
 
     /**
+     * Creates behaviour where the current launcher activity will be started on crash, effectively restarting the app.
+     *
+     * @param prePostAction   called before {@link CrashRecoverBehaviour#handleCrash(Context, Thread, Throwable, CrashData, PlanBConfig)}
+     * @param postCrashAction called after {@link CrashRecoverBehaviour#handleCrash(Context, Thread, Throwable, CrashData, PlanBConfig)}
+     */
+    CrashRecoverBehaviour createRestartLauncherActivityCrashBehaviour(@Nullable CrashRecoverBehaviour.CrashAction prePostAction, @Nullable CrashRecoverBehaviour.CrashAction postCrashAction);
+
+    /**
      * Creates behaviour where the provided activity will be started
      *
      * @param intent of the activity to be started

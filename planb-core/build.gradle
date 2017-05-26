@@ -39,7 +39,7 @@ android {
 
         release {
             minifyEnabled false
-            consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
