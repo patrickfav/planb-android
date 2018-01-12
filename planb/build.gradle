@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
 
-def Properties localProps = rootProject.getSigningProperties()
+Properties localProps = rootProject.getSigningProperties()
 
 android {
-    publishNonDefault false
     defaultPublishConfig "release"
     testBuildType "release"
 
@@ -35,26 +34,26 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
 
-    android.variantFilter { variant ->
-        if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
-            variant.setIgnore(true);
+    variantFilter { variant ->
+        if (variant.buildType.name.startsWith("debug")) {
+            setIgnore(true)
         }
     }
 }
 
 dependencies {
-    compile project(path: ':planb-core')
-    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+    api project(':planb-core')
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
 
-    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+    testImplementation "junit:junit:$rootProject.ext.dependencies.junit"
 
-    androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
+    androidTestImplementation(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }

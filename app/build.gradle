@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
-def Properties localProps = getSigningProperties()
+Properties localProps = getSigningProperties()
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "at.favre.app.planb.demo"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion 19
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionNameLib
@@ -34,6 +34,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            matchingFallbacks = ['release']
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -50,20 +53,18 @@ android {
     }
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+        variant.outputs.all {
+            outputFileName = "${project.name}-${variant.name}-${variant.versionName}.apk"
         }
     }
 }
 
 dependencies {
-    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
-    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    testImplementation "junit:junit:$rootProject.ext.dependencies.junit"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
 
-    compile 'net.hockeyapp.android:HockeySDK:4.1.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') { transitive = true; }
+    implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') { transitive = true }
 
-    compile project(path: ':planb')
+    implementation project(':planb')
 }

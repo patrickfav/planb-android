@@ -2,41 +2,43 @@ apply from: "$rootDir/gradle/common-build.gradle"
 
 buildscript {
     repositories {
+        google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'io.fabric.tools:gradle:1.21.6'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
+        classpath 'io.fabric.tools:gradle:1.22.1'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
 }
 
 ext {
-    versionNameApp = "0.1.3"
+    versionNameApp = "0.1.4"
     versionNameLib = "$versionNameApp"
     versionCode = getCiBuildNumber()
     versionNameDep = "0.+"
 
 
-    compileSdkVersion = 25
-    buildToolsVersion = "25.0.3"
-    targetSdkVersion = 25
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.2"
+    targetSdkVersion = 27
     minSdkVersion = 14
-    javaVersion = JavaVersion.VERSION_1_7
+    javaVersion = JavaVersion.VERSION_1_8
 
     dependencies = [
-            support : "25.3.1",
-            espresso: "2.2.2",
+            support : "27.0.2",
+            espresso: "3.0.1",
             junit   : "4.12"
     ]
 }
